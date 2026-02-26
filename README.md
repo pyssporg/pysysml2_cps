@@ -71,11 +71,11 @@ Main entrypoint:
 ```python
 from pycps_sysmlv2 import load_architecture
 
-architecture = load_architecture("tests/fixtures/aircraft_subset")
-aircraft = architecture.part_definitions["AircraftComposition"]
+architecture = load_architecture("tests/fixtures/fixture_a")
+fixture = architecture.part_definitions["FixtureAComposition"]
 
 # Connections belong to the part definition, not SysMLArchitecture.
-for connection in aircraft.connections:
+for connection in fixture.connections:
     print(
         connection.src_part_def.name,
         connection.src_port_def.name,
@@ -167,12 +167,12 @@ Primitive type normalization includes common aliases:
 from pycps_sysmlv2 import load_architecture
 
 # Folder input (all *.sysml files in the directory are parsed)
-arch = load_architecture("tests/fixtures/aircraft_subset")
+arch = load_architecture("tests/fixtures/fixture_a")
 
 # File input also works (the file's parent folder is parsed)
-arch = load_architecture("tests/fixtures/aircraft_subset/composition.sysml")
+arch = load_architecture("tests/fixtures/fixture_a/composition.sysml")
 
-print(arch.package)  # Aircraft
+print(arch.package)  # FixtureA
 print(len(arch.part_definitions), "part definitions")
 print(len(arch.port_definitions), "port definitions")
 ```
@@ -182,10 +182,10 @@ print(len(arch.port_definitions), "port definitions")
 ```python
 from pycps_sysmlv2 import load_architecture
 
-arch = load_architecture("tests/fixtures/aircraft_subset")
-autopilot = arch.part_definitions["AutopilotModule"]
+arch = load_architecture("tests/fixtures/fixture_a")
+child_a = arch.part_definitions["ChildA"]
 
-for port_name, port_ref in autopilot.ports.items():
+for port_name, port_ref in child_a.ports.items():
     direction = port_ref.direction
     target = port_ref.port_name
     print(f"{direction} {port_name}: {target}")
@@ -200,7 +200,7 @@ for port_name, port_ref in autopilot.ports.items():
 ```python
 from pycps_sysmlv2 import load_architecture
 
-arch = load_architecture("tests/fixtures/aircraft_subset")
+arch = load_architecture("tests/fixtures/fixture_a")
 for req in arch.requirements:
     print(req.identifier, "->", req.text)
 ```
@@ -210,8 +210,8 @@ for req in arch.requirements:
 ```python
 from pycps_sysmlv2 import load_architecture
 
-arch = load_architecture("tests/fixtures/aircraft_subset")
-top = arch.part_definitions["AircraftComposition"]
+arch = load_architecture("tests/fixtures/fixture_a")
+top = arch.part_definitions["FixtureAComposition"]
 
 for c in top.connections:
     is_resolved = all([c.src_part_def, c.dst_part_def, c.src_port_def, c.dst_port_def])
@@ -224,12 +224,11 @@ for c in top.connections:
 ```python
 from pycps_sysmlv2 import load_architecture
 
-arch = load_architecture("tests/fixtures/aircraft_subset")
-autopilot = arch.part_definitions["AutopilotModule"]
+arch = load_architecture("tests/fixtures/fixture_a")
+child_a = arch.part_definitions["ChildA"]
 
-print(autopilot.attributes["waypointCount"].value)   # 10 (int)
-print(autopilot.attributes["waypointX_km"].value)    # [0.0, 10.0, 20.0] (list[float])
-print(autopilot.attributes["comment"].value)         # "uses waypoint tracking" (str)
+print(child_a.attributes["countA"].value)   # 3 (int)
+print(child_a.attributes["valuesA"].value)  # [1.0, 2.0, 3.0] (list[float])
 ```
 
 ## Data model overview
@@ -297,5 +296,5 @@ python -m build
 - `examples/` - small usage scripts
 - `docs/` - package-specific notes
 
-Package tests use `tests/fixtures/aircraft_subset/`, a compact subset extracted
-from the original project architecture so validation is self-contained.
+Package tests use generic fixtures under `tests/fixtures/fixture_a/` and
+`tests/fixtures/fixture_b/` so validation stays small and easy to verify.

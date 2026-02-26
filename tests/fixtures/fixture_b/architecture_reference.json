@@ -1,0 +1,247 @@
+{
+  "package": "FixtureB",
+  "part_definitions": {
+    "ChildA": {
+      "attributes": {},
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [],
+      "doc": null,
+      "name": "ChildA",
+      "parts": {},
+      "ports": {
+        "inA": {
+          "direction": "in",
+          "doc": null,
+          "name": "inA",
+          "port_def": "__ref__",
+          "port_name": "SignalA"
+        },
+        "outA": {
+          "direction": "out",
+          "doc": null,
+          "name": "outA",
+          "port_def": "__ref__",
+          "port_name": "SignalA"
+        }
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    },
+    "ChildB": {
+      "attributes": {},
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [],
+      "doc": null,
+      "name": "ChildB",
+      "parts": {},
+      "ports": {
+        "inA": "__ref__",
+        "outA": "__ref__"
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    },
+    "FixtureB": {
+      "attributes": {
+        "addA": {
+          "doc": null,
+          "name": "addA",
+          "type": {
+            "string_definition": null,
+            "type": "Boolean"
+          },
+          "value": true
+        },
+        "replaceA": {
+          "doc": null,
+          "name": "replaceA",
+          "type": {
+            "string_definition": null,
+            "type": "Integer"
+          },
+          "value": 99
+        }
+      },
+      "base_part_def": "__ref__",
+      "base_part_name": "FixtureBBase",
+      "connections": [
+        {
+          "dst_component": "extraB",
+          "dst_part_def": "__ref__",
+          "dst_port": "inA",
+          "dst_port_def": "__ref__",
+          "src_component": "rightB",
+          "src_part_def": "__ref__",
+          "src_port": "outA",
+          "src_port_def": "__ref__"
+        }
+      ],
+      "doc": null,
+      "name": "FixtureB",
+      "parts": {
+        "extraB": {
+          "doc": null,
+          "name": "extraB",
+          "part_def": "__ref__",
+          "part_name": "ChildB"
+        },
+        "leftA": "__ref__",
+        "rightB": {
+          "doc": null,
+          "name": "rightB",
+          "part_def": "__ref__",
+          "part_name": "ChildA"
+        }
+      },
+      "ports": {
+        "addPortA": {
+          "direction": "in",
+          "doc": null,
+          "name": "addPortA",
+          "port_def": "__ref__",
+          "port_name": "SignalA"
+        },
+        "replacePortA": {
+          "direction": "out",
+          "doc": null,
+          "name": "replacePortA",
+          "port_def": "__ref__",
+          "port_name": "SignalB"
+        }
+      },
+      "remove_attributes": [
+        "removeA"
+      ],
+      "remove_connections": [
+        {
+          "dst_component": "rightB",
+          "dst_part_def": null,
+          "dst_port": "inA",
+          "dst_port_def": null,
+          "src_component": "leftA",
+          "src_part_def": null,
+          "src_port": "outA",
+          "src_port_def": null
+        }
+      ],
+      "remove_parts": [],
+      "remove_ports": [
+        "removePortA"
+      ],
+      "replace_attributes": {
+        "replaceA": "__ref__"
+      },
+      "replace_parts": {
+        "rightB": "__ref__"
+      },
+      "replace_ports": {
+        "replacePortA": "__ref__"
+      }
+    },
+    "FixtureBBase": {
+      "attributes": {
+        "removeA": {
+          "doc": null,
+          "name": "removeA",
+          "type": {
+            "string_definition": null,
+            "type": "Integer"
+          },
+          "value": 1
+        },
+        "replaceA": {
+          "doc": null,
+          "name": "replaceA",
+          "type": {
+            "string_definition": null,
+            "type": "Integer"
+          },
+          "value": 10
+        }
+      },
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [
+        {
+          "dst_component": "rightB",
+          "dst_part_def": "__ref__",
+          "dst_port": "inA",
+          "dst_port_def": "__ref__",
+          "src_component": "leftA",
+          "src_part_def": "__ref__",
+          "src_port": "outA",
+          "src_port_def": "__ref__"
+        }
+      ],
+      "doc": null,
+      "name": "FixtureBBase",
+      "parts": {
+        "leftA": {
+          "doc": null,
+          "name": "leftA",
+          "part_def": "__ref__",
+          "part_name": "ChildA"
+        },
+        "rightB": {
+          "doc": null,
+          "name": "rightB",
+          "part_def": "__ref__",
+          "part_name": "ChildB"
+        }
+      },
+      "ports": {
+        "removePortA": {
+          "direction": "in",
+          "doc": null,
+          "name": "removePortA",
+          "port_def": "__ref__",
+          "port_name": "SignalA"
+        },
+        "replacePortA": {
+          "direction": "out",
+          "doc": null,
+          "name": "replacePortA",
+          "port_def": "__ref__",
+          "port_name": "SignalA"
+        }
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    }
+  },
+  "port_definitions": {
+    "SignalA": {
+      "attributes": {},
+      "doc": null,
+      "name": "SignalA"
+    },
+    "SignalB": {
+      "attributes": {},
+      "doc": null,
+      "name": "SignalB"
+    }
+  },
+  "requirements": [
+    {
+      "identifier": "Requirement_C",
+      "text": "Requirement text C"
+    }
+  ]
+}

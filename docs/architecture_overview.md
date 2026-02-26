@@ -23,11 +23,12 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
 2. Parse all `*.sysml` files in that folder.
 3. Extract packages, `part def`, `port def`, and requirements.
 4. Build model objects (`SysMLPartDefinition`, `SysMLPortDefinition`, etc.).
-5. Resolve references:
+5. Resolve part inheritance (remove -> replace -> add merge order).
+6. Resolve references:
    - part ports -> port definitions
    - subpart instances -> part definitions
    - connections -> source/destination part and port definitions
-6. Return one `SysMLArchitecture` object.
+7. Return one `SysMLArchitecture` object.
 
 ## Module Responsibilities
 
@@ -45,7 +46,7 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
 - Internal responsibilities:
   - package extraction and consistency checks
   - block extraction (`part def`, `port def`)
-  - statement parsing (`attribute`, `in/out port`, `part`, `connect`)
+  - statement parsing (`attribute`, `in/out port`, `part`, `connect`, `replace`, `remove`)
   - requirement extraction (`comment X /* ... */`)
   - validation of unresolved references with contextual `ValueError`s
 
@@ -107,6 +108,7 @@ The parser validates during load rather than deferring failures:
 
 - `package Name { ... }`
 - `part def Name { ... }`
+- `part def Derived : Base { ... }`
 - `port def Name { ... }`
 - `attribute name = literal;`
 - `attribute name: Type;`
@@ -114,6 +116,8 @@ The parser validates during load rather than deferring failures:
 - `out port p : PortType;`
 - `part child : PartDef;`
 - `connect a.port to b.port;`
+- `replace attribute|in/out port|part ...`
+- `remove attribute|port|part|connect ...`
 - `doc /* ... */`
 - `comment Requirement_ID /* ... */`
 

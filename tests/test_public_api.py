@@ -19,6 +19,7 @@ def test_architecture_loader_from_fixture_directory():
     composition = architecture.part_definitions["AircraftComposition"]
     assert architecture.package == "Aircraft"
     assert set(architecture.part_definitions) == {
+        "AircraftBaseComposition",
         "AutopilotModule",
         "MissionComputer",
         "Environment",
@@ -33,6 +34,10 @@ def test_architecture_loader_from_fixture_directory():
     }
     assert len(composition.connections) == 5
     assert len(architecture.requirements) == 2
+    assert composition.base_part_name == "AircraftBaseComposition"
+    assert composition.attributes["profile"].value == "operational"
+    assert composition.attributes["variant"].value == "f16"
+    assert "obsolete" not in composition.attributes
 
     # Keep a checked-in JSON snapshot of the parsed fixture for easy diffing.
     FIXTURE_REFERENCE_JSON.write_text(json_dumps(architecture, []))
@@ -101,3 +106,75 @@ def test_connections_are_linked_to_part_and_port_definitions():
 
     assert first.dst_port_def is not None
     assert first.dst_port_def.name == "PilotCommand"
+
+
+def test_part_inheritance_supports_add_replace_remove(tmp_path: Path):
+    model = tmp_path / "model.sysml"
+    model.write_text(
+        """
+        package Example {
+          port def Signal {}
+          port def AltSignal {}
+
+          part def ChildA {
+            in port data : Signal;
+          }
+
+          part def ChildB {
+            out port data : Signal;
+          }
+
+          part def Base {
+            attribute keepMe = 1;
+            attribute replaceMe = 10;
+            in port oldIn : Signal;
+            out port replacePort : Signal;
+            part left : ChildA;
+            part right : ChildB;
+            connect left.data to right.data;
+          }
+
+          part def Derived : Base {
+            remove attribute keepMe;
+            remove port oldIn;
+            remove connect left.data to right.data;
+
+            replace attribute replaceMe = 99;
+            replace out port replacePort : AltSignal;
+            replace part right : ChildA;
+
+            attribute added = true;
+            in port newIn : Signal;
+            part extra : ChildB;
+            connect right.data to extra.data;
+          }
+        }
+        """.strip()
+        + "\n"
+    )
+
+    arch = load_architecture(tmp_path)
+    derived = arch.part_definitions["Derived"]
+
+    assert derived.base_part_name == "Base"
+    assert derived.base_part_def is not None
+    assert derived.base_part_def.name == "Base"
+
+    assert "keepMe" not in derived.attributes
+    assert derived.attributes["replaceMe"].value == 99
+    assert derived.attributes["added"].value is True
+
+    assert "oldIn" not in derived.ports
+    assert derived.ports["replacePort"].port_name == "AltSignal"
+    assert derived.ports["newIn"].port_name == "Signal"
+
+    assert derived.parts["right"].part_name == "ChildA"
+    assert "extra" in derived.parts
+    assert len(derived.connections) == 1
+    c = derived.connections[0]
+    assert (c.src_component, c.src_port, c.dst_component, c.dst_port) == (
+        "right",
+        "data",
+        "extra",
+        "data",
+    )

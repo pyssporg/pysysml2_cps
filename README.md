@@ -116,7 +116,9 @@ Given a target directory, the parser:
    - `in port ...` / `out port ...`
    - `part instance : PartDefinition;`
    - `connect A.port to B.port;`
+   - inheritance mutation statements (`replace ...`, `remove ...`)
 4. Resolves cross-links:
+   - Part inheritance (merge order: remove -> replace -> add)
    - Port references -> port definitions
    - Part instances -> part definitions
    - Connections -> source/destination part and port references
@@ -129,6 +131,7 @@ operate directly on resolved objects.
 The parser currently supports:
 - `package Name { ... }`
 - `part def Name { ... }`
+- `part def Derived : Base { ... }`
 - `port def Name { ... }`
 - `attribute x = <literal>;`
 - `attribute x: <type>;`
@@ -136,6 +139,13 @@ The parser currently supports:
 - `out port p : PortType;`
 - `part child : PartDef;`
 - `connect srcPart.srcPort to dstPart.dstPort;`
+- `replace attribute x = <literal>;`
+- `replace in port p : PortType;` / `replace out port p : PortType;`
+- `replace part child : PartDef;`
+- `remove attribute x;`
+- `remove port p;`
+- `remove part child;`
+- `remove connect srcPart.srcPort to dstPart.dstPort;`
 - `doc /* ... */` comments on parts/ports/attributes/references
 - `comment Requirement_ID /* ... */` requirement extraction
 
@@ -244,7 +254,11 @@ The parser raises explicit exceptions for common structural issues:
   - missing package declaration
   - mismatched package names across files
   - duplicate `part def` or `port def` names
-  - malformed `port`, `part`, or `connect` statements
+  - malformed `port`, `part`, `connect`, `replace`, or `remove` statements
+  - unknown base parts in `part def Derived : Base { ... }`
+  - inheritance cycles
+  - invalid `replace`/`remove` targets during inheritance merge
+  - inherited member collisions unless `replace` is used
   - unterminated `doc /* ... */` comment blocks
   - unresolved `part` references to unknown part definitions
   - unresolved `in/out port` references to unknown port definitions

@@ -1,8 +1,29 @@
 {
   "package": "Aircraft",
   "part_definitions": {
-    "AircraftComposition": {
-      "attributes": {},
+    "AircraftBaseComposition": {
+      "attributes": {
+        "obsolete": {
+          "doc": null,
+          "name": "obsolete",
+          "type": {
+            "string_definition": null,
+            "type": "Boolean"
+          },
+          "value": true
+        },
+        "profile": {
+          "doc": null,
+          "name": "profile",
+          "type": {
+            "string_definition": null,
+            "type": "String"
+          },
+          "value": "base"
+        }
+      },
+      "base_part_def": null,
+      "base_part_name": null,
       "connections": [
         {
           "dst_component": "missionComputer",
@@ -55,8 +76,8 @@
           "src_port_def": "__ref__"
         }
       ],
-      "doc": "Top-level aircraft composition with functional subsystem instances.",
-      "name": "AircraftComposition",
+      "doc": "Reusable base composition with common subsystem structure.",
+      "name": "AircraftBaseComposition",
       "parts": {
         "autopilot": {
           "doc": null,
@@ -77,7 +98,77 @@
           "part_name": "MissionComputer"
         }
       },
-      "ports": {}
+      "ports": {},
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    },
+    "AircraftComposition": {
+      "attributes": {
+        "profile": {
+          "doc": null,
+          "name": "profile",
+          "type": {
+            "string_definition": null,
+            "type": "String"
+          },
+          "value": "operational"
+        },
+        "variant": {
+          "doc": null,
+          "name": "variant",
+          "type": {
+            "string_definition": null,
+            "type": "String"
+          },
+          "value": "f16"
+        }
+      },
+      "base_part_def": "__ref__",
+      "base_part_name": "AircraftBaseComposition",
+      "connections": [
+        "__ref__",
+        "__ref__",
+        "__ref__",
+        "__ref__",
+        "__ref__"
+      ],
+      "doc": "Top-level aircraft composition with functional subsystem instances.",
+      "name": "AircraftComposition",
+      "parts": {
+        "autopilot": "__ref__",
+        "environment": "__ref__",
+        "missionComputer": "__ref__"
+      },
+      "ports": {},
+      "remove_attributes": [
+        "obsolete"
+      ],
+      "remove_connections": [
+        {
+          "dst_component": "environment",
+          "dst_part_def": null,
+          "dst_port": "direction_command",
+          "dst_port_def": null,
+          "src_component": "missionComputer",
+          "src_part_def": null,
+          "src_port": "direction_command",
+          "src_port_def": null
+        }
+      ],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {
+        "profile": "__ref__"
+      },
+      "replace_parts": {
+        "missionComputer": "__ref__"
+      },
+      "replace_ports": {}
     },
     "AutopilotModule": {
       "attributes": {
@@ -115,6 +206,8 @@
           ]
         }
       },
+      "base_part_def": null,
+      "base_part_name": null,
       "connections": [],
       "doc": "F-16 autopilot, takes in sensor data and translates it into a equivalent hotas command.",
       "name": "AutopilotModule",
@@ -155,10 +248,19 @@
           "port_def": "__ref__",
           "port_name": "MissionStatus"
         }
-      }
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
     },
     "Environment": {
       "attributes": {},
+      "base_part_def": null,
+      "base_part_name": null,
       "connections": [],
       "doc": "Tracking position and velocities of the aircraft and feeds the sensors",
       "name": "Environment",
@@ -192,10 +294,19 @@
           "port_def": "__ref__",
           "port_name": "OrientationEuler"
         }
-      }
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
     },
     "MissionComputer": {
       "attributes": {},
+      "base_part_def": null,
+      "base_part_name": null,
       "connections": [],
       "doc": "F-16C/D mission computer blending pilot HOTAS inputs with fly-by-wire control laws and stores management.",
       "name": "MissionComputer",
@@ -215,7 +326,14 @@
           "port_def": "__ref__",
           "port_name": "OrientationEuler"
         }
-      }
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
     }
   },
   "port_definitions": {

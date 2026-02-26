@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from .parser_utils import json_dumps
 from .utils import obj_base
@@ -200,10 +200,19 @@ class SysMLPortDefinition:
 class SysMLPartDefinition:
     name: str
     doc: Optional[str] = None
+    base_part_name: Optional[str] = None
+    base_part_def: Optional["SysMLPartDefinition"] = None
     attributes: Dict[str, SysMLAttribute] = field(default_factory=dict)
     ports: Dict[str, SysMLPortReference] = field(default_factory=dict)
     parts: Dict[str, SysMLPartReference] = field(default_factory=dict)
     connections: List[SysMLConnection] = field(default_factory=list)
+    replace_attributes: Dict[str, SysMLAttribute] = field(default_factory=dict)
+    replace_ports: Dict[str, SysMLPortReference] = field(default_factory=dict)
+    replace_parts: Dict[str, SysMLPartReference] = field(default_factory=dict)
+    remove_attributes: Set[str] = field(default_factory=set)
+    remove_ports: Set[str] = field(default_factory=set)
+    remove_parts: Set[str] = field(default_factory=set)
+    remove_connections: List[SysMLConnection] = field(default_factory=list)
 
     def get_port_attributes(
         self,

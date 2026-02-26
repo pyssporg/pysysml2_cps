@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 from pathlib import Path
+import copy
 import re
-from typing import Dict, Iterator, List, Optional, Tuple
+from typing import Dict, Iterator, List, Optional, Set, Tuple
 
 from .definitions import (
     SysMLArchitecture,
@@ -48,10 +49,10 @@ class SysMLFolderParser:
                     f"Mismatched package names: {package_name} vs {pkg} in {path}"
                 )
 
-            for name, block in _extract_named_blocks(body, "part def"):
+            for name, base_name, block in _extract_part_blocks(body):
                 if name in part_defs:
                     raise ValueError(f"Duplicate part definition for {name} in {path}")
-                part_defs[name] = _parse_part_block(name, block)
+                part_defs[name] = _parse_part_block(name, block, base_name)
 
             for name, block in _extract_named_blocks(body, "port def"):
                 if name in port_defs:
@@ -60,6 +61,8 @@ class SysMLFolderParser:
 
             requirements.extend(_parse_requirements(body))
 
+        _attach_base_part_definitions(part_defs)
+        _resolve_part_inheritance(part_defs)
         _attach_port_definitions(part_defs, port_defs)
         _attach_part_definitions(part_defs)
 
@@ -118,11 +121,39 @@ def _extract_named_blocks(body: str, keyword: str) -> List[Tuple[str, str]]:
     return blocks
 
 
-def _parse_part_block(name: str, block: str) -> SysMLPartDefinition:
+def _extract_part_blocks(body: str) -> List[Tuple[str, Optional[str], str]]:
+    pattern = re.compile(
+        r"part def\s+([A-Za-z0-9_]+)(?:\s*:\s*([A-Za-z0-9_]+))?\s*\{", re.MULTILINE
+    )
+    blocks: List[Tuple[str, Optional[str], str]] = []
+    idx = 0
+    while True:
+        match = pattern.search(body, idx)
+        if not match:
+            break
+        name = match.group(1)
+        base_name = match.group(2)
+        brace_start = match.end() - 1
+        block, new_idx = collect_block(body, brace_start)
+        blocks.append((name, base_name, block))
+        idx = new_idx
+    return blocks
+
+
+def _parse_part_block(
+    name: str, block: str, base_part_name: Optional[str]
+) -> SysMLPartDefinition:
     attributes: Dict[str, SysMLAttribute] = {}
     ports: Dict[str, SysMLPortReference] = {}
     parts: Dict[str, SysMLPartReference] = {}
     connections: List[SysMLConnection] = []
+    replace_attributes: Dict[str, SysMLAttribute] = {}
+    replace_ports: Dict[str, SysMLPortReference] = {}
+    replace_parts: Dict[str, SysMLPartReference] = {}
+    remove_attributes: Set[str] = set()
+    remove_ports: Set[str] = set()
+    remove_parts: Set[str] = set()
+    remove_connections: List[SysMLConnection] = []
     pending_doc: Optional[str] = None
     part_doc: Optional[str] = None
 
@@ -152,16 +183,51 @@ def _parse_part_block(name: str, block: str) -> SysMLPartDefinition:
             parts[part.name] = part
         elif line.startswith("connect "):
             connections.append(_parse_connection(line))
+        elif line.startswith("replace "):
+            (
+                replacement_attr,
+                replacement_port,
+                replacement_part,
+            ) = _parse_replacement(line, pending_doc)
+            if replacement_attr is not None:
+                replace_attributes[replacement_attr.name] = replacement_attr
+            if replacement_port is not None:
+                replace_ports[replacement_port.name] = replacement_port
+            if replacement_part is not None:
+                replace_parts[replacement_part.name] = replacement_part
+        elif line.startswith("remove "):
+            (
+                remove_attribute,
+                remove_port,
+                remove_part,
+                remove_connection,
+            ) = _parse_removal(line)
+            if remove_attribute is not None:
+                remove_attributes.add(remove_attribute)
+            if remove_port is not None:
+                remove_ports.add(remove_port)
+            if remove_part is not None:
+                remove_parts.add(remove_part)
+            if remove_connection is not None:
+                remove_connections.append(remove_connection)
 
         pending_doc = None
 
     return SysMLPartDefinition(
         name=name,
         doc=part_doc,
+        base_part_name=base_part_name,
         attributes=attributes,
         ports=ports,
         parts=parts,
         connections=connections,
+        replace_attributes=replace_attributes,
+        replace_ports=replace_ports,
+        replace_parts=replace_parts,
+        remove_attributes=remove_attributes,
+        remove_ports=remove_ports,
+        remove_parts=remove_parts,
+        remove_connections=remove_connections,
     )
 
 
@@ -254,6 +320,193 @@ def _parse_connection(line: str) -> SysMLConnection:
         dst_component=match.group(3),
         dst_port=match.group(4),
     )
+
+
+def _parse_replacement(
+    line: str, doc: Optional[str]
+) -> Tuple[
+    Optional[SysMLAttribute],
+    Optional[SysMLPortReference],
+    Optional[SysMLPartReference],
+]:
+    content = line[len("replace ") :].strip()
+    if content.startswith("attribute "):
+        return (_parse_attribute(content, doc), None, None)
+    if content.startswith("in port "):
+        return (None, _parse_port_endpoint("in", content, doc), None)
+    if content.startswith("out port "):
+        return (None, _parse_port_endpoint("out", content, doc), None)
+    if content.startswith("part "):
+        return (None, None, _parse_part_reference(content, doc))
+    raise ValueError(f"Malformed replace statement: {line}")
+
+
+def _parse_removal(
+    line: str,
+) -> Tuple[Optional[str], Optional[str], Optional[str], Optional[SysMLConnection]]:
+    content = line[len("remove ") :].strip()
+    content_no_suffix = content[:-1].strip() if content.endswith(";") else content
+    if content.startswith("attribute "):
+        name = content_no_suffix[len("attribute ") :].strip()
+        if not name:
+            raise ValueError(f"Malformed remove attribute statement: {line}")
+        return (name, None, None, None)
+    if content.startswith("port "):
+        name = content_no_suffix[len("port ") :].strip()
+        if not name:
+            raise ValueError(f"Malformed remove port statement: {line}")
+        return (None, name, None, None)
+    if content.startswith("part "):
+        name = content_no_suffix[len("part ") :].strip()
+        if not name:
+            raise ValueError(f"Malformed remove part statement: {line}")
+        return (None, None, name, None)
+    if content.startswith("connect "):
+        if not content.endswith(";"):
+            content = f"{content};"
+        return (None, None, None, _parse_connection(content))
+    raise ValueError(f"Malformed remove statement: {line}")
+
+
+def _attach_base_part_definitions(parts: Dict[str, SysMLPartDefinition]) -> None:
+    for part in parts.values():
+        if part.base_part_name is None:
+            continue
+        part.base_part_def = parts.get(part.base_part_name)
+        if part.base_part_def is None:
+            raise ValueError(
+                f"Base part definition not found for {part.name}: {part.base_part_name}"
+            )
+
+
+def _resolve_part_inheritance(parts: Dict[str, SysMLPartDefinition]) -> None:
+    visited: Set[str] = set()
+    visiting: Set[str] = set()
+    stack: List[str] = []
+
+    def resolve(name: str) -> None:
+        if name in visited:
+            return
+        if name in visiting:
+            start = stack.index(name)
+            cycle = " -> ".join(stack[start:] + [name])
+            raise ValueError(f"Inheritance cycle detected: {cycle}")
+
+        visiting.add(name)
+        stack.append(name)
+
+        part = parts[name]
+        if part.base_part_name is not None:
+            if part.base_part_name not in parts:
+                raise ValueError(
+                    f"Base part definition not found for {part.name}: {part.base_part_name}"
+                )
+            resolve(part.base_part_name)
+            _merge_with_base(part, parts[part.base_part_name])
+
+        stack.pop()
+        visiting.remove(name)
+        visited.add(name)
+
+    for name in parts:
+        resolve(name)
+
+
+def _merge_with_base(
+    part: SysMLPartDefinition, base: SysMLPartDefinition
+) -> None:
+    merged_attributes = copy.deepcopy(base.attributes)
+    merged_ports = copy.deepcopy(base.ports)
+    merged_parts = copy.deepcopy(base.parts)
+    merged_connections = copy.deepcopy(base.connections)
+
+    for attr_name in part.remove_attributes:
+        if attr_name not in merged_attributes:
+            raise ValueError(f"Cannot remove unknown attribute {part.name}.{attr_name}")
+        del merged_attributes[attr_name]
+    for port_name in part.remove_ports:
+        if port_name not in merged_ports:
+            raise ValueError(f"Cannot remove unknown port {part.name}.{port_name}")
+        del merged_ports[port_name]
+    for part_name in part.remove_parts:
+        if part_name not in merged_parts:
+            raise ValueError(f"Cannot remove unknown part {part.name}.{part_name}")
+        del merged_parts[part_name]
+    for connection in part.remove_connections:
+        if not _remove_connection(merged_connections, connection):
+            raise ValueError(f"Cannot remove unknown connection in {part.name}: {connection}")
+
+    for attr_name, attr in part.replace_attributes.items():
+        if attr_name not in merged_attributes:
+            raise ValueError(f"Cannot replace unknown attribute {part.name}.{attr_name}")
+        merged_attributes[attr_name] = attr
+    for port_name, port in part.replace_ports.items():
+        if port_name not in merged_ports:
+            raise ValueError(f"Cannot replace unknown port {part.name}.{port_name}")
+        merged_ports[port_name] = port
+    for part_name, subpart in part.replace_parts.items():
+        if part_name not in merged_parts:
+            raise ValueError(f"Cannot replace unknown part {part.name}.{part_name}")
+        merged_parts[part_name] = subpart
+    for attr_name, attr in part.attributes.items():
+        if attr_name in merged_attributes:
+            raise ValueError(
+                f"Attribute name collision in {part.name}: {attr_name} (use replace attribute)"
+            )
+        merged_attributes[attr_name] = attr
+    for port_name, port in part.ports.items():
+        if port_name in merged_ports:
+            raise ValueError(
+                f"Port name collision in {part.name}: {port_name} (use replace in/out port)"
+            )
+        merged_ports[port_name] = port
+    for part_name, subpart in part.parts.items():
+        if part_name in merged_parts:
+            raise ValueError(
+                f"Part name collision in {part.name}: {part_name} (use replace part)"
+            )
+        merged_parts[part_name] = subpart
+    for connection in part.connections:
+        if _contains_connection(merged_connections, connection):
+            raise ValueError(
+                f"Connection already exists in {part.name}: "
+                f"{connection.src_component}.{connection.src_port} to "
+                f"{connection.dst_component}.{connection.dst_port} "
+                f"(use remove connect first)"
+            )
+        merged_connections.append(connection)
+
+    part.attributes = merged_attributes
+    part.ports = merged_ports
+    part.parts = merged_parts
+    part.connections = merged_connections
+
+
+def _connection_key(connection: SysMLConnection) -> Tuple[str, str, str, str]:
+    return (
+        connection.src_component,
+        connection.src_port,
+        connection.dst_component,
+        connection.dst_port,
+    )
+
+
+def _remove_connection(
+    target_connections: List[SysMLConnection], connection: SysMLConnection
+) -> bool:
+    key = _connection_key(connection)
+    for idx, candidate in enumerate(target_connections):
+        if _connection_key(candidate) == key:
+            del target_connections[idx]
+            return True
+    return False
+
+
+def _contains_connection(
+    target_connections: List[SysMLConnection], connection: SysMLConnection
+) -> bool:
+    key = _connection_key(connection)
+    return any(_connection_key(candidate) == key for candidate in target_connections)
 
 
 def _attach_port_definitions(

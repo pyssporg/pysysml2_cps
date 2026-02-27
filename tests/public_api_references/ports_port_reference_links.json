@@ -15,33 +15,7 @@
         "connections": {},
         "parts": {},
         "ports": {
-          "input": {
-            "direction": "in",
-            "doc": null,
-            "name": "input",
-            "port_def": {
-              "artifact_kinds": [
-                "attributes"
-              ],
-              "declared_items": {
-                "attributes": {}
-              },
-              "doc": null,
-              "items": {
-                "attributes": {}
-              },
-              "name": "Signal",
-              "redefines_items": {
-                "attributes": {}
-              },
-              "remove_items": {
-                "attributes": []
-              },
-              "source_file": "model.sysml",
-              "specializes": null
-            },
-            "port_name": "Signal"
-          }
+          "input": "__ref__"
         }
       },
       "doc": null,
@@ -54,27 +28,7 @@
             "direction": "in",
             "doc": null,
             "name": "input",
-            "port_def": {
-              "artifact_kinds": [
-                "attributes"
-              ],
-              "declared_items": {
-                "attributes": {}
-              },
-              "doc": null,
-              "items": {
-                "attributes": {}
-              },
-              "name": "Signal",
-              "redefines_items": {
-                "attributes": {}
-              },
-              "remove_items": {
-                "attributes": []
-              },
-              "source_file": "model.sysml",
-              "specializes": null
-            },
+            "port_def": "__ref__",
             "port_name": "Signal"
           }
         }

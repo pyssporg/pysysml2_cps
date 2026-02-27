@@ -33,16 +33,22 @@ class SysMLExporter:
             return {"architecture.sysml": self.export_architecture(architecture, mode=mode)}
 
         grouped_parts: Dict[str, Dict[str, SysMLPartDefinition]] = {}
+        grouped_ports: Dict[str, Dict[str, object]] = {}
         for name, part in architecture.part_definitions.items():
             file_name = part.source_file or "architecture.sysml"
             grouped_parts.setdefault(file_name, {})[name] = part
+        for name, port in architecture.port_definitions.items():
+            file_name = port.source_file or "architecture.sysml"
+            grouped_ports.setdefault(file_name, {})[name] = port
 
         file_texts: Dict[str, str] = {}
-        for file_name, file_parts in sorted(grouped_parts.items()):
+        file_names = sorted(set(grouped_parts) | set(grouped_ports))
+        for file_name in file_names:
+            file_parts = grouped_parts.get(file_name, {})
+            file_ports = grouped_ports.get(file_name, {})
             lines = [f"package {architecture.package} {{"]
-            # Include all port definitions so file exports remain self-contained.
-            lines.extend(self._emit_port_definitions(architecture, level=1))
-            if architecture.port_definitions and file_parts:
+            lines.extend(self._emit_port_definitions_subset(file_ports, level=1))
+            if file_ports and file_parts:
                 lines.append("")
             lines.extend(self._emit_part_definitions_subset(file_parts, level=1, mode=mode))
             lines.append("}")
@@ -50,10 +56,13 @@ class SysMLExporter:
         return file_texts
 
     def _emit_port_definitions(self, architecture: SysMLArchitecture, level: int) -> List[str]:
+        return self._emit_port_definitions_subset(architecture.port_definitions, level)
+
+    def _emit_port_definitions_subset(self, port_definitions: Dict[str, object], level: int) -> List[str]:
         lines: List[str] = []
         pad = self.indent * level
-        for name in sorted(architecture.port_definitions):
-            port = architecture.port_definitions[name]
+        for name in sorted(port_definitions):
+            port = port_definitions[name]
             lines.append(f"{pad}port def {port.name} {{")
             attrs = port.items.get("attributes", getattr(port, "attributes", {}))
             for attr in sorted(attrs.values(), key=lambda a: a.name):

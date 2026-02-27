@@ -12,30 +12,8 @@
       ],
       "declared_items": {
         "attributes": {
-          "count": {
-            "doc": null,
-            "name": "count",
-            "type": {
-              "string_definition": null,
-              "type": "Integer"
-            },
-            "value": 3
-          },
-          "values": {
-            "doc": null,
-            "name": "values",
-            "type": {
-              "string_definition": null,
-              "type": [
-                "Real"
-              ]
-            },
-            "value": [
-              1.0,
-              2.0,
-              3.0
-            ]
-          }
+          "count": "__ref__",
+          "values": "__ref__"
         },
         "connections": {},
         "parts": {},
@@ -47,10 +25,7 @@
           "count": {
             "doc": null,
             "name": "count",
-            "type": {
-              "string_definition": null,
-              "type": "Integer"
-            },
+            "type": "__ref__",
             "value": 3
           },
           "values": {

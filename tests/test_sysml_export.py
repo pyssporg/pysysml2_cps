@@ -74,3 +74,31 @@ def test_export_declared_files_preserves_source_grouping(tmp_path: Path):
     assert set(files) == {"composition.sysml", "part_definitions.sysml"}
     assert "part def Derived specializes Base" in files["composition.sysml"]
     assert "part def Base {" in files["part_definitions.sysml"]
+
+
+def test_export_declared_files_includes_port_only_source_files(tmp_path: Path):
+    write_model(
+        tmp_path / "ports.sysml",
+        """
+        package Example {
+          port def Signal {}
+        }
+        """,
+    )
+    write_model(
+        tmp_path / "parts.sysml",
+        """
+        package Example {
+          part def Node {
+            in port input : Signal;
+          }
+        }
+        """,
+    )
+
+    architecture = load_architecture(tmp_path)
+    files = export_architecture_files(architecture, mode="declared")
+
+    assert set(files) == {"parts.sysml", "ports.sysml"}
+    assert "port def Signal {" in files["ports.sysml"]
+    assert "part def Node {" in files["parts.sysml"]

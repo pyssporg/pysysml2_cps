@@ -12,24 +12,8 @@
       ],
       "declared_items": {
         "attributes": {
-          "enabled": {
-            "doc": null,
-            "name": "enabled",
-            "type": {
-              "string_definition": null,
-              "type": "Boolean"
-            },
-            "value": null
-          },
-          "gain": {
-            "doc": null,
-            "name": "gain",
-            "type": {
-              "string_definition": null,
-              "type": "Real"
-            },
-            "value": null
-          }
+          "enabled": "__ref__",
+          "gain": "__ref__"
         },
         "connections": {},
         "parts": {},
@@ -41,10 +25,7 @@
           "enabled": {
             "doc": null,
             "name": "enabled",
-            "type": {
-              "string_definition": null,
-              "type": "Boolean"
-            },
+            "type": "__ref__",
             "value": null
           },
           "gain": {

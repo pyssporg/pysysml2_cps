@@ -22,7 +22,7 @@ def test_load_architecture_from_directory(tmp_path: Path):
 
     assert architecture.package == "Example"
     assert set(architecture.part_definitions) == {"Child", "System"}
-    write_reference("file_loader_load_architecture_from_directory", architecture)
+    write_reference("file_loader_load_architecture_from_directory", architecture, True)
 
 
 def test_load_architecture_from_file_path(tmp_path: Path):
@@ -40,7 +40,7 @@ def test_load_architecture_from_file_path(tmp_path: Path):
 
     assert architecture.package == "Example"
     assert "Child" in architecture.part_definitions
-    write_reference("file_loader_load_architecture_from_file_path", architecture)
+    write_reference("file_loader_load_architecture_from_file_path", architecture, True)
 
 
 def test_directory_load_merges_multiple_sysml_files(tmp_path: Path):
@@ -53,15 +53,21 @@ def test_directory_load_merges_multiple_sysml_files(tmp_path: Path):
         """,
     )
     write_model(
-        tmp_path / "parts.sysml",
+        tmp_path / "part1.sysml",
+        """
+        package Example {
+          part def Consumer {
+            in port in_signal : Signal;
+          }
+        }
+        """,
+    )
+    write_model(
+        tmp_path / "part2.sysml",
         """
         package Example {
           part def Producer {
             out port out_signal : Signal;
-          }
-
-          part def Consumer {
-            in port in_signal : Signal;
           }
         }
         """,
@@ -86,7 +92,7 @@ def test_directory_load_merges_multiple_sysml_files(tmp_path: Path):
     connection = architecture.part_definitions["System"].connections[0]
     assert connection.src_port_def is not None
     assert connection.src_port_def.name == "Signal"
-    write_reference("file_loader_directory_load_merges_multiple_sysml_files", architecture)
+    write_reference("file_loader_directory_load_merges_multiple_sysml_files", architecture, True)
 
 
 def test_load_system_returns_requested_part_definition(tmp_path: Path):
@@ -108,7 +114,7 @@ def test_load_system_returns_requested_part_definition(tmp_path: Path):
     assert system.name == "System"
     assert "child" in system.parts
     assert system.parts["child"].part_name == "Child"
-    write_reference("file_loader_load_system_returns_requested_part_definition", architecture)
+    write_reference("file_loader_load_system_returns_requested_part_definition", architecture, True)
 
 
 def test_load_architecture_from_file_does_not_parse_sibling_files(tmp_path: Path):

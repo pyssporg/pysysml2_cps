@@ -8,7 +8,7 @@ from typing import Dict, Tuple, Optional, Set
 @dataclass
 class DefinitionBase:
     """Shared base for model objects with JSON debug rendering."""
-    name: str
+    name: str = ""
     doc: Optional[str] = field(default=None, kw_only=True)
 
     def __str__(self) -> str:

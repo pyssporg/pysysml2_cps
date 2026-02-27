@@ -12,66 +12,12 @@
       ],
       "declared_items": {
         "attributes": {
-          "threshold": {
-            "doc": "attribute docs",
-            "name": "threshold",
-            "type": {
-              "string_definition": null,
-              "type": "Integer"
-            },
-            "value": 2
-          }
+          "threshold": "__ref__"
         },
         "connections": {},
         "parts": {},
         "ports": {
-          "input": {
-            "direction": "in",
-            "doc": "input docs",
-            "name": "input",
-            "port_def": {
-              "artifact_kinds": [
-                "attributes"
-              ],
-              "declared_items": {
-                "attributes": {
-                  "p": {
-                    "doc": "payload docs",
-                    "name": "p",
-                    "type": {
-                      "string_definition": null,
-                      "type": "Integer"
-                    },
-                    "value": 1
-                  }
-                }
-              },
-              "doc": "signal docs",
-              "items": {
-                "attributes": {
-                  "p": {
-                    "doc": "payload docs",
-                    "name": "p",
-                    "type": {
-                      "string_definition": null,
-                      "type": "Integer"
-                    },
-                    "value": 1
-                  }
-                }
-              },
-              "name": "Signal",
-              "redefines_items": {
-                "attributes": {}
-              },
-              "remove_items": {
-                "attributes": []
-              },
-              "source_file": "model.sysml",
-              "specializes": null
-            },
-            "port_name": "Signal"
-          }
+          "input": "__ref__"
         }
       },
       "doc": "node docs",
@@ -80,10 +26,7 @@
           "threshold": {
             "doc": "attribute docs",
             "name": "threshold",
-            "type": {
-              "string_definition": null,
-              "type": "Integer"
-            },
+            "type": "__ref__",
             "value": 2
           }
         },
@@ -94,47 +37,7 @@
             "direction": "in",
             "doc": "input docs",
             "name": "input",
-            "port_def": {
-              "artifact_kinds": [
-                "attributes"
-              ],
-              "declared_items": {
-                "attributes": {
-                  "p": {
-                    "doc": "payload docs",
-                    "name": "p",
-                    "type": {
-                      "string_definition": null,
-                      "type": "Integer"
-                    },
-                    "value": 1
-                  }
-                }
-              },
-              "doc": "signal docs",
-              "items": {
-                "attributes": {
-                  "p": {
-                    "doc": "payload docs",
-                    "name": "p",
-                    "type": {
-                      "string_definition": null,
-                      "type": "Integer"
-                    },
-                    "value": 1
-                  }
-                }
-              },
-              "name": "Signal",
-              "redefines_items": {
-                "attributes": {}
-              },
-              "remove_items": {
-                "attributes": []
-              },
-              "source_file": "model.sysml",
-              "specializes": null
-            },
+            "port_def": "__ref__",
             "port_name": "Signal"
           }
         }
@@ -163,15 +66,7 @@
       ],
       "declared_items": {
         "attributes": {
-          "p": {
-            "doc": "payload docs",
-            "name": "p",
-            "type": {
-              "string_definition": null,
-              "type": "Integer"
-            },
-            "value": 1
-          }
+          "p": "__ref__"
         }
       },
       "doc": "signal docs",

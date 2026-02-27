@@ -50,47 +50,7 @@
         "attributes": {},
         "connections": {},
         "parts": {
-          "child": {
-            "doc": null,
-            "name": "child",
-            "part_def": {
-              "artifact_kinds": [
-                "attributes",
-                "ports",
-                "parts",
-                "connections"
-              ],
-              "declared_items": {
-                "attributes": {},
-                "connections": {},
-                "parts": {},
-                "ports": {}
-              },
-              "doc": null,
-              "items": {
-                "attributes": {},
-                "connections": {},
-                "parts": {},
-                "ports": {}
-              },
-              "name": "Child",
-              "redefines_items": {
-                "attributes": {},
-                "connections": {},
-                "parts": {},
-                "ports": {}
-              },
-              "remove_items": {
-                "attributes": [],
-                "connections": [],
-                "parts": [],
-                "ports": []
-              },
-              "source_file": "main.sysml",
-              "specializes": null
-            },
-            "part_name": "Child"
-          }
+          "child": "__ref__"
         },
         "ports": {}
       },
@@ -102,42 +62,7 @@
           "child": {
             "doc": null,
             "name": "child",
-            "part_def": {
-              "artifact_kinds": [
-                "attributes",
-                "ports",
-                "parts",
-                "connections"
-              ],
-              "declared_items": {
-                "attributes": {},
-                "connections": {},
-                "parts": {},
-                "ports": {}
-              },
-              "doc": null,
-              "items": {
-                "attributes": {},
-                "connections": {},
-                "parts": {},
-                "ports": {}
-              },
-              "name": "Child",
-              "redefines_items": {
-                "attributes": {},
-                "connections": {},
-                "parts": {},
-                "ports": {}
-              },
-              "remove_items": {
-                "attributes": [],
-                "connections": [],
-                "parts": [],
-                "ports": []
-              },
-              "source_file": "main.sysml",
-              "specializes": null
-            },
+            "part_def": "__ref__",
             "part_name": "Child"
           }
         },

@@ -11,4 +11,4 @@ def write_model(path: Path, content: str) -> None:
 
 def write_reference(name: str, architecture) -> None:
     REFERENCE_DIR.mkdir(parents=True, exist_ok=True)
-    (REFERENCE_DIR / f"{name}.json").write_text(json_dumps(architecture, []))
+    (REFERENCE_DIR / f"{name}.json").write_text(json_dumps(architecture))

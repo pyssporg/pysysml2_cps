@@ -2,12 +2,17 @@
 
 from .architecture import SysMLArchitecture
 from .attributes import SysMLAttribute
-from .base import DefinitionBase
-from .declared import DeclaredDefinition
+from .base import DeclaredDefinition, DefinitionBase
 from .connections import SysMLConnection
-from .parts import SysMLPartDefinition, SysMLPortDefinition
+from .definitions import (
+    ResolvedPartDefinition,
+    ResolvedPortDefinition,
+    ResolvedRequirement,
+    SysMLPartDefinition,
+    SysMLPortDefinition,
+    SysMLRequirement,
+)
 from .references import SysMLPartReference, SysMLPortReference
-from .requirements import SysMLRequirement
 from .types import PrimitiveType, SYSML_TYPE_MAP, SysMLType
 
 __all__ = [
@@ -17,9 +22,12 @@ __all__ = [
     "DefinitionBase",
     "DeclaredDefinition",
     "SysMLAttribute",
+    "ResolvedRequirement",
     "SysMLRequirement",
     "SysMLConnection",
+    "ResolvedPortDefinition",
     "SysMLPortDefinition",
+    "ResolvedPartDefinition",
     "SysMLPartDefinition",
     "SysMLPartReference",
     "SysMLPortReference",

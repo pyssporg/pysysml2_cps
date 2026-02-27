@@ -28,14 +28,15 @@ def resolve_part_inheritance(parts: Dict[str, SysMLPartDefinition]) -> None:
         stack.append(name)
 
         part = parts[name]
-        if part.base_part_name is not None:
-            if part.base_part_name not in parts:
+        if part.specializes is not None:
+            if part.specializes not in parts:
                 raise ValueError(
-                    f"Base part definition not found for {part.name}: {part.base_part_name}"
+                    f"Base part definition not found for {part.name}: {part.specializes}"
                 )
-            part.base_part_def = parts[part.base_part_name]
-            resolve(part.base_part_name)
-            _merge_with_base(part, parts[part.base_part_name])
+            part.base_part_def = parts[part.specializes]
+            part.base_part_name = part.specializes
+            resolve(part.specializes)
+            _merge_with_base(part, parts[part.specializes])
 
         stack.pop()
         visiting.remove(name)
@@ -46,10 +47,10 @@ def resolve_part_inheritance(parts: Dict[str, SysMLPartDefinition]) -> None:
 
 
 def _merge_with_base(part: SysMLPartDefinition, base: SysMLPartDefinition) -> None:
-    merged_attributes = copy.deepcopy(base.attributes)
-    merged_ports = copy.deepcopy(base.ports)
-    merged_parts = copy.deepcopy(base.parts)
-    merged_connections = copy.deepcopy(base.connections)
+    merged_attributes = copy.deepcopy(base.items.get("attributes", {}))
+    merged_ports = copy.deepcopy(base.items.get("ports", {}))
+    merged_parts = copy.deepcopy(base.items.get("parts", {}))
+    merged_connections = copy.deepcopy(getattr(base, "connections", []))
 
     merged_by_kind = {
         "attributes": merged_attributes,
@@ -59,7 +60,7 @@ def _merge_with_base(part: SysMLPartDefinition, base: SysMLPartDefinition) -> No
     for kind, merged in merged_by_kind.items():
         _apply_generic_remove(part=part, kind=kind, merged=merged)
 
-    for connection in part.remove_connections:
+    for connection in getattr(part, "remove_connections", []):
         if not _remove_connection(merged_connections, connection):
             raise ValueError(f"Cannot remove unknown connection in {part.name}: {connection}")
 
@@ -68,7 +69,7 @@ def _merge_with_base(part: SysMLPartDefinition, base: SysMLPartDefinition) -> No
     for kind, merged in merged_by_kind.items():
         _apply_generic_additions(part=part, kind=kind, merged=merged)
 
-    for connection in part.declared_connections:
+    for connection in getattr(part, "declared_connections", []):
         if _contains_connection(merged_connections, connection):
             raise ValueError(
                 f"Connection already exists in {part.name}: "
@@ -78,9 +79,15 @@ def _merge_with_base(part: SysMLPartDefinition, base: SysMLPartDefinition) -> No
             )
         merged_connections.append(connection)
 
-    part.attributes = merged_attributes
-    part.ports = merged_ports
-    part.parts = merged_parts
+    part.items["attributes"] = merged_attributes
+    part.items["ports"] = merged_ports
+    part.items["parts"] = merged_parts
+    part.items["connections"] = {
+        f"{_connection_key(c)}#{idx}": c for idx, c in enumerate(merged_connections)
+    }
+    part.attributes = part.items["attributes"]
+    part.ports = part.items["ports"]
+    part.parts = part.items["parts"]
     part.connections = merged_connections
 
 
@@ -88,7 +95,7 @@ def _apply_generic_remove(
     *, part: SysMLPartDefinition, kind: str, merged: Dict[str, object]
 ) -> None:
     singular = kind[:-1]
-    for key in part.remove_items[kind]:
+    for key in part.remove_items.get(kind, set()):
         if key not in merged:
             raise ValueError(f"Cannot remove unknown {singular} {part.name}.{key}")
         del merged[key]
@@ -98,7 +105,7 @@ def _apply_generic_redefines(
     *, part: SysMLPartDefinition, kind: str, merged: Dict[str, object]
 ) -> None:
     singular = kind[:-1]
-    for key, value in part.redefines_items[kind].items():
+    for key, value in part.redefines_items.get(kind, {}).items():
         if key not in merged:
             raise ValueError(f"Cannot redefine unknown {singular} {part.name}.{key}")
         merged[key] = value
@@ -108,7 +115,7 @@ def _apply_generic_additions(
     *, part: SysMLPartDefinition, kind: str, merged: Dict[str, object]
 ) -> None:
     singular = kind[:-1]
-    for key, value in part.items[kind].items():
+    for key, value in part.items.get(kind, {}).items():
         if key in merged:
             hint = {
                 "attributes": "redefines attribute",

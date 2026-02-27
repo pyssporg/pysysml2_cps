@@ -55,7 +55,7 @@ class SysMLExporter:
         for name in sorted(architecture.port_definitions):
             port = architecture.port_definitions[name]
             lines.append(f"{pad}port def {port.name} {{")
-            attrs = port.items.get("attributes", port.attributes)
+            attrs = port.items.get("attributes", getattr(port, "attributes", {}))
             for attr in sorted(attrs.values(), key=lambda a: a.name):
                 lines.append(f"{pad}{self.indent}{self._format_attribute(attr)}")
             lines.append(f"{pad}}}")
@@ -80,8 +80,9 @@ class SysMLExporter:
                 header = f"{pad}part def {part.name} {{"
             else:
                 header = f"{pad}part def {part.name}"
-                if part.base_part_name is not None:
-                    header += f" specializes {part.base_part_name}"
+                base_name = part.specializes or getattr(part, "base_part_name", None)
+                if base_name is not None:
+                    header += f" specializes {base_name}"
                 header += " {"
             lines.append(header)
             if mode == "flattened":
@@ -101,7 +102,7 @@ class SysMLExporter:
             singular = kind[:-1]
             for name in sorted(part.remove_items.get(kind, set())):
                 lines.append(f"{pad}remove {singular} {name};")
-        for connection in part.remove_connections:
+        for connection in getattr(part, "remove_connections", []):
             lines.append(f"{pad}{self._format_remove_connection(connection)}")
 
         for kind in ("attributes", "ports", "parts"):
@@ -113,20 +114,20 @@ class SysMLExporter:
             values = part.items.get(kind, {})
             for name in sorted(values):
                 lines.append(f"{pad}{self._format_member(kind, values[name])}")
-        for connection in part.declared_connections:
+        for connection in getattr(part, "declared_connections", []):
             lines.append(f"{pad}{self._format_connection(connection)}")
         return lines
 
     def _emit_flattened_members(self, part: SysMLPartDefinition, level: int) -> List[str]:
         pad = self.indent * level
         lines: List[str] = []
-        for attr in sorted(part.attributes.values(), key=lambda a: a.name):
+        for attr in sorted(part.items.get("attributes", {}).values(), key=lambda a: a.name):
             lines.append(f"{pad}{self._format_attribute(attr)}")
-        for port in sorted(part.ports.values(), key=lambda p: p.name):
+        for port in sorted(part.items.get("ports", {}).values(), key=lambda p: p.name):
             lines.append(f"{pad}{self._format_port_ref(port)}")
-        for subpart in sorted(part.parts.values(), key=lambda p: p.name):
+        for subpart in sorted(part.items.get("parts", {}).values(), key=lambda p: p.name):
             lines.append(f"{pad}{self._format_part_ref(subpart)}")
-        for connection in part.connections:
+        for connection in getattr(part, "connections", []):
             lines.append(f"{pad}{self._format_connection(connection)}")
         return lines
 

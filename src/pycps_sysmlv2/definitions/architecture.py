@@ -4,11 +4,16 @@ from dataclasses import dataclass, field
 from typing import Dict, List
 
 from .base import DefinitionBase
-from .parts import SysMLPartDefinition, SysMLPortDefinition
-from .requirements import SysMLRequirement
+from .definitions import (
+    ResolvedPartDefinition,
+    ResolvedPortDefinition,
+    SysMLPartDefinition,
+    SysMLPortDefinition,
+    ResolvedRequirement, SysMLRequirement
+)
 
 
-@dataclass
+@dataclass(kw_only=True)
 class SysMLArchitecture(DefinitionBase):
     package: str
     # keep port definitions before part definitions to ensure correct json export order
@@ -17,6 +22,7 @@ class SysMLArchitecture(DefinitionBase):
     requirements: List[SysMLRequirement] = field(default_factory=list)
 
     def __post_init__(self):
+        # sets json export order
         self.part_definitions = dict(
             sorted(
                 self.part_definitions.items(),

@@ -6,7 +6,7 @@ from typing import Optional
 from .base import DefinitionBase
 
 
-@dataclass
+@dataclass(kw_only=True)
 class SysMLConnection(DefinitionBase):
     src_component: str
     src_port: str

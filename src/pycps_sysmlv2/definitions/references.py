@@ -6,7 +6,7 @@ from typing import Optional
 from .base import DefinitionBase
 
 
-@dataclass
+@dataclass(kw_only=True)
 class SysMLPartReference(DefinitionBase):
     name: str
     part_name: str
@@ -14,7 +14,7 @@ class SysMLPartReference(DefinitionBase):
     part_def: Optional["SysMLPartDefinition"] = None
 
 
-@dataclass
+@dataclass(kw_only=True)
 class SysMLPortReference(DefinitionBase):
     name: str
     direction: str  # "in" or "out"

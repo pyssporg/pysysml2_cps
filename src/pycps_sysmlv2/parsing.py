@@ -56,6 +56,47 @@ _CONNECTION_RE = re.compile(
 )
 
 
+def _connection_key(connection: SysMLConnection) -> str:
+    return (
+        f"{connection.src_component}.{connection.src_port}->"
+        f"{connection.dst_component}.{connection.dst_port}"
+    )
+
+
+def _connections_to_map(connections: List[SysMLConnection]) -> Dict[str, SysMLConnection]:
+    return {f"{_connection_key(c)}#{idx}": c for idx, c in enumerate(connections)}
+
+
+def _attach_legacy_part_fields(
+    part: SysMLPartDefinition,
+    *,
+    resolved_connections: List[SysMLConnection],
+    declared_connections: List[SysMLConnection],
+    removed_connections: List[SysMLConnection],
+) -> None:
+    part.base_part_name = part.specializes
+    part.base_part_def = getattr(part, "base_part_def", None)
+    part.attributes = part.items.get("attributes", {})
+    part.ports = part.items.get("ports", {})
+    part.parts = part.items.get("parts", {})
+    part.connections = resolved_connections
+    part.declared_attributes = part.items.get("attributes", {})
+    part.declared_ports = part.items.get("ports", {})
+    part.declared_parts = part.items.get("parts", {})
+    part.declared_connections = declared_connections
+    part.replace_attributes = part.redefines_items.get("attributes", {})
+    part.replace_ports = part.redefines_items.get("ports", {})
+    part.replace_parts = part.redefines_items.get("parts", {})
+    part.remove_attributes = part.remove_items.get("attributes", set())
+    part.remove_ports = part.remove_items.get("ports", set())
+    part.remove_parts = part.remove_items.get("parts", set())
+    part.remove_connections = removed_connections
+
+
+def _attach_legacy_port_fields(port: SysMLPortDefinition) -> None:
+    port.attributes = port.items.get("attributes", {})
+
+
 def _parse_sysml_files(files: List[Path]) -> SysMLArchitecture:
     part_defs: Dict[str, SysMLPartDefinition] = {}
     port_defs: Dict[str, SysMLPortDefinition] = {}
@@ -110,6 +151,7 @@ def _parse_sysml_files(files: List[Path]) -> SysMLArchitecture:
     _attach_part_definitions(part_defs)
     _attach_connection_definitions(part_defs)
     return SysMLArchitecture(
+        name=package_name or "Package",
         package=package_name or "Package",
         part_definitions=part_defs,
         port_definitions=port_defs,
@@ -249,27 +291,37 @@ def _parse_part_block(
 
         pending_doc = None
 
-    return SysMLPartDefinition(
+    part = SysMLPartDefinition(
         name=name,
         doc=part_doc,
-        base_part_name=base_part_name,
+        specializes=base_part_name,
         source_file=source_path.name,
-        attributes=attributes.copy(),
-        ports=ports.copy(),
-        parts=parts.copy(),
-        connections=list(connections),
-        declared_attributes=attributes.copy(),
-        declared_ports=ports.copy(),
-        declared_parts=parts.copy(),
-        declared_connections=list(connections),
-        replace_attributes=replace_attributes,
-        replace_ports=replace_ports,
-        replace_parts=replace_parts,
-        remove_attributes=remove_attributes,
-        remove_ports=remove_ports,
-        remove_parts=remove_parts,
-        remove_connections=remove_connections,
+        items={
+            "attributes": attributes.copy(),
+            "ports": ports.copy(),
+            "parts": parts.copy(),
+            "connections": _connections_to_map(list(connections)),
+        },
+        redefines_items={
+            "attributes": replace_attributes,
+            "ports": replace_ports,
+            "parts": replace_parts,
+            "connections": {},
+        },
+        remove_items={
+            "attributes": remove_attributes,
+            "ports": remove_ports,
+            "parts": remove_parts,
+            "connections": set(),
+        },
     )
+    _attach_legacy_part_fields(
+        part,
+        resolved_connections=list(connections),
+        declared_connections=list(connections),
+        removed_connections=remove_connections,
+    )
+    return part
 
 
 def _parse_port_block(
@@ -303,9 +355,16 @@ def _parse_port_block(
             )
         pending_doc = None
 
-    return SysMLPortDefinition(
-        name=name, doc=port_doc, attributes=attributes, source_file=source_path.name
+    port = SysMLPortDefinition(
+        name=name,
+        doc=port_doc,
+        source_file=source_path.name,
+        items={"attributes": attributes},
+        redefines_items={"attributes": {}},
+        remove_items={"attributes": set()},
     )
+    _attach_legacy_port_fields(port)
+    return port
 
 
 def _parse_attribute(line: str, doc: Optional[str]) -> SysMLAttribute:
@@ -367,11 +426,16 @@ def _parse_connection(line: str) -> SysMLConnection:
     match = _CONNECTION_RE.fullmatch(line.strip())
     if match is None:
         raise ValueError(f"Malformed connection declaration: {line}")
+    src_component = match.group(1)
+    src_port = match.group(2)
+    dst_component = match.group(3)
+    dst_port = match.group(4)
     return SysMLConnection(
-        src_component=match.group(1),
-        src_port=match.group(2),
-        dst_component=match.group(3),
-        dst_port=match.group(4),
+        name=f"{src_component}.{src_port}_to_{dst_component}.{dst_port}",
+        src_component=src_component,
+        src_port=src_port,
+        dst_component=dst_component,
+        dst_port=dst_port,
     )
 
 
@@ -428,7 +492,7 @@ def _attach_port_definitions(
     parts: Dict[str, SysMLPartDefinition], port_defs: Dict[str, SysMLPortDefinition]
 ) -> None:
     for part in parts.values():
-        for port in part.ports.values():
+        for port in part.items.get("ports", {}).values():
             port.port_def = port_defs.get(port.port_name)
             if port.port_def is None:
                 raise ValueError(
@@ -438,25 +502,26 @@ def _attach_port_definitions(
 
 def _attach_part_definitions(parts: Dict[str, SysMLPartDefinition]) -> None:
     for part in parts.values():
-        for subpart in part.parts.values():
+        for subpart in part.items.get("parts", {}).values():
             subpart.part_def = parts.get(subpart.part_name)
 
 
 def _attach_connection_definitions(parts: Dict[str, SysMLPartDefinition]) -> None:
 
     for part in parts.values():
+        part_map = part.items.get("parts", {})
         for c in part.connections:
-            if c.src_component not in part.parts:
+            if c.src_component not in part_map:
                 raise ValueError(
                     f"Subpart not found for connection: {part.name}.{c.src_component}"
                 )
-            if c.dst_component not in part.parts:
+            if c.dst_component not in part_map:
                 raise ValueError(
                     f"Subpart not found for connection: {part.name}.{c.dst_component}"
                 )
 
-            c.src_part_def = part.parts[c.src_component].part_def
-            c.dst_part_def = part.parts[c.dst_component].part_def
+            c.src_part_def = part_map[c.src_component].part_def
+            c.dst_part_def = part_map[c.dst_component].part_def
             if c.src_part_def is None:
                 raise ValueError(
                     f"Part definition not found for subpart {part.name}.{c.src_component}"
@@ -466,17 +531,19 @@ def _attach_connection_definitions(parts: Dict[str, SysMLPartDefinition]) -> Non
                     f"Part definition not found for subpart {part.name}.{c.dst_component}"
                 )
 
-            if c.src_port not in c.src_part_def.ports:
+            src_ports = c.src_part_def.items.get("ports", {})
+            dst_ports = c.dst_part_def.items.get("ports", {})
+            if c.src_port not in src_ports:
                 raise ValueError(
                     f"Port not found for connection: {c.src_part_def.name}.{c.src_port}"
                 )
-            if c.dst_port not in c.dst_part_def.ports:
+            if c.dst_port not in dst_ports:
                 raise ValueError(
                     f"Port not found for connection: {c.dst_part_def.name}.{c.dst_port}"
                 )
 
-            c.src_port_def = c.src_part_def.ports[c.src_port].port_def
-            c.dst_port_def = c.dst_part_def.ports[c.dst_port].port_def
+            c.src_port_def = src_ports[c.src_port].port_def
+            c.dst_port_def = dst_ports[c.dst_port].port_def
             if c.src_port_def is None:
                 raise ValueError(
                     f"Port definition not found for connection endpoint: "
@@ -540,17 +607,30 @@ def _parse_requirements(
             )
         reqs.append(
             SysMLRequirement(
-                identifier=usage_name, text=req_defs[target_def], source_file=source_path.name
+                name=usage_name,
+                source_file=source_path.name,
+                items={"text": {"text": req_defs[target_def]}},
+                redefines_items={"text": {}},
+                remove_items={"text": set()},
             )
         )
+        reqs[-1].identifier = usage_name
+        reqs[-1].text = req_defs[target_def]
 
     if reqs:
         return reqs
 
     for identifier, text in req_defs.items():
-        reqs.append(
-            SysMLRequirement(identifier=identifier, text=text, source_file=source_path.name)
+        req = SysMLRequirement(
+            name=identifier,
+            source_file=source_path.name,
+            items={"text": {"text": text}},
+            redefines_items={"text": {}},
+            remove_items={"text": set()},
         )
+        req.identifier = identifier
+        req.text = text
+        reqs.append(req)
     return reqs
 
 

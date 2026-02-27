@@ -2,7 +2,7 @@ from pathlib import Path
 
 from pycps_sysmlv2.parser_utils import json_dumps
 
-REFERENCE_DIR = Path(__file__).resolve().parent / "fixtures" / "public_api_references"
+REFERENCE_DIR = Path(__file__).resolve().parent / "public_api_references"
 
 
 def write_model(path: Path, content: str) -> None:

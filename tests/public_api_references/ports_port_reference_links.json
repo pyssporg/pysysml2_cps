@@ -49,6 +49,7 @@
       },
       "source_file": "model.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     }
   },
@@ -73,6 +74,7 @@
       },
       "source_file": "model.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPortDefinition'>"
     }
   },

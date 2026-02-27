@@ -98,6 +98,7 @@
       },
       "source_file": "model.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     },
     "ChildA": {
@@ -146,6 +147,7 @@
       },
       "source_file": "model.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     },
     "ChildB": {
@@ -194,6 +196,7 @@
       },
       "source_file": "model.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     },
     "Derived": {
@@ -203,7 +206,6 @@
         "parts",
         "connections"
       ],
-      "base_part_def": "__ref__",
       "declared_items": {
         "attributes": {
           "add_attr": "__ref__"
@@ -306,6 +308,7 @@
       },
       "source_file": "model.sysml",
       "specializes": "Base",
+      "specializes_obj": "__ref__",
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     }
   },
@@ -330,6 +333,7 @@
       },
       "source_file": "model.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPortDefinition'>"
     },
     "SignalB": {
@@ -352,6 +356,7 @@
       },
       "source_file": "model.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPortDefinition'>"
     }
   },

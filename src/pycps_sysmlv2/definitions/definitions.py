@@ -58,14 +58,6 @@ class SysMLPartDefinition(DeclaredDefinition):
     artifact_kinds: Tuple[str, ...] = ("attributes", "ports", "parts", "connections")
 
     @property
-    def base_part_name(self) -> str | None:
-        return self.specializes
-
-    @base_part_name.setter
-    def base_part_name(self, value: str | None) -> None:
-        self.specializes = value
-
-    @property
     def attributes(self) -> Dict[str, object]:
         return self.items.setdefault("attributes", {})
 
@@ -106,44 +98,3 @@ class SysMLPartDefinition(DeclaredDefinition):
             )
             mapped[key] = c
         self.items["connections"] = mapped
-
-    @property
-    def declared_attributes(self) -> Dict[str, object]:
-        return getattr(self, "declared_items", self.items).setdefault("attributes", {})
-
-    @property
-    def declared_ports(self) -> Dict[str, object]:
-        return getattr(self, "declared_items", self.items).setdefault("ports", {})
-
-    @property
-    def declared_parts(self) -> Dict[str, object]:
-        return getattr(self, "declared_items", self.items).setdefault("parts", {})
-
-    @property
-    def declared_connections(self) -> list[object]:
-        declared = getattr(self, "declared_items", self.items).setdefault("connections", {})
-        return list(declared.values())
-
-    @property
-    def replace_attributes(self) -> Dict[str, object]:
-        return self.redefines_items.setdefault("attributes", {})
-
-    @property
-    def replace_ports(self) -> Dict[str, object]:
-        return self.redefines_items.setdefault("ports", {})
-
-    @property
-    def replace_parts(self) -> Dict[str, object]:
-        return self.redefines_items.setdefault("parts", {})
-
-    @property
-    def remove_attributes(self) -> set[str]:
-        return self.remove_items.setdefault("attributes", set())
-
-    @property
-    def remove_ports(self) -> set[str]:
-        return self.remove_items.setdefault("ports", set())
-
-    @property
-    def remove_parts(self) -> set[str]:
-        return self.remove_items.setdefault("parts", set())

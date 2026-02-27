@@ -24,6 +24,7 @@
       },
       "source_file": "requirements.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLRequirement'>"
     },
     {
@@ -45,6 +46,7 @@
       },
       "source_file": "requirements.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLRequirement'>"
     }
   ],

@@ -52,9 +52,9 @@ def test_part_inheritance_add_replace_remove(tmp_path: Path):
     architecture = load_architecture(tmp_path)
     derived = architecture.part_definitions["Derived"]
 
-    assert derived.base_part_name == "Base"
-    assert derived.base_part_def is not None
-    assert derived.base_part_def.name == "Base"
+    assert derived.specializes == "Base"
+    assert derived.specializes_obj is not None
+    assert derived.specializes_obj.name == "Base"
 
     assert "remove_attr" not in derived.attributes
     assert derived.attributes["replace_attr"].value == 99

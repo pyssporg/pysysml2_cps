@@ -49,6 +49,7 @@
       },
       "source_file": "part1.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     },
     "Producer": {
@@ -97,6 +98,7 @@
       },
       "source_file": "part2.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     },
     "System": {
@@ -168,6 +170,7 @@
       },
       "source_file": "composition.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     }
   },
@@ -192,6 +195,7 @@
       },
       "source_file": "ports.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPortDefinition'>"
     }
   },

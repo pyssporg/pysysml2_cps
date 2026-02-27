@@ -32,8 +32,7 @@ def resolve_part_inheritance(parts: Dict[str, SysMLPartDefinition]) -> None:
                 raise ValueError(
                     f"Base part definition not found for {part.name}: {part.specializes}"
                 )
-            part.base_part_def = parts[part.specializes]
-            part.base_part_name = part.specializes
+            part.specializes_obj = parts[part.specializes]
             resolve(part.specializes)
             _merge_with_base(part, parts[part.specializes])
 

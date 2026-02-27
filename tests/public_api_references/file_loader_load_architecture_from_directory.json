@@ -38,6 +38,7 @@
       },
       "source_file": "main.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     },
     "System": {
@@ -85,6 +86,7 @@
       },
       "source_file": "main.sysml",
       "specializes": null,
+      "specializes_obj": null,
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     }
   },

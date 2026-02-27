@@ -18,6 +18,7 @@ class DefinitionBase:
 class DeclaredDefinition(DefinitionBase):
     """Generic declared artifact container with dynamic artifact kinds."""
     specializes: Optional[str] = None
+    specializes_obj: Optional[object] = None
     source_file: Optional[str] = None
 
     artifact_kinds: Tuple[str, ...] = field(default_factory=tuple)

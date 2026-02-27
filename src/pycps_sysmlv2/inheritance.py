@@ -3,10 +3,9 @@
 from __future__ import annotations
 
 import copy
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Set
 
 from .definitions import (
-    SysMLConnection,
     SysMLPartDefinition,
 )
 
@@ -47,44 +46,45 @@ def resolve_part_inheritance(parts: Dict[str, SysMLPartDefinition]) -> None:
 
 
 def _merge_with_base(part: SysMLPartDefinition, base: SysMLPartDefinition) -> None:
+    declared_items = getattr(part, "declared_items", part.items)
     merged_by_kind = {
         kind: copy.deepcopy(base.items.get(kind, {}))
         for kind in part.artifact_kinds
         if kind != "connections"
     }
-    merged_connections = copy.deepcopy(getattr(base, "connections", []))
+    merged_connections = copy.deepcopy(base.items.get("connections", {}))
 
     for kind, merged in merged_by_kind.items():
         _apply_generic_remove(part=part, kind=kind, merged=merged)
 
-    for connection in getattr(part, "remove_connections", []):
-        if not _remove_connection(merged_connections, connection):
-            raise ValueError(f"Cannot remove unknown connection in {part.name}: {connection}")
+    for key in part.remove_items.get("connections", set()):
+        if key not in merged_connections:
+            raise ValueError(f"Cannot remove unknown connection in {part.name}: {key}")
+        del merged_connections[key]
 
     for kind, merged in merged_by_kind.items():
         _apply_generic_redefines(part=part, kind=kind, merged=merged)
     for kind, merged in merged_by_kind.items():
-        _apply_generic_additions(part=part, kind=kind, merged=merged)
+        _apply_generic_additions(
+            part=part,
+            kind=kind,
+            merged=merged,
+            additions=declared_items.get(kind, {}),
+        )
 
-    for connection in getattr(part, "declared_connections", []):
-        if _contains_connection(merged_connections, connection):
+    for key, connection in declared_items.get("connections", {}).items():
+        if key in merged_connections:
             raise ValueError(
                 f"Connection already exists in {part.name}: "
                 f"{connection.src_component}.{connection.src_port} to "
                 f"{connection.dst_component}.{connection.dst_port} "
                 f"(use remove connect first)"
             )
-        merged_connections.append(connection)
+        merged_connections[key] = connection
 
     for kind, merged in merged_by_kind.items():
         part.items[kind] = merged
-    part.items["connections"] = {
-        f"{_connection_key(c)}#{idx}": c for idx, c in enumerate(merged_connections)
-    }
-    part.attributes = part.items["attributes"]
-    part.ports = part.items["ports"]
-    part.parts = part.items["parts"]
-    part.connections = merged_connections
+    part.items["connections"] = merged_connections
 
 
 def _apply_generic_remove(
@@ -108,10 +108,14 @@ def _apply_generic_redefines(
 
 
 def _apply_generic_additions(
-    *, part: SysMLPartDefinition, kind: str, merged: Dict[str, object]
+    *,
+    part: SysMLPartDefinition,
+    kind: str,
+    merged: Dict[str, object],
+    additions: Dict[str, object],
 ) -> None:
     singular = kind[:-1]
-    for key, value in part.items.get(kind, {}).items():
+    for key, value in additions.items():
         if key in merged:
             hint = {
                 "attributes": "redefines attribute",
@@ -122,30 +126,3 @@ def _apply_generic_additions(
                 f"{singular.capitalize()} name collision in {part.name}: {key} (use {hint})"
             )
         merged[key] = value
-
-
-def _connection_key(connection: SysMLConnection) -> Tuple[str, str, str, str]:
-    return (
-        connection.src_component,
-        connection.src_port,
-        connection.dst_component,
-        connection.dst_port,
-    )
-
-
-def _remove_connection(
-    target_connections: List[SysMLConnection], connection: SysMLConnection
-) -> bool:
-    key = _connection_key(connection)
-    for idx, candidate in enumerate(target_connections):
-        if _connection_key(candidate) == key:
-            del target_connections[idx]
-            return True
-    return False
-
-
-def _contains_connection(
-    target_connections: List[SysMLConnection], connection: SysMLConnection
-) -> bool:
-    key = _connection_key(connection)
-    return any(_connection_key(candidate) == key for candidate in target_connections)

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import re
-from typing import Any, Dict, Iterator, List, Optional, Set, Tuple
+from typing import Any, Dict, Iterator, List, Optional, Tuple
 
 from .definitions import (
     SysMLArchitecture,
@@ -61,40 +61,6 @@ def _connection_key(connection: SysMLConnection) -> str:
         f"{connection.src_component}.{connection.src_port}->"
         f"{connection.dst_component}.{connection.dst_port}"
     )
-
-
-def _connections_to_map(connections: List[SysMLConnection]) -> Dict[str, SysMLConnection]:
-    return {f"{_connection_key(c)}#{idx}": c for idx, c in enumerate(connections)}
-
-
-def _attach_legacy_part_fields(
-    part: SysMLPartDefinition,
-    *,
-    resolved_connections: List[SysMLConnection],
-    declared_connections: List[SysMLConnection],
-    removed_connections: List[SysMLConnection],
-) -> None:
-    part.base_part_name = part.specializes
-    part.base_part_def = getattr(part, "base_part_def", None)
-    part.attributes = part.items.get("attributes", {})
-    part.ports = part.items.get("ports", {})
-    part.parts = part.items.get("parts", {})
-    part.connections = resolved_connections
-    part.declared_attributes = part.items.get("attributes", {})
-    part.declared_ports = part.items.get("ports", {})
-    part.declared_parts = part.items.get("parts", {})
-    part.declared_connections = declared_connections
-    part.replace_attributes = part.redefines_items.get("attributes", {})
-    part.replace_ports = part.redefines_items.get("ports", {})
-    part.replace_parts = part.redefines_items.get("parts", {})
-    part.remove_attributes = part.remove_items.get("attributes", set())
-    part.remove_ports = part.remove_items.get("ports", set())
-    part.remove_parts = part.remove_items.get("parts", set())
-    part.remove_connections = removed_connections
-
-
-def _attach_legacy_port_fields(port: SysMLPortDefinition) -> None:
-    port.attributes = port.items.get("attributes", {})
 
 
 def _parse_sysml_files(files: List[Path]) -> SysMLArchitecture:
@@ -213,23 +179,20 @@ def _parse_part_block(
     package_name: str,
     strict: bool,
 ) -> SysMLPartDefinition:
-    attributes: Dict[str, SysMLAttribute] = {}
-    ports: Dict[str, SysMLPortReference] = {}
-    parts: Dict[str, SysMLPartReference] = {}
-    connections: List[SysMLConnection] = []
-    replace_attributes: Dict[str, SysMLAttribute] = {}
-    replace_ports: Dict[str, SysMLPortReference] = {}
-    replace_parts: Dict[str, SysMLPartReference] = {}
-    remove_attributes: Set[str] = set()
-    remove_ports: Set[str] = set()
-    remove_parts: Set[str] = set()
-    remove_connections: List[SysMLConnection] = []
+    items: Dict[str, Dict[str, object]] = {
+        kind: {} for kind in SysMLPartDefinition.artifact_kinds
+    }
+    redefines_items: Dict[str, Dict[str, object]] = {
+        kind: {} for kind in SysMLPartDefinition.artifact_kinds
+    }
+    remove_items = {kind: set() for kind in SysMLPartDefinition.artifact_kinds}
     pending_doc: Optional[str] = None
     part_doc: Optional[str] = None
 
     for kind, payload in _iter_block_items(block):
         if kind == "doc":
-            if part_doc is None and not attributes and not ports and not parts:
+            has_members = any(items[k] for k in SysMLPartDefinition.artifact_kinds)
+            if part_doc is None and not has_members:
                 part_doc = payload
             else:
                 pending_doc = payload
@@ -241,45 +204,25 @@ def _parse_part_block(
 
         if line.startswith("attribute "):
             attr = _parse_attribute(line, pending_doc)
-            attributes[attr.name] = attr
+            items["attributes"][attr.name] = attr
         elif line.startswith("in port "):
             port = _parse_port_endpoint("in", line, pending_doc)
-            ports[port.name] = port
+            items["ports"][port.name] = port
         elif line.startswith("out port "):
             port = _parse_port_endpoint("out", line, pending_doc)
-            ports[port.name] = port
+            items["ports"][port.name] = port
         elif line.startswith("part "):
             part = _parse_part_reference(line, pending_doc)
-            parts[part.name] = part
+            items["parts"][part.name] = part
         elif line.startswith("connect "):
-            connections.append(_parse_connection(line))
+            connection = _parse_connection(line)
+            items["connections"][_connection_key(connection)] = connection
         elif line.startswith("redefines "):
-            (
-                replacement_attr,
-                replacement_port,
-                replacement_part,
-            ) = _parse_replacement(line, pending_doc)
-            if replacement_attr is not None:
-                replace_attributes[replacement_attr.name] = replacement_attr
-            if replacement_port is not None:
-                replace_ports[replacement_port.name] = replacement_port
-            if replacement_part is not None:
-                replace_parts[replacement_part.name] = replacement_part
+            replacement = _parse_replacement(line, pending_doc)
+            redefines_items[replacement[0]][replacement[1].name] = replacement[1]
         elif line.startswith("remove "):
-            (
-                remove_attribute,
-                remove_port,
-                remove_part,
-                remove_connection,
-            ) = _parse_removal(line)
-            if remove_attribute is not None:
-                remove_attributes.add(remove_attribute)
-            if remove_port is not None:
-                remove_ports.add(remove_port)
-            if remove_part is not None:
-                remove_parts.add(remove_part)
-            if remove_connection is not None:
-                remove_connections.append(remove_connection)
+            remove_kind, remove_key = _parse_removal(line)
+            remove_items[remove_kind].add(remove_key)
         elif strict:
             raise _unknown_statement_error(
                 package_name=package_name,
@@ -296,44 +239,29 @@ def _parse_part_block(
         doc=part_doc,
         specializes=base_part_name,
         source_file=source_path.name,
-        items={
-            "attributes": attributes.copy(),
-            "ports": ports.copy(),
-            "parts": parts.copy(),
-            "connections": _connections_to_map(list(connections)),
-        },
-        redefines_items={
-            "attributes": replace_attributes,
-            "ports": replace_ports,
-            "parts": replace_parts,
-            "connections": {},
-        },
-        remove_items={
-            "attributes": remove_attributes,
-            "ports": remove_ports,
-            "parts": remove_parts,
-            "connections": set(),
-        },
+        items=items,
+        redefines_items=redefines_items,
+        remove_items=remove_items,
     )
-    _attach_legacy_part_fields(
-        part,
-        resolved_connections=list(connections),
-        declared_connections=list(connections),
-        removed_connections=remove_connections,
-    )
+    part.declared_items = {
+        kind: dict(values) for kind, values in items.items()
+    }
     return part
 
 
 def _parse_port_block(
     name: str, block: str, source_path: Path, package_name: str, strict: bool
 ) -> SysMLPortDefinition:
-    attributes: Dict[str, SysMLAttribute] = {}
+    items: Dict[str, Dict[str, object]] = {
+        kind: {} for kind in SysMLPortDefinition.artifact_kinds
+    }
     port_doc: Optional[str] = None
     pending_doc: Optional[str] = None
 
     for kind, payload in _iter_block_items(block):
         if kind == "doc":
-            if port_doc is None and not attributes:
+            has_members = any(items[k] for k in SysMLPortDefinition.artifact_kinds)
+            if port_doc is None and not has_members:
                 port_doc = payload
             else:
                 pending_doc = payload
@@ -344,7 +272,7 @@ def _parse_port_block(
             continue
         if line.startswith("attribute "):
             attr = _parse_attribute(line, pending_doc)
-            attributes[attr.name] = attr
+            items["attributes"][attr.name] = attr
         elif strict:
             raise _unknown_statement_error(
                 package_name=package_name,
@@ -359,11 +287,13 @@ def _parse_port_block(
         name=name,
         doc=port_doc,
         source_file=source_path.name,
-        items={"attributes": attributes},
-        redefines_items={"attributes": {}},
-        remove_items={"attributes": set()},
+        items=items,
+        redefines_items={kind: {} for kind in SysMLPortDefinition.artifact_kinds},
+        remove_items={kind: set() for kind in SysMLPortDefinition.artifact_kinds},
     )
-    _attach_legacy_port_fields(port)
+    port.declared_items = {
+        kind: dict(values) for kind, values in items.items()
+    }
     return port
 
 
@@ -441,50 +371,46 @@ def _parse_connection(line: str) -> SysMLConnection:
 
 def _parse_replacement(
     line: str, doc: Optional[str]
-) -> Tuple[
-    Optional[SysMLAttribute],
-    Optional[SysMLPortReference],
-    Optional[SysMLPartReference],
-]:
+) -> Tuple[str, object]:
     if line.startswith("redefines "):
         content = line[len("redefines ") :].strip()
     else:
         raise ValueError(f"Malformed redefines statement: {line}")
     if content.startswith("attribute "):
-        return (_parse_attribute(content, doc), None, None)
+        return ("attributes", _parse_attribute(content, doc))
     if content.startswith("in port "):
-        return (None, _parse_port_endpoint("in", content, doc), None)
+        return ("ports", _parse_port_endpoint("in", content, doc))
     if content.startswith("out port "):
-        return (None, _parse_port_endpoint("out", content, doc), None)
+        return ("ports", _parse_port_endpoint("out", content, doc))
     if content.startswith("part "):
-        return (None, None, _parse_part_reference(content, doc))
+        return ("parts", _parse_part_reference(content, doc))
     raise ValueError(f"Malformed redefines statement: {line}")
 
 
 def _parse_removal(
     line: str,
-) -> Tuple[Optional[str], Optional[str], Optional[str], Optional[SysMLConnection]]:
+) -> Tuple[str, str]:
     content = line[len("remove ") :].strip()
     content_no_suffix = content[:-1].strip() if content.endswith(";") else content
     if content.startswith("attribute "):
         name = content_no_suffix[len("attribute ") :].strip()
         if not name:
             raise ValueError(f"Malformed remove attribute statement: {line}")
-        return (name, None, None, None)
+        return ("attributes", name)
     if content.startswith("port "):
         name = content_no_suffix[len("port ") :].strip()
         if not name:
             raise ValueError(f"Malformed remove port statement: {line}")
-        return (None, name, None, None)
+        return ("ports", name)
     if content.startswith("part "):
         name = content_no_suffix[len("part ") :].strip()
         if not name:
             raise ValueError(f"Malformed remove part statement: {line}")
-        return (None, None, name, None)
+        return ("parts", name)
     if content.startswith("connect "):
         if not content.endswith(";"):
             content = f"{content};"
-        return (None, None, None, _parse_connection(content))
+        return ("connections", _connection_key(_parse_connection(content)))
     raise ValueError(f"Malformed remove statement: {line}")
 
 
@@ -510,7 +436,7 @@ def _attach_connection_definitions(parts: Dict[str, SysMLPartDefinition]) -> Non
 
     for part in parts.values():
         part_map = part.items.get("parts", {})
-        for c in part.connections:
+        for c in part.items.get("connections", {}).values():
             if c.src_component not in part_map:
                 raise ValueError(
                     f"Subpart not found for connection: {part.name}.{c.src_component}"
@@ -614,23 +540,20 @@ def _parse_requirements(
                 remove_items={"text": set()},
             )
         )
-        reqs[-1].identifier = usage_name
-        reqs[-1].text = req_defs[target_def]
 
     if reqs:
         return reqs
 
     for identifier, text in req_defs.items():
-        req = SysMLRequirement(
-            name=identifier,
-            source_file=source_path.name,
-            items={"text": {"text": text}},
-            redefines_items={"text": {}},
-            remove_items={"text": set()},
+        reqs.append(
+            SysMLRequirement(
+                name=identifier,
+                source_file=source_path.name,
+                items={"text": {"text": text}},
+                redefines_items={"text": {}},
+                remove_items={"text": set()},
+            )
         )
-        req.identifier = identifier
-        req.text = text
-        reqs.append(req)
     return reqs
 
 

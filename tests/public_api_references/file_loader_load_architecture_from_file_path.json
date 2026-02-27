@@ -1,4 +1,6 @@
 {
+  "doc": null,
+  "name": "Example",
   "package": "Example",
   "part_definitions": {
     "Child": {
@@ -8,14 +10,12 @@
         "parts",
         "connections"
       ],
-      "attributes": {},
-      "base_part_def": null,
-      "base_part_name": null,
-      "connections": [],
-      "declared_attributes": {},
-      "declared_connections": [],
-      "declared_parts": {},
-      "declared_ports": {},
+      "declared_items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {}
+      },
       "doc": null,
       "items": {
         "attributes": {},
@@ -24,28 +24,20 @@
         "ports": {}
       },
       "name": "Child",
-      "parts": {},
-      "ports": {},
       "redefines_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
         "ports": {}
       },
-      "remove_attributes": [],
-      "remove_connections": [],
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
         "ports": []
       },
-      "remove_parts": [],
-      "remove_ports": [],
-      "replace_attributes": {},
-      "replace_parts": {},
-      "replace_ports": {},
-      "source_file": "model.sysml"
+      "source_file": "model.sysml",
+      "specializes": null
     }
   },
   "port_definitions": {},

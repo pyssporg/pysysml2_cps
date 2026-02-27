@@ -1,4 +1,6 @@
 {
+  "doc": null,
+  "name": "Example",
   "package": "Example",
   "part_definitions": {
     "Node": {
@@ -8,37 +10,38 @@
         "parts",
         "connections"
       ],
-      "attributes": {},
-      "base_part_def": null,
-      "base_part_name": null,
-      "connections": [],
-      "declared_attributes": {},
-      "declared_connections": [],
-      "declared_parts": {},
-      "declared_ports": {
-        "input": {
-          "direction": "in",
-          "doc": null,
-          "name": "input",
-          "port_def": {
-            "artifact_kinds": [
-              "attributes"
-            ],
-            "attributes": {},
+      "declared_items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {
+          "input": {
+            "direction": "in",
             "doc": null,
-            "items": {
-              "attributes": {}
+            "name": "input",
+            "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "declared_items": {
+                "attributes": {}
+              },
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "Signal",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml",
+              "specializes": null
             },
-            "name": "Signal",
-            "redefines_items": {
-              "attributes": {}
-            },
-            "remove_items": {
-              "attributes": []
-            },
-            "source_file": "model.sysml"
-          },
-          "port_name": "Signal"
+            "port_name": "Signal"
+          }
         }
       },
       "doc": null,
@@ -55,7 +58,9 @@
               "artifact_kinds": [
                 "attributes"
               ],
-              "attributes": {},
+              "declared_items": {
+                "attributes": {}
+              },
               "doc": null,
               "items": {
                 "attributes": {}
@@ -67,60 +72,28 @@
               "remove_items": {
                 "attributes": []
               },
-              "source_file": "model.sysml"
+              "source_file": "model.sysml",
+              "specializes": null
             },
             "port_name": "Signal"
           }
         }
       },
       "name": "Node",
-      "parts": {},
-      "ports": {
-        "input": {
-          "direction": "in",
-          "doc": null,
-          "name": "input",
-          "port_def": {
-            "artifact_kinds": [
-              "attributes"
-            ],
-            "attributes": {},
-            "doc": null,
-            "items": {
-              "attributes": {}
-            },
-            "name": "Signal",
-            "redefines_items": {
-              "attributes": {}
-            },
-            "remove_items": {
-              "attributes": []
-            },
-            "source_file": "model.sysml"
-          },
-          "port_name": "Signal"
-        }
-      },
       "redefines_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
         "ports": {}
       },
-      "remove_attributes": [],
-      "remove_connections": [],
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
         "ports": []
       },
-      "remove_parts": [],
-      "remove_ports": [],
-      "replace_attributes": {},
-      "replace_parts": {},
-      "replace_ports": {},
-      "source_file": "model.sysml"
+      "source_file": "model.sysml",
+      "specializes": null
     }
   },
   "port_definitions": {
@@ -128,7 +101,9 @@
       "artifact_kinds": [
         "attributes"
       ],
-      "attributes": {},
+      "declared_items": {
+        "attributes": {}
+      },
       "doc": null,
       "items": {
         "attributes": {}
@@ -140,7 +115,8 @@
       "remove_items": {
         "attributes": []
       },
-      "source_file": "model.sysml"
+      "source_file": "model.sysml",
+      "specializes": null
     }
   },
   "requirements": []

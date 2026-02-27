@@ -1,4 +1,6 @@
 {
+  "doc": null,
+  "name": "Example",
   "package": "Example",
   "part_definitions": {
     "Node": {
@@ -8,77 +10,68 @@
         "parts",
         "connections"
       ],
-      "attributes": {
-        "threshold": {
-          "doc": "attribute docs",
-          "name": "threshold",
-          "type": {
-            "string_definition": null,
-            "type": "Integer"
-          },
-          "value": 2
-        }
-      },
-      "base_part_def": null,
-      "base_part_name": null,
-      "connections": [],
-      "declared_attributes": {
-        "threshold": {
-          "doc": "attribute docs",
-          "name": "threshold",
-          "type": {
-            "string_definition": null,
-            "type": "Integer"
-          },
-          "value": 2
-        }
-      },
-      "declared_connections": [],
-      "declared_parts": {},
-      "declared_ports": {
-        "input": {
-          "direction": "in",
-          "doc": "input docs",
-          "name": "input",
-          "port_def": {
-            "artifact_kinds": [
-              "attributes"
-            ],
-            "attributes": {
-              "p": {
-                "doc": "payload docs",
-                "name": "p",
-                "type": {
-                  "string_definition": null,
-                  "type": "Integer"
-                },
-                "value": 1
-              }
+      "declared_items": {
+        "attributes": {
+          "threshold": {
+            "doc": "attribute docs",
+            "name": "threshold",
+            "type": {
+              "string_definition": null,
+              "type": "Integer"
             },
-            "doc": "signal docs",
-            "items": {
-              "attributes": {
-                "p": {
-                  "doc": "payload docs",
-                  "name": "p",
-                  "type": {
-                    "string_definition": null,
-                    "type": "Integer"
-                  },
-                  "value": 1
+            "value": 2
+          }
+        },
+        "connections": {},
+        "parts": {},
+        "ports": {
+          "input": {
+            "direction": "in",
+            "doc": "input docs",
+            "name": "input",
+            "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "declared_items": {
+                "attributes": {
+                  "p": {
+                    "doc": "payload docs",
+                    "name": "p",
+                    "type": {
+                      "string_definition": null,
+                      "type": "Integer"
+                    },
+                    "value": 1
+                  }
                 }
-              }
+              },
+              "doc": "signal docs",
+              "items": {
+                "attributes": {
+                  "p": {
+                    "doc": "payload docs",
+                    "name": "p",
+                    "type": {
+                      "string_definition": null,
+                      "type": "Integer"
+                    },
+                    "value": 1
+                  }
+                }
+              },
+              "name": "Signal",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml",
+              "specializes": null
             },
-            "name": "Signal",
-            "redefines_items": {
-              "attributes": {}
-            },
-            "remove_items": {
-              "attributes": []
-            },
-            "source_file": "model.sysml"
-          },
-          "port_name": "Signal"
+            "port_name": "Signal"
+          }
         }
       },
       "doc": "node docs",
@@ -105,15 +98,17 @@
               "artifact_kinds": [
                 "attributes"
               ],
-              "attributes": {
-                "p": {
-                  "doc": "payload docs",
-                  "name": "p",
-                  "type": {
-                    "string_definition": null,
-                    "type": "Integer"
-                  },
-                  "value": 1
+              "declared_items": {
+                "attributes": {
+                  "p": {
+                    "doc": "payload docs",
+                    "name": "p",
+                    "type": {
+                      "string_definition": null,
+                      "type": "Integer"
+                    },
+                    "value": 1
+                  }
                 }
               },
               "doc": "signal docs",
@@ -137,80 +132,28 @@
               "remove_items": {
                 "attributes": []
               },
-              "source_file": "model.sysml"
+              "source_file": "model.sysml",
+              "specializes": null
             },
             "port_name": "Signal"
           }
         }
       },
       "name": "Node",
-      "parts": {},
-      "ports": {
-        "input": {
-          "direction": "in",
-          "doc": "input docs",
-          "name": "input",
-          "port_def": {
-            "artifact_kinds": [
-              "attributes"
-            ],
-            "attributes": {
-              "p": {
-                "doc": "payload docs",
-                "name": "p",
-                "type": {
-                  "string_definition": null,
-                  "type": "Integer"
-                },
-                "value": 1
-              }
-            },
-            "doc": "signal docs",
-            "items": {
-              "attributes": {
-                "p": {
-                  "doc": "payload docs",
-                  "name": "p",
-                  "type": {
-                    "string_definition": null,
-                    "type": "Integer"
-                  },
-                  "value": 1
-                }
-              }
-            },
-            "name": "Signal",
-            "redefines_items": {
-              "attributes": {}
-            },
-            "remove_items": {
-              "attributes": []
-            },
-            "source_file": "model.sysml"
-          },
-          "port_name": "Signal"
-        }
-      },
       "redefines_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
         "ports": {}
       },
-      "remove_attributes": [],
-      "remove_connections": [],
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
         "ports": []
       },
-      "remove_parts": [],
-      "remove_ports": [],
-      "replace_attributes": {},
-      "replace_parts": {},
-      "replace_ports": {},
-      "source_file": "model.sysml"
+      "source_file": "model.sysml",
+      "specializes": null
     }
   },
   "port_definitions": {
@@ -218,15 +161,17 @@
       "artifact_kinds": [
         "attributes"
       ],
-      "attributes": {
-        "p": {
-          "doc": "payload docs",
-          "name": "p",
-          "type": {
-            "string_definition": null,
-            "type": "Integer"
-          },
-          "value": 1
+      "declared_items": {
+        "attributes": {
+          "p": {
+            "doc": "payload docs",
+            "name": "p",
+            "type": {
+              "string_definition": null,
+              "type": "Integer"
+            },
+            "value": 1
+          }
         }
       },
       "doc": "signal docs",
@@ -250,7 +195,8 @@
       "remove_items": {
         "attributes": []
       },
-      "source_file": "model.sysml"
+      "source_file": "model.sysml",
+      "specializes": null
     }
   },
   "requirements": []

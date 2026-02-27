@@ -1,4 +1,6 @@
 {
+  "doc": null,
+  "name": "Example",
   "package": "Example",
   "part_definitions": {
     "Sink": {
@@ -8,37 +10,38 @@
         "parts",
         "connections"
       ],
-      "attributes": {},
-      "base_part_def": null,
-      "base_part_name": null,
-      "connections": [],
-      "declared_attributes": {},
-      "declared_connections": [],
-      "declared_parts": {},
-      "declared_ports": {
-        "in_signal": {
-          "direction": "in",
-          "doc": null,
-          "name": "in_signal",
-          "port_def": {
-            "artifact_kinds": [
-              "attributes"
-            ],
-            "attributes": {},
+      "declared_items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {
+          "in_signal": {
+            "direction": "in",
             "doc": null,
-            "items": {
-              "attributes": {}
+            "name": "in_signal",
+            "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "declared_items": {
+                "attributes": {}
+              },
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "Signal",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml",
+              "specializes": null
             },
-            "name": "Signal",
-            "redefines_items": {
-              "attributes": {}
-            },
-            "remove_items": {
-              "attributes": []
-            },
-            "source_file": "model.sysml"
-          },
-          "port_name": "Signal"
+            "port_name": "Signal"
+          }
         }
       },
       "doc": null,
@@ -55,7 +58,9 @@
               "artifact_kinds": [
                 "attributes"
               ],
-              "attributes": {},
+              "declared_items": {
+                "attributes": {}
+              },
               "doc": null,
               "items": {
                 "attributes": {}
@@ -67,60 +72,28 @@
               "remove_items": {
                 "attributes": []
               },
-              "source_file": "model.sysml"
+              "source_file": "model.sysml",
+              "specializes": null
             },
             "port_name": "Signal"
           }
         }
       },
       "name": "Sink",
-      "parts": {},
-      "ports": {
-        "in_signal": {
-          "direction": "in",
-          "doc": null,
-          "name": "in_signal",
-          "port_def": {
-            "artifact_kinds": [
-              "attributes"
-            ],
-            "attributes": {},
-            "doc": null,
-            "items": {
-              "attributes": {}
-            },
-            "name": "Signal",
-            "redefines_items": {
-              "attributes": {}
-            },
-            "remove_items": {
-              "attributes": []
-            },
-            "source_file": "model.sysml"
-          },
-          "port_name": "Signal"
-        }
-      },
       "redefines_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
         "ports": {}
       },
-      "remove_attributes": [],
-      "remove_connections": [],
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
         "ports": []
       },
-      "remove_parts": [],
-      "remove_ports": [],
-      "replace_attributes": {},
-      "replace_parts": {},
-      "replace_ports": {},
-      "source_file": "model.sysml"
+      "source_file": "model.sysml",
+      "specializes": null
     },
     "Source": {
       "artifact_kinds": [
@@ -129,37 +102,38 @@
         "parts",
         "connections"
       ],
-      "attributes": {},
-      "base_part_def": null,
-      "base_part_name": null,
-      "connections": [],
-      "declared_attributes": {},
-      "declared_connections": [],
-      "declared_parts": {},
-      "declared_ports": {
-        "out_signal": {
-          "direction": "out",
-          "doc": null,
-          "name": "out_signal",
-          "port_def": {
-            "artifact_kinds": [
-              "attributes"
-            ],
-            "attributes": {},
+      "declared_items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {
+          "out_signal": {
+            "direction": "out",
             "doc": null,
-            "items": {
-              "attributes": {}
+            "name": "out_signal",
+            "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "declared_items": {
+                "attributes": {}
+              },
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "Signal",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml",
+              "specializes": null
             },
-            "name": "Signal",
-            "redefines_items": {
-              "attributes": {}
-            },
-            "remove_items": {
-              "attributes": []
-            },
-            "source_file": "model.sysml"
-          },
-          "port_name": "Signal"
+            "port_name": "Signal"
+          }
         }
       },
       "doc": null,
@@ -176,7 +150,9 @@
               "artifact_kinds": [
                 "attributes"
               ],
-              "attributes": {},
+              "declared_items": {
+                "attributes": {}
+              },
               "doc": null,
               "items": {
                 "attributes": {}
@@ -188,60 +164,28 @@
               "remove_items": {
                 "attributes": []
               },
-              "source_file": "model.sysml"
+              "source_file": "model.sysml",
+              "specializes": null
             },
             "port_name": "Signal"
           }
         }
       },
       "name": "Source",
-      "parts": {},
-      "ports": {
-        "out_signal": {
-          "direction": "out",
-          "doc": null,
-          "name": "out_signal",
-          "port_def": {
-            "artifact_kinds": [
-              "attributes"
-            ],
-            "attributes": {},
-            "doc": null,
-            "items": {
-              "attributes": {}
-            },
-            "name": "Signal",
-            "redefines_items": {
-              "attributes": {}
-            },
-            "remove_items": {
-              "attributes": []
-            },
-            "source_file": "model.sysml"
-          },
-          "port_name": "Signal"
-        }
-      },
       "redefines_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
         "ports": {}
       },
-      "remove_attributes": [],
-      "remove_connections": [],
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
         "ports": []
       },
-      "remove_parts": [],
-      "remove_ports": [],
-      "replace_attributes": {},
-      "replace_parts": {},
-      "replace_ports": {},
-      "source_file": "model.sysml"
+      "source_file": "model.sysml",
+      "specializes": null
     },
     "System": {
       "artifact_kinds": [
@@ -250,842 +194,11 @@
         "parts",
         "connections"
       ],
-      "attributes": {},
-      "base_part_def": null,
-      "base_part_name": null,
-      "connections": [
-        {
-          "dst_component": "dst",
-          "dst_part_def": {
-            "artifact_kinds": [
-              "attributes",
-              "ports",
-              "parts",
-              "connections"
-            ],
-            "attributes": {},
-            "base_part_def": null,
-            "base_part_name": null,
-            "connections": [],
-            "declared_attributes": {},
-            "declared_connections": [],
-            "declared_parts": {},
-            "declared_ports": {
-              "in_signal": {
-                "direction": "in",
-                "doc": null,
-                "name": "in_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "doc": null,
-            "items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {
-                "in_signal": {
-                  "direction": "in",
-                  "doc": null,
-                  "name": "in_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
-                    "doc": null,
-                    "items": {
-                      "attributes": {}
-                    },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
-                }
-              }
-            },
-            "name": "Sink",
-            "parts": {},
-            "ports": {
-              "in_signal": {
-                "direction": "in",
-                "doc": null,
-                "name": "in_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "redefines_items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {}
-            },
-            "remove_attributes": [],
-            "remove_connections": [],
-            "remove_items": {
-              "attributes": [],
-              "connections": [],
-              "parts": [],
-              "ports": []
-            },
-            "remove_parts": [],
-            "remove_ports": [],
-            "replace_attributes": {},
-            "replace_parts": {},
-            "replace_ports": {},
-            "source_file": "model.sysml"
-          },
-          "dst_port": "in_signal",
-          "dst_port_def": {
-            "artifact_kinds": [
-              "attributes"
-            ],
-            "attributes": {},
-            "doc": null,
-            "items": {
-              "attributes": {}
-            },
-            "name": "Signal",
-            "redefines_items": {
-              "attributes": {}
-            },
-            "remove_items": {
-              "attributes": []
-            },
-            "source_file": "model.sysml"
-          },
-          "src_component": "src",
-          "src_part_def": {
-            "artifact_kinds": [
-              "attributes",
-              "ports",
-              "parts",
-              "connections"
-            ],
-            "attributes": {},
-            "base_part_def": null,
-            "base_part_name": null,
-            "connections": [],
-            "declared_attributes": {},
-            "declared_connections": [],
-            "declared_parts": {},
-            "declared_ports": {
-              "out_signal": {
-                "direction": "out",
-                "doc": null,
-                "name": "out_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "doc": null,
-            "items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {
-                "out_signal": {
-                  "direction": "out",
-                  "doc": null,
-                  "name": "out_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
-                    "doc": null,
-                    "items": {
-                      "attributes": {}
-                    },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
-                }
-              }
-            },
-            "name": "Source",
-            "parts": {},
-            "ports": {
-              "out_signal": {
-                "direction": "out",
-                "doc": null,
-                "name": "out_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "redefines_items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {}
-            },
-            "remove_attributes": [],
-            "remove_connections": [],
-            "remove_items": {
-              "attributes": [],
-              "connections": [],
-              "parts": [],
-              "ports": []
-            },
-            "remove_parts": [],
-            "remove_ports": [],
-            "replace_attributes": {},
-            "replace_parts": {},
-            "replace_ports": {},
-            "source_file": "model.sysml"
-          },
-          "src_port": "out_signal",
-          "src_port_def": {
-            "artifact_kinds": [
-              "attributes"
-            ],
-            "attributes": {},
-            "doc": null,
-            "items": {
-              "attributes": {}
-            },
-            "name": "Signal",
-            "redefines_items": {
-              "attributes": {}
-            },
-            "remove_items": {
-              "attributes": []
-            },
-            "source_file": "model.sysml"
-          }
-        }
-      ],
-      "declared_attributes": {},
-      "declared_connections": [
-        {
-          "dst_component": "dst",
-          "dst_part_def": {
-            "artifact_kinds": [
-              "attributes",
-              "ports",
-              "parts",
-              "connections"
-            ],
-            "attributes": {},
-            "base_part_def": null,
-            "base_part_name": null,
-            "connections": [],
-            "declared_attributes": {},
-            "declared_connections": [],
-            "declared_parts": {},
-            "declared_ports": {
-              "in_signal": {
-                "direction": "in",
-                "doc": null,
-                "name": "in_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "doc": null,
-            "items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {
-                "in_signal": {
-                  "direction": "in",
-                  "doc": null,
-                  "name": "in_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
-                    "doc": null,
-                    "items": {
-                      "attributes": {}
-                    },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
-                }
-              }
-            },
-            "name": "Sink",
-            "parts": {},
-            "ports": {
-              "in_signal": {
-                "direction": "in",
-                "doc": null,
-                "name": "in_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "redefines_items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {}
-            },
-            "remove_attributes": [],
-            "remove_connections": [],
-            "remove_items": {
-              "attributes": [],
-              "connections": [],
-              "parts": [],
-              "ports": []
-            },
-            "remove_parts": [],
-            "remove_ports": [],
-            "replace_attributes": {},
-            "replace_parts": {},
-            "replace_ports": {},
-            "source_file": "model.sysml"
-          },
-          "dst_port": "in_signal",
-          "dst_port_def": {
-            "artifact_kinds": [
-              "attributes"
-            ],
-            "attributes": {},
-            "doc": null,
-            "items": {
-              "attributes": {}
-            },
-            "name": "Signal",
-            "redefines_items": {
-              "attributes": {}
-            },
-            "remove_items": {
-              "attributes": []
-            },
-            "source_file": "model.sysml"
-          },
-          "src_component": "src",
-          "src_part_def": {
-            "artifact_kinds": [
-              "attributes",
-              "ports",
-              "parts",
-              "connections"
-            ],
-            "attributes": {},
-            "base_part_def": null,
-            "base_part_name": null,
-            "connections": [],
-            "declared_attributes": {},
-            "declared_connections": [],
-            "declared_parts": {},
-            "declared_ports": {
-              "out_signal": {
-                "direction": "out",
-                "doc": null,
-                "name": "out_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "doc": null,
-            "items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {
-                "out_signal": {
-                  "direction": "out",
-                  "doc": null,
-                  "name": "out_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
-                    "doc": null,
-                    "items": {
-                      "attributes": {}
-                    },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
-                }
-              }
-            },
-            "name": "Source",
-            "parts": {},
-            "ports": {
-              "out_signal": {
-                "direction": "out",
-                "doc": null,
-                "name": "out_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "redefines_items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {}
-            },
-            "remove_attributes": [],
-            "remove_connections": [],
-            "remove_items": {
-              "attributes": [],
-              "connections": [],
-              "parts": [],
-              "ports": []
-            },
-            "remove_parts": [],
-            "remove_ports": [],
-            "replace_attributes": {},
-            "replace_parts": {},
-            "replace_ports": {},
-            "source_file": "model.sysml"
-          },
-          "src_port": "out_signal",
-          "src_port_def": {
-            "artifact_kinds": [
-              "attributes"
-            ],
-            "attributes": {},
-            "doc": null,
-            "items": {
-              "attributes": {}
-            },
-            "name": "Signal",
-            "redefines_items": {
-              "attributes": {}
-            },
-            "remove_items": {
-              "attributes": []
-            },
-            "source_file": "model.sysml"
-          }
-        }
-      ],
-      "declared_parts": {
-        "dst": {
-          "doc": null,
-          "name": "dst",
-          "part_def": {
-            "artifact_kinds": [
-              "attributes",
-              "ports",
-              "parts",
-              "connections"
-            ],
-            "attributes": {},
-            "base_part_def": null,
-            "base_part_name": null,
-            "connections": [],
-            "declared_attributes": {},
-            "declared_connections": [],
-            "declared_parts": {},
-            "declared_ports": {
-              "in_signal": {
-                "direction": "in",
-                "doc": null,
-                "name": "in_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "doc": null,
-            "items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {
-                "in_signal": {
-                  "direction": "in",
-                  "doc": null,
-                  "name": "in_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
-                    "doc": null,
-                    "items": {
-                      "attributes": {}
-                    },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
-                }
-              }
-            },
-            "name": "Sink",
-            "parts": {},
-            "ports": {
-              "in_signal": {
-                "direction": "in",
-                "doc": null,
-                "name": "in_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "redefines_items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {}
-            },
-            "remove_attributes": [],
-            "remove_connections": [],
-            "remove_items": {
-              "attributes": [],
-              "connections": [],
-              "parts": [],
-              "ports": []
-            },
-            "remove_parts": [],
-            "remove_ports": [],
-            "replace_attributes": {},
-            "replace_parts": {},
-            "replace_ports": {},
-            "source_file": "model.sysml"
-          },
-          "part_name": "Sink"
-        },
-        "src": {
-          "doc": null,
-          "name": "src",
-          "part_def": {
-            "artifact_kinds": [
-              "attributes",
-              "ports",
-              "parts",
-              "connections"
-            ],
-            "attributes": {},
-            "base_part_def": null,
-            "base_part_name": null,
-            "connections": [],
-            "declared_attributes": {},
-            "declared_connections": [],
-            "declared_parts": {},
-            "declared_ports": {
-              "out_signal": {
-                "direction": "out",
-                "doc": null,
-                "name": "out_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "doc": null,
-            "items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {
-                "out_signal": {
-                  "direction": "out",
-                  "doc": null,
-                  "name": "out_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
-                    "doc": null,
-                    "items": {
-                      "attributes": {}
-                    },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
-                }
-              }
-            },
-            "name": "Source",
-            "parts": {},
-            "ports": {
-              "out_signal": {
-                "direction": "out",
-                "doc": null,
-                "name": "out_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "redefines_items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {}
-            },
-            "remove_attributes": [],
-            "remove_connections": [],
-            "remove_items": {
-              "attributes": [],
-              "connections": [],
-              "parts": [],
-              "ports": []
-            },
-            "remove_parts": [],
-            "remove_ports": [],
-            "replace_attributes": {},
-            "replace_parts": {},
-            "replace_ports": {},
-            "source_file": "model.sysml"
-          },
-          "part_name": "Source"
-        }
-      },
-      "declared_ports": {},
-      "doc": null,
-      "items": {
+      "declared_items": {
         "attributes": {},
         "connections": {
           "src.out_signal->dst.in_signal": {
+            "doc": null,
             "dst_component": "dst",
             "dst_part_def": {
               "artifact_kinds": [
@@ -1094,37 +207,38 @@
                 "parts",
                 "connections"
               ],
-              "attributes": {},
-              "base_part_def": null,
-              "base_part_name": null,
-              "connections": [],
-              "declared_attributes": {},
-              "declared_connections": [],
-              "declared_parts": {},
-              "declared_ports": {
-                "in_signal": {
-                  "direction": "in",
-                  "doc": null,
-                  "name": "in_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
+              "declared_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "in_signal": {
+                    "direction": "in",
                     "doc": null,
-                    "items": {
-                      "attributes": {}
+                    "name": "in_signal",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "declared_items": {
+                        "attributes": {}
+                      },
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "Signal",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml",
+                      "specializes": null
                     },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
+                    "port_name": "Signal"
+                  }
                 }
               },
               "doc": null,
@@ -1141,7 +255,9 @@
                       "artifact_kinds": [
                         "attributes"
                       ],
-                      "attributes": {},
+                      "declared_items": {
+                        "attributes": {}
+                      },
                       "doc": null,
                       "items": {
                         "attributes": {}
@@ -1153,67 +269,37 @@
                       "remove_items": {
                         "attributes": []
                       },
-                      "source_file": "model.sysml"
+                      "source_file": "model.sysml",
+                      "specializes": null
                     },
                     "port_name": "Signal"
                   }
                 }
               },
               "name": "Sink",
-              "parts": {},
-              "ports": {
-                "in_signal": {
-                  "direction": "in",
-                  "doc": null,
-                  "name": "in_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
-                    "doc": null,
-                    "items": {
-                      "attributes": {}
-                    },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
-                }
-              },
               "redefines_items": {
                 "attributes": {},
                 "connections": {},
                 "parts": {},
                 "ports": {}
               },
-              "remove_attributes": [],
-              "remove_connections": [],
               "remove_items": {
                 "attributes": [],
                 "connections": [],
                 "parts": [],
                 "ports": []
               },
-              "remove_parts": [],
-              "remove_ports": [],
-              "replace_attributes": {},
-              "replace_parts": {},
-              "replace_ports": {},
-              "source_file": "model.sysml"
+              "source_file": "model.sysml",
+              "specializes": null
             },
             "dst_port": "in_signal",
             "dst_port_def": {
               "artifact_kinds": [
                 "attributes"
               ],
-              "attributes": {},
+              "declared_items": {
+                "attributes": {}
+              },
               "doc": null,
               "items": {
                 "attributes": {}
@@ -1225,8 +311,10 @@
               "remove_items": {
                 "attributes": []
               },
-              "source_file": "model.sysml"
+              "source_file": "model.sysml",
+              "specializes": null
             },
+            "name": "src.out_signal_to_dst.in_signal",
             "src_component": "src",
             "src_part_def": {
               "artifact_kinds": [
@@ -1235,37 +323,38 @@
                 "parts",
                 "connections"
               ],
-              "attributes": {},
-              "base_part_def": null,
-              "base_part_name": null,
-              "connections": [],
-              "declared_attributes": {},
-              "declared_connections": [],
-              "declared_parts": {},
-              "declared_ports": {
-                "out_signal": {
-                  "direction": "out",
-                  "doc": null,
-                  "name": "out_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
+              "declared_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "out_signal": {
+                    "direction": "out",
                     "doc": null,
-                    "items": {
-                      "attributes": {}
+                    "name": "out_signal",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "declared_items": {
+                        "attributes": {}
+                      },
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "Signal",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml",
+                      "specializes": null
                     },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
+                    "port_name": "Signal"
+                  }
                 }
               },
               "doc": null,
@@ -1282,7 +371,9 @@
                       "artifact_kinds": [
                         "attributes"
                       ],
-                      "attributes": {},
+                      "declared_items": {
+                        "attributes": {}
+                      },
                       "doc": null,
                       "items": {
                         "attributes": {}
@@ -1294,67 +385,37 @@
                       "remove_items": {
                         "attributes": []
                       },
-                      "source_file": "model.sysml"
+                      "source_file": "model.sysml",
+                      "specializes": null
                     },
                     "port_name": "Signal"
                   }
                 }
               },
               "name": "Source",
-              "parts": {},
-              "ports": {
-                "out_signal": {
-                  "direction": "out",
-                  "doc": null,
-                  "name": "out_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
-                    "doc": null,
-                    "items": {
-                      "attributes": {}
-                    },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
-                }
-              },
               "redefines_items": {
                 "attributes": {},
                 "connections": {},
                 "parts": {},
                 "ports": {}
               },
-              "remove_attributes": [],
-              "remove_connections": [],
               "remove_items": {
                 "attributes": [],
                 "connections": [],
                 "parts": [],
                 "ports": []
               },
-              "remove_parts": [],
-              "remove_ports": [],
-              "replace_attributes": {},
-              "replace_parts": {},
-              "replace_ports": {},
-              "source_file": "model.sysml"
+              "source_file": "model.sysml",
+              "specializes": null
             },
             "src_port": "out_signal",
             "src_port_def": {
               "artifact_kinds": [
                 "attributes"
               ],
-              "attributes": {},
+              "declared_items": {
+                "attributes": {}
+              },
               "doc": null,
               "items": {
                 "attributes": {}
@@ -1366,7 +427,8 @@
               "remove_items": {
                 "attributes": []
               },
-              "source_file": "model.sysml"
+              "source_file": "model.sysml",
+              "specializes": null
             }
           }
         },
@@ -1381,37 +443,38 @@
                 "parts",
                 "connections"
               ],
-              "attributes": {},
-              "base_part_def": null,
-              "base_part_name": null,
-              "connections": [],
-              "declared_attributes": {},
-              "declared_connections": [],
-              "declared_parts": {},
-              "declared_ports": {
-                "in_signal": {
-                  "direction": "in",
-                  "doc": null,
-                  "name": "in_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
+              "declared_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "in_signal": {
+                    "direction": "in",
                     "doc": null,
-                    "items": {
-                      "attributes": {}
+                    "name": "in_signal",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "declared_items": {
+                        "attributes": {}
+                      },
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "Signal",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml",
+                      "specializes": null
                     },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
+                    "port_name": "Signal"
+                  }
                 }
               },
               "doc": null,
@@ -1428,7 +491,9 @@
                       "artifact_kinds": [
                         "attributes"
                       ],
-                      "attributes": {},
+                      "declared_items": {
+                        "attributes": {}
+                      },
                       "doc": null,
                       "items": {
                         "attributes": {}
@@ -1440,60 +505,28 @@
                       "remove_items": {
                         "attributes": []
                       },
-                      "source_file": "model.sysml"
+                      "source_file": "model.sysml",
+                      "specializes": null
                     },
                     "port_name": "Signal"
                   }
                 }
               },
               "name": "Sink",
-              "parts": {},
-              "ports": {
-                "in_signal": {
-                  "direction": "in",
-                  "doc": null,
-                  "name": "in_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
-                    "doc": null,
-                    "items": {
-                      "attributes": {}
-                    },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
-                }
-              },
               "redefines_items": {
                 "attributes": {},
                 "connections": {},
                 "parts": {},
                 "ports": {}
               },
-              "remove_attributes": [],
-              "remove_connections": [],
               "remove_items": {
                 "attributes": [],
                 "connections": [],
                 "parts": [],
                 "ports": []
               },
-              "remove_parts": [],
-              "remove_ports": [],
-              "replace_attributes": {},
-              "replace_parts": {},
-              "replace_ports": {},
-              "source_file": "model.sysml"
+              "source_file": "model.sysml",
+              "specializes": null
             },
             "part_name": "Sink"
           },
@@ -1507,37 +540,38 @@
                 "parts",
                 "connections"
               ],
-              "attributes": {},
-              "base_part_def": null,
-              "base_part_name": null,
-              "connections": [],
-              "declared_attributes": {},
-              "declared_connections": [],
-              "declared_parts": {},
-              "declared_ports": {
-                "out_signal": {
-                  "direction": "out",
-                  "doc": null,
-                  "name": "out_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
+              "declared_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "out_signal": {
+                    "direction": "out",
                     "doc": null,
-                    "items": {
-                      "attributes": {}
+                    "name": "out_signal",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "declared_items": {
+                        "attributes": {}
+                      },
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "Signal",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml",
+                      "specializes": null
                     },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
+                    "port_name": "Signal"
+                  }
                 }
               },
               "doc": null,
@@ -1554,7 +588,9 @@
                       "artifact_kinds": [
                         "attributes"
                       ],
-                      "attributes": {},
+                      "declared_items": {
+                        "attributes": {}
+                      },
                       "doc": null,
                       "items": {
                         "attributes": {}
@@ -1566,60 +602,465 @@
                       "remove_items": {
                         "attributes": []
                       },
-                      "source_file": "model.sysml"
+                      "source_file": "model.sysml",
+                      "specializes": null
                     },
                     "port_name": "Signal"
                   }
                 }
               },
               "name": "Source",
-              "parts": {},
-              "ports": {
-                "out_signal": {
-                  "direction": "out",
-                  "doc": null,
-                  "name": "out_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
-                    "doc": null,
-                    "items": {
-                      "attributes": {}
-                    },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
-                }
-              },
               "redefines_items": {
                 "attributes": {},
                 "connections": {},
                 "parts": {},
                 "ports": {}
               },
-              "remove_attributes": [],
-              "remove_connections": [],
               "remove_items": {
                 "attributes": [],
                 "connections": [],
                 "parts": [],
                 "ports": []
               },
-              "remove_parts": [],
-              "remove_ports": [],
-              "replace_attributes": {},
-              "replace_parts": {},
-              "replace_ports": {},
-              "source_file": "model.sysml"
+              "source_file": "model.sysml",
+              "specializes": null
+            },
+            "part_name": "Source"
+          }
+        },
+        "ports": {}
+      },
+      "doc": null,
+      "items": {
+        "attributes": {},
+        "connections": {
+          "src.out_signal->dst.in_signal": {
+            "doc": null,
+            "dst_component": "dst",
+            "dst_part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
+              "declared_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "in_signal": {
+                    "direction": "in",
+                    "doc": null,
+                    "name": "in_signal",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "declared_items": {
+                        "attributes": {}
+                      },
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "Signal",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml",
+                      "specializes": null
+                    },
+                    "port_name": "Signal"
+                  }
+                }
+              },
+              "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "in_signal": {
+                    "direction": "in",
+                    "doc": null,
+                    "name": "in_signal",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "declared_items": {
+                        "attributes": {}
+                      },
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "Signal",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml",
+                      "specializes": null
+                    },
+                    "port_name": "Signal"
+                  }
+                }
+              },
+              "name": "Sink",
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
+              "source_file": "model.sysml",
+              "specializes": null
+            },
+            "dst_port": "in_signal",
+            "dst_port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "declared_items": {
+                "attributes": {}
+              },
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "Signal",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml",
+              "specializes": null
+            },
+            "name": "src.out_signal_to_dst.in_signal",
+            "src_component": "src",
+            "src_part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
+              "declared_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "out_signal": {
+                    "direction": "out",
+                    "doc": null,
+                    "name": "out_signal",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "declared_items": {
+                        "attributes": {}
+                      },
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "Signal",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml",
+                      "specializes": null
+                    },
+                    "port_name": "Signal"
+                  }
+                }
+              },
+              "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "out_signal": {
+                    "direction": "out",
+                    "doc": null,
+                    "name": "out_signal",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "declared_items": {
+                        "attributes": {}
+                      },
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "Signal",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml",
+                      "specializes": null
+                    },
+                    "port_name": "Signal"
+                  }
+                }
+              },
+              "name": "Source",
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
+              "source_file": "model.sysml",
+              "specializes": null
+            },
+            "src_port": "out_signal",
+            "src_port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "declared_items": {
+                "attributes": {}
+              },
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "Signal",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml",
+              "specializes": null
+            }
+          }
+        },
+        "parts": {
+          "dst": {
+            "doc": null,
+            "name": "dst",
+            "part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
+              "declared_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "in_signal": {
+                    "direction": "in",
+                    "doc": null,
+                    "name": "in_signal",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "declared_items": {
+                        "attributes": {}
+                      },
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "Signal",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml",
+                      "specializes": null
+                    },
+                    "port_name": "Signal"
+                  }
+                }
+              },
+              "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "in_signal": {
+                    "direction": "in",
+                    "doc": null,
+                    "name": "in_signal",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "declared_items": {
+                        "attributes": {}
+                      },
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "Signal",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml",
+                      "specializes": null
+                    },
+                    "port_name": "Signal"
+                  }
+                }
+              },
+              "name": "Sink",
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
+              "source_file": "model.sysml",
+              "specializes": null
+            },
+            "part_name": "Sink"
+          },
+          "src": {
+            "doc": null,
+            "name": "src",
+            "part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
+              "declared_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "out_signal": {
+                    "direction": "out",
+                    "doc": null,
+                    "name": "out_signal",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "declared_items": {
+                        "attributes": {}
+                      },
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "Signal",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml",
+                      "specializes": null
+                    },
+                    "port_name": "Signal"
+                  }
+                }
+              },
+              "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "out_signal": {
+                    "direction": "out",
+                    "doc": null,
+                    "name": "out_signal",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "declared_items": {
+                        "attributes": {}
+                      },
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "Signal",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml",
+                      "specializes": null
+                    },
+                    "port_name": "Signal"
+                  }
+                }
+              },
+              "name": "Source",
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
+              "source_file": "model.sysml",
+              "specializes": null
             },
             "part_name": "Source"
           }
@@ -1627,281 +1068,20 @@
         "ports": {}
       },
       "name": "System",
-      "parts": {
-        "dst": {
-          "doc": null,
-          "name": "dst",
-          "part_def": {
-            "artifact_kinds": [
-              "attributes",
-              "ports",
-              "parts",
-              "connections"
-            ],
-            "attributes": {},
-            "base_part_def": null,
-            "base_part_name": null,
-            "connections": [],
-            "declared_attributes": {},
-            "declared_connections": [],
-            "declared_parts": {},
-            "declared_ports": {
-              "in_signal": {
-                "direction": "in",
-                "doc": null,
-                "name": "in_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "doc": null,
-            "items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {
-                "in_signal": {
-                  "direction": "in",
-                  "doc": null,
-                  "name": "in_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
-                    "doc": null,
-                    "items": {
-                      "attributes": {}
-                    },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
-                }
-              }
-            },
-            "name": "Sink",
-            "parts": {},
-            "ports": {
-              "in_signal": {
-                "direction": "in",
-                "doc": null,
-                "name": "in_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "redefines_items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {}
-            },
-            "remove_attributes": [],
-            "remove_connections": [],
-            "remove_items": {
-              "attributes": [],
-              "connections": [],
-              "parts": [],
-              "ports": []
-            },
-            "remove_parts": [],
-            "remove_ports": [],
-            "replace_attributes": {},
-            "replace_parts": {},
-            "replace_ports": {},
-            "source_file": "model.sysml"
-          },
-          "part_name": "Sink"
-        },
-        "src": {
-          "doc": null,
-          "name": "src",
-          "part_def": {
-            "artifact_kinds": [
-              "attributes",
-              "ports",
-              "parts",
-              "connections"
-            ],
-            "attributes": {},
-            "base_part_def": null,
-            "base_part_name": null,
-            "connections": [],
-            "declared_attributes": {},
-            "declared_connections": [],
-            "declared_parts": {},
-            "declared_ports": {
-              "out_signal": {
-                "direction": "out",
-                "doc": null,
-                "name": "out_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "doc": null,
-            "items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {
-                "out_signal": {
-                  "direction": "out",
-                  "doc": null,
-                  "name": "out_signal",
-                  "port_def": {
-                    "artifact_kinds": [
-                      "attributes"
-                    ],
-                    "attributes": {},
-                    "doc": null,
-                    "items": {
-                      "attributes": {}
-                    },
-                    "name": "Signal",
-                    "redefines_items": {
-                      "attributes": {}
-                    },
-                    "remove_items": {
-                      "attributes": []
-                    },
-                    "source_file": "model.sysml"
-                  },
-                  "port_name": "Signal"
-                }
-              }
-            },
-            "name": "Source",
-            "parts": {},
-            "ports": {
-              "out_signal": {
-                "direction": "out",
-                "doc": null,
-                "name": "out_signal",
-                "port_def": {
-                  "artifact_kinds": [
-                    "attributes"
-                  ],
-                  "attributes": {},
-                  "doc": null,
-                  "items": {
-                    "attributes": {}
-                  },
-                  "name": "Signal",
-                  "redefines_items": {
-                    "attributes": {}
-                  },
-                  "remove_items": {
-                    "attributes": []
-                  },
-                  "source_file": "model.sysml"
-                },
-                "port_name": "Signal"
-              }
-            },
-            "redefines_items": {
-              "attributes": {},
-              "connections": {},
-              "parts": {},
-              "ports": {}
-            },
-            "remove_attributes": [],
-            "remove_connections": [],
-            "remove_items": {
-              "attributes": [],
-              "connections": [],
-              "parts": [],
-              "ports": []
-            },
-            "remove_parts": [],
-            "remove_ports": [],
-            "replace_attributes": {},
-            "replace_parts": {},
-            "replace_ports": {},
-            "source_file": "model.sysml"
-          },
-          "part_name": "Source"
-        }
-      },
-      "ports": {},
       "redefines_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
         "ports": {}
       },
-      "remove_attributes": [],
-      "remove_connections": [],
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
         "ports": []
       },
-      "remove_parts": [],
-      "remove_ports": [],
-      "replace_attributes": {},
-      "replace_parts": {},
-      "replace_ports": {},
-      "source_file": "model.sysml"
+      "source_file": "model.sysml",
+      "specializes": null
     }
   },
   "port_definitions": {
@@ -1909,7 +1089,9 @@
       "artifact_kinds": [
         "attributes"
       ],
-      "attributes": {},
+      "declared_items": {
+        "attributes": {}
+      },
       "doc": null,
       "items": {
         "attributes": {}
@@ -1921,7 +1103,8 @@
       "remove_items": {
         "attributes": []
       },
-      "source_file": "model.sysml"
+      "source_file": "model.sysml",
+      "specializes": null
     }
   },
   "requirements": []

@@ -1,4 +1,6 @@
 {
+  "doc": null,
+  "name": "Example",
   "package": "Example",
   "part_definitions": {},
   "port_definitions": {},
@@ -7,12 +9,13 @@
       "artifact_kinds": [
         "text"
       ],
-      "identifier": "REQ_1",
+      "doc": null,
       "items": {
         "text": {
-          "value": "The system shall parse requirements."
+          "text": "The system shall parse requirements."
         }
       },
+      "name": "REQ_1",
       "redefines_items": {
         "text": {}
       },
@@ -20,18 +23,19 @@
         "text": []
       },
       "source_file": "requirements.sysml",
-      "text": "The system shall parse requirements."
+      "specializes": null
     },
     {
       "artifact_kinds": [
         "text"
       ],
-      "identifier": "REQ_2",
+      "doc": null,
       "items": {
         "text": {
-          "value": "Multi-line requirement text should be normalized."
+          "text": "Multi-line requirement text should be normalized."
         }
       },
+      "name": "REQ_2",
       "redefines_items": {
         "text": {}
       },
@@ -39,7 +43,7 @@
         "text": []
       },
       "source_file": "requirements.sysml",
-      "text": "Multi-line requirement text should be normalized."
+      "specializes": null
     }
   ]
 }

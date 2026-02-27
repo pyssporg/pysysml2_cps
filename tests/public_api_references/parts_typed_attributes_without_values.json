@@ -1,4 +1,6 @@
 {
+  "doc": null,
+  "name": "Example",
   "package": "Example",
   "part_definitions": {
     "Node": {
@@ -8,52 +10,31 @@
         "parts",
         "connections"
       ],
-      "attributes": {
-        "enabled": {
-          "doc": null,
-          "name": "enabled",
-          "type": {
-            "string_definition": null,
-            "type": "Boolean"
+      "declared_items": {
+        "attributes": {
+          "enabled": {
+            "doc": null,
+            "name": "enabled",
+            "type": {
+              "string_definition": null,
+              "type": "Boolean"
+            },
+            "value": null
           },
-          "value": null
+          "gain": {
+            "doc": null,
+            "name": "gain",
+            "type": {
+              "string_definition": null,
+              "type": "Real"
+            },
+            "value": null
+          }
         },
-        "gain": {
-          "doc": null,
-          "name": "gain",
-          "type": {
-            "string_definition": null,
-            "type": "Real"
-          },
-          "value": null
-        }
+        "connections": {},
+        "parts": {},
+        "ports": {}
       },
-      "base_part_def": null,
-      "base_part_name": null,
-      "connections": [],
-      "declared_attributes": {
-        "enabled": {
-          "doc": null,
-          "name": "enabled",
-          "type": {
-            "string_definition": null,
-            "type": "Boolean"
-          },
-          "value": null
-        },
-        "gain": {
-          "doc": null,
-          "name": "gain",
-          "type": {
-            "string_definition": null,
-            "type": "Real"
-          },
-          "value": null
-        }
-      },
-      "declared_connections": [],
-      "declared_parts": {},
-      "declared_ports": {},
       "doc": null,
       "items": {
         "attributes": {
@@ -81,28 +62,20 @@
         "ports": {}
       },
       "name": "Node",
-      "parts": {},
-      "ports": {},
       "redefines_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
         "ports": {}
       },
-      "remove_attributes": [],
-      "remove_connections": [],
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
         "ports": []
       },
-      "remove_parts": [],
-      "remove_ports": [],
-      "replace_attributes": {},
-      "replace_parts": {},
-      "replace_ports": {},
-      "source_file": "model.sysml"
+      "source_file": "model.sysml",
+      "specializes": null
     }
   },
   "port_definitions": {},

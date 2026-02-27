@@ -80,7 +80,7 @@ class SysMLExporter:
                 header = f"{pad}part def {part.name} {{"
             else:
                 header = f"{pad}part def {part.name}"
-                base_name = part.specializes or getattr(part, "base_part_name", None)
+                base_name = part.specializes
                 if base_name is not None:
                     header += f" specializes {base_name}"
                 header += " {"
@@ -98,12 +98,13 @@ class SysMLExporter:
     def _emit_declared_members(self, part: SysMLPartDefinition, level: int) -> List[str]:
         pad = self.indent * level
         lines: List[str] = []
+        declared_items = getattr(part, "declared_items", part.items)
         for kind in ("attributes", "ports", "parts"):
             singular = kind[:-1]
             for name in sorted(part.remove_items.get(kind, set())):
                 lines.append(f"{pad}remove {singular} {name};")
-        for connection in getattr(part, "remove_connections", []):
-            lines.append(f"{pad}{self._format_remove_connection(connection)}")
+        for key in sorted(part.remove_items.get("connections", set())):
+            lines.append(f"{pad}{self._format_remove_connection_key(key)}")
 
         for kind in ("attributes", "ports", "parts"):
             values = part.redefines_items.get(kind, {})
@@ -111,10 +112,10 @@ class SysMLExporter:
                 lines.append(f"{pad}redefines {self._format_member(kind, values[name])}")
 
         for kind in ("attributes", "ports", "parts"):
-            values = part.items.get(kind, {})
+            values = declared_items.get(kind, {})
             for name in sorted(values):
                 lines.append(f"{pad}{self._format_member(kind, values[name])}")
-        for connection in getattr(part, "declared_connections", []):
+        for connection in declared_items.get("connections", {}).values():
             lines.append(f"{pad}{self._format_connection(connection)}")
         return lines
 
@@ -127,7 +128,7 @@ class SysMLExporter:
             lines.append(f"{pad}{self._format_port_ref(port)}")
         for subpart in sorted(part.items.get("parts", {}).values(), key=lambda p: p.name):
             lines.append(f"{pad}{self._format_part_ref(subpart)}")
-        for connection in getattr(part, "connections", []):
+        for connection in part.items.get("connections", {}).values():
             lines.append(f"{pad}{self._format_connection(connection)}")
         return lines
 
@@ -163,6 +164,15 @@ class SysMLExporter:
         return (
             f"remove connect {connection.src_component}.{connection.src_port} "
             f"to {connection.dst_component}.{connection.dst_port};"
+        )
+
+    def _format_remove_connection_key(self, key: str) -> str:
+        src, dst = key.split("->", 1)
+        src_component, src_port = src.split(".", 1)
+        dst_component, dst_port = dst.split(".", 1)
+        return (
+            f"remove connect {src_component}.{src_port} "
+            f"to {dst_component}.{dst_port};"
         )
 
     def _format_value(self, value: object) -> str:

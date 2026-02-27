@@ -4,6 +4,8 @@ from pycps_sysmlv2 import load_architecture
 from pycps_sysmlv2.definitions import PrimitiveType, SysMLType
 
 from public_api_test_utils import write_model, write_reference
+
+
 def test_attribute_literals_are_parsed(tmp_path: Path):
     write_model(
         tmp_path / "model.sysml",
@@ -26,6 +28,31 @@ def test_attribute_literals_are_parsed(tmp_path: Path):
     assert values.type.primitive_type() == PrimitiveType.Real
     assert node.attributes["count"].value == 3
     write_reference("parts_attribute_literals_parsed", architecture)
+
+
+def test_typed_attributes_without_values_are_parsed(tmp_path: Path):
+    write_model(
+        tmp_path / "model.sysml",
+        """
+        package Example {
+          part def Node {
+            attribute gain : float64;
+            attribute enabled : boolean;
+          }
+        }
+        """,
+    )
+
+    architecture = load_architecture(tmp_path)
+    node = architecture.part_definitions["Node"]
+
+    assert node.attributes["gain"].value is None
+    assert isinstance(node.attributes["gain"].type, SysMLType)
+    assert node.attributes["gain"].type.primitive_type() == PrimitiveType.Real
+    assert node.attributes["enabled"].value is None
+    assert isinstance(node.attributes["enabled"].type, SysMLType)
+    assert node.attributes["enabled"].type.primitive_type() == PrimitiveType.Boolean
+    write_reference("parts_typed_attributes_without_values", architecture)
 
 
 def test_subpart_reference_links_to_part_definition(tmp_path: Path):

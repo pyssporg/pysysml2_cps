@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pycps_sysmlv2 import load_architecture
+from pycps_sysmlv2 import load_architecture, load_system
 
 from public_api_test_utils import write_model, write_reference
 
@@ -87,3 +87,25 @@ def test_directory_load_merges_multiple_sysml_files(tmp_path: Path):
     assert connection.src_port_def is not None
     assert connection.src_port_def.name == "Signal"
     write_reference("file_loader_directory_load_merges_multiple_sysml_files", architecture)
+
+
+def test_load_system_returns_requested_part_definition(tmp_path: Path):
+    write_model(
+        tmp_path / "model.sysml",
+        """
+        package Example {
+          part def Child {}
+          part def System {
+            part child : Child;
+          }
+        }
+        """,
+    )
+
+    architecture = load_architecture(tmp_path)
+    system = load_system(tmp_path, "System")
+
+    assert system.name == "System"
+    assert "child" in system.parts
+    assert system.parts["child"].part_name == "Child"
+    write_reference("file_loader_load_system_returns_requested_part_definition", architecture)

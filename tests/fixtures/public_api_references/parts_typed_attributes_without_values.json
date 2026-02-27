@@ -1,0 +1,43 @@
+{
+  "package": "Example",
+  "part_definitions": {
+    "Node": {
+      "attributes": {
+        "enabled": {
+          "doc": null,
+          "name": "enabled",
+          "type": {
+            "string_definition": null,
+            "type": "Boolean"
+          },
+          "value": null
+        },
+        "gain": {
+          "doc": null,
+          "name": "gain",
+          "type": {
+            "string_definition": null,
+            "type": "Real"
+          },
+          "value": null
+        }
+      },
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [],
+      "doc": null,
+      "name": "Node",
+      "parts": {},
+      "ports": {},
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    }
+  },
+  "port_definitions": {},
+  "requirements": []
+}

@@ -1,0 +1,172 @@
+{
+  "package": "Example",
+  "part_definitions": {
+    "A": {
+      "attributes": {},
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [],
+      "doc": null,
+      "name": "A",
+      "parts": {},
+      "ports": {
+        "out_signal": {
+          "direction": "out",
+          "doc": null,
+          "name": "out_signal",
+          "port_def": "__ref__",
+          "port_name": "Signal"
+        }
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    },
+    "B": {
+      "attributes": {},
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [],
+      "doc": null,
+      "name": "B",
+      "parts": {},
+      "ports": {
+        "in_signal": {
+          "direction": "in",
+          "doc": null,
+          "name": "in_signal",
+          "port_def": "__ref__",
+          "port_name": "Signal"
+        }
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    },
+    "Base": {
+      "attributes": {},
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [
+        {
+          "dst_component": "b",
+          "dst_part_def": "__ref__",
+          "dst_port": "in_signal",
+          "dst_port_def": "__ref__",
+          "src_component": "a",
+          "src_part_def": "__ref__",
+          "src_port": "out_signal",
+          "src_port_def": "__ref__"
+        }
+      ],
+      "doc": null,
+      "name": "Base",
+      "parts": {
+        "a": {
+          "doc": null,
+          "name": "a",
+          "part_def": "__ref__",
+          "part_name": "A"
+        },
+        "b": {
+          "doc": null,
+          "name": "b",
+          "part_def": "__ref__",
+          "part_name": "B"
+        },
+        "c": {
+          "doc": null,
+          "name": "c",
+          "part_def": "__ref__",
+          "part_name": "C"
+        }
+      },
+      "ports": {},
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    },
+    "C": {
+      "attributes": {},
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [],
+      "doc": null,
+      "name": "C",
+      "parts": {},
+      "ports": {
+        "in_signal": "__ref__"
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    },
+    "Derived": {
+      "attributes": {},
+      "base_part_def": "__ref__",
+      "base_part_name": "Base",
+      "connections": [
+        {
+          "dst_component": "c",
+          "dst_part_def": "__ref__",
+          "dst_port": "in_signal",
+          "dst_port_def": "__ref__",
+          "src_component": "a",
+          "src_part_def": "__ref__",
+          "src_port": "out_signal",
+          "src_port_def": "__ref__"
+        }
+      ],
+      "doc": null,
+      "name": "Derived",
+      "parts": {
+        "a": "__ref__",
+        "b": "__ref__",
+        "c": "__ref__"
+      },
+      "ports": {},
+      "remove_attributes": [],
+      "remove_connections": [
+        {
+          "dst_component": "b",
+          "dst_part_def": null,
+          "dst_port": "in_signal",
+          "dst_port_def": null,
+          "src_component": "a",
+          "src_part_def": null,
+          "src_port": "out_signal",
+          "src_port_def": null
+        }
+      ],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    }
+  },
+  "port_definitions": {
+    "Signal": {
+      "attributes": {},
+      "doc": null,
+      "name": "Signal"
+    }
+  },
+  "requirements": []
+}

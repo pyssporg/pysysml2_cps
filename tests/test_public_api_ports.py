@@ -3,6 +3,8 @@ from pathlib import Path
 from pycps_sysmlv2 import load_architecture
 
 from public_api_test_utils import write_model, write_reference
+
+
 def test_port_reference_links_to_port_definition(tmp_path: Path):
     write_model(
         tmp_path / "model.sysml",
@@ -24,6 +26,29 @@ def test_port_reference_links_to_port_definition(tmp_path: Path):
     assert node.ports["input"].port_def is not None
     assert node.ports["input"].port_def.name == "Signal"
     write_reference("ports_port_reference_links", architecture)
+
+
+def test_port_directions_are_preserved(tmp_path: Path):
+    write_model(
+        tmp_path / "model.sysml",
+        """
+        package Example {
+          port def Signal {}
+
+          part def Node {
+            in port input : Signal;
+            out port output : Signal;
+          }
+        }
+        """,
+    )
+
+    architecture = load_architecture(tmp_path)
+    node = architecture.part_definitions["Node"]
+
+    assert node.ports["input"].direction == "in"
+    assert node.ports["output"].direction == "out"
+    write_reference("ports_port_directions_preserved", architecture)
 
 
 def test_connection_links_parts_and_port_definitions(tmp_path: Path):

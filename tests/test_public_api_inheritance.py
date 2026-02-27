@@ -75,3 +75,53 @@ def test_part_inheritance_add_replace_remove(tmp_path: Path):
         "in_b",
     )
     write_reference("inheritance_part_inheritance_add_replace_remove", architecture)
+
+
+def test_part_inheritance_remove_connection_then_add_new_connection(tmp_path: Path):
+    write_model(
+        tmp_path / "model.sysml",
+        """
+        package Example {
+          port def Signal {}
+
+          part def A {
+            out port out_signal : Signal;
+          }
+
+          part def B {
+            in port in_signal : Signal;
+          }
+
+          part def C {
+            in port in_signal : Signal;
+          }
+
+          part def Base {
+            part a : A;
+            part b : B;
+            part c : C;
+            connect a.out_signal to b.in_signal;
+          }
+
+          part def Derived : Base {
+            remove connect a.out_signal to b.in_signal;
+            connect a.out_signal to c.in_signal;
+          }
+        }
+        """,
+    )
+
+    architecture = load_architecture(tmp_path)
+    derived = architecture.part_definitions["Derived"]
+
+    assert len(derived.connections) == 1
+    c = derived.connections[0]
+    assert (c.src_component, c.src_port, c.dst_component, c.dst_port) == (
+        "a",
+        "out_signal",
+        "c",
+        "in_signal",
+    )
+    write_reference(
+        "inheritance_remove_connection_then_add_new_connection", architecture
+    )

@@ -47,16 +47,13 @@ def resolve_part_inheritance(parts: Dict[str, SysMLPartDefinition]) -> None:
 
 
 def _merge_with_base(part: SysMLPartDefinition, base: SysMLPartDefinition) -> None:
-    merged_attributes = copy.deepcopy(base.items.get("attributes", {}))
-    merged_ports = copy.deepcopy(base.items.get("ports", {}))
-    merged_parts = copy.deepcopy(base.items.get("parts", {}))
+    merged_by_kind = {
+        kind: copy.deepcopy(base.items.get(kind, {}))
+        for kind in part.artifact_kinds
+        if kind != "connections"
+    }
     merged_connections = copy.deepcopy(getattr(base, "connections", []))
 
-    merged_by_kind = {
-        "attributes": merged_attributes,
-        "ports": merged_ports,
-        "parts": merged_parts,
-    }
     for kind, merged in merged_by_kind.items():
         _apply_generic_remove(part=part, kind=kind, merged=merged)
 
@@ -79,9 +76,8 @@ def _merge_with_base(part: SysMLPartDefinition, base: SysMLPartDefinition) -> No
             )
         merged_connections.append(connection)
 
-    part.items["attributes"] = merged_attributes
-    part.items["ports"] = merged_ports
-    part.items["parts"] = merged_parts
+    for kind, merged in merged_by_kind.items():
+        part.items[kind] = merged
     part.items["connections"] = {
         f"{_connection_key(c)}#{idx}": c for idx, c in enumerate(merged_connections)
     }

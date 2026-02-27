@@ -55,7 +55,8 @@ class SysMLExporter:
         for name in sorted(architecture.port_definitions):
             port = architecture.port_definitions[name]
             lines.append(f"{pad}port def {port.name} {{")
-            for attr in sorted(port.attributes.values(), key=lambda a: a.name):
+            attrs = port.items.get("attributes", port.attributes)
+            for attr in sorted(attrs.values(), key=lambda a: a.name):
                 lines.append(f"{pad}{self.indent}{self._format_attribute(attr)}")
             lines.append(f"{pad}}}")
             lines.append("")
@@ -96,28 +97,22 @@ class SysMLExporter:
     def _emit_declared_members(self, part: SysMLPartDefinition, level: int) -> List[str]:
         pad = self.indent * level
         lines: List[str] = []
-        for attr_name in sorted(part.remove_attributes):
-            lines.append(f"{pad}remove attribute {attr_name};")
-        for port_name in sorted(part.remove_ports):
-            lines.append(f"{pad}remove port {port_name};")
-        for part_name in sorted(part.remove_parts):
-            lines.append(f"{pad}remove part {part_name};")
+        for kind in ("attributes", "ports", "parts"):
+            singular = kind[:-1]
+            for name in sorted(part.remove_items.get(kind, set())):
+                lines.append(f"{pad}remove {singular} {name};")
         for connection in part.remove_connections:
             lines.append(f"{pad}{self._format_remove_connection(connection)}")
 
-        for attr in sorted(part.replace_attributes.values(), key=lambda a: a.name):
-            lines.append(f"{pad}redefines {self._format_attribute(attr)}")
-        for port in sorted(part.replace_ports.values(), key=lambda p: p.name):
-            lines.append(f"{pad}redefines {self._format_port_ref(port)}")
-        for subpart in sorted(part.replace_parts.values(), key=lambda p: p.name):
-            lines.append(f"{pad}redefines {self._format_part_ref(subpart)}")
+        for kind in ("attributes", "ports", "parts"):
+            values = part.redefines_items.get(kind, {})
+            for name in sorted(values):
+                lines.append(f"{pad}redefines {self._format_member(kind, values[name])}")
 
-        for attr in sorted(part.declared_attributes.values(), key=lambda a: a.name):
-            lines.append(f"{pad}{self._format_attribute(attr)}")
-        for port in sorted(part.declared_ports.values(), key=lambda p: p.name):
-            lines.append(f"{pad}{self._format_port_ref(port)}")
-        for subpart in sorted(part.declared_parts.values(), key=lambda p: p.name):
-            lines.append(f"{pad}{self._format_part_ref(subpart)}")
+        for kind in ("attributes", "ports", "parts"):
+            values = part.items.get(kind, {})
+            for name in sorted(values):
+                lines.append(f"{pad}{self._format_member(kind, values[name])}")
         for connection in part.declared_connections:
             lines.append(f"{pad}{self._format_connection(connection)}")
         return lines
@@ -147,6 +142,15 @@ class SysMLExporter:
 
     def _format_part_ref(self, part: SysMLPartReference) -> str:
         return f"part {part.name} : {part.part_name};"
+
+    def _format_member(self, kind: str, value: object) -> str:
+        if kind == "attributes":
+            return self._format_attribute(value)  # type: ignore[arg-type]
+        if kind == "ports":
+            return self._format_port_ref(value)  # type: ignore[arg-type]
+        if kind == "parts":
+            return self._format_part_ref(value)  # type: ignore[arg-type]
+        raise ValueError(f"Unsupported member kind for export: {kind}")
 
     def _format_connection(self, connection) -> str:
         return (
@@ -178,4 +182,3 @@ def export_architecture_files(
     architecture: SysMLArchitecture, mode: str = "declared"
 ) -> Dict[str, str]:
     return SysMLExporter().export_architecture_files(architecture, mode=mode)
-

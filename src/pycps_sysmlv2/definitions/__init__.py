@@ -3,6 +3,7 @@
 from .architecture import SysMLArchitecture
 from .attributes import SysMLAttribute
 from .base import DefinitionBase
+from .declared import DeclaredDefinition
 from .connections import SysMLConnection
 from .parts import SysMLPartDefinition, SysMLPortDefinition
 from .references import SysMLPartReference, SysMLPortReference
@@ -14,6 +15,7 @@ __all__ = [
     "SYSML_TYPE_MAP",
     "SysMLType",
     "DefinitionBase",
+    "DeclaredDefinition",
     "SysMLAttribute",
     "SysMLRequirement",
     "SysMLConnection",

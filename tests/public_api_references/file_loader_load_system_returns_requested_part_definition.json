@@ -2,6 +2,12 @@
   "package": "Example",
   "part_definitions": {
     "Child": {
+      "artifact_kinds": [
+        "attributes",
+        "ports",
+        "parts",
+        "connections"
+      ],
       "attributes": {},
       "base_part_def": null,
       "base_part_name": null,
@@ -11,11 +17,29 @@
       "declared_parts": {},
       "declared_ports": {},
       "doc": null,
+      "items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {}
+      },
       "name": "Child",
       "parts": {},
       "ports": {},
+      "redefines_items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {}
+      },
       "remove_attributes": [],
       "remove_connections": [],
+      "remove_items": {
+        "attributes": [],
+        "connections": [],
+        "parts": [],
+        "ports": []
+      },
       "remove_parts": [],
       "remove_ports": [],
       "replace_attributes": {},
@@ -24,6 +48,12 @@
       "source_file": "model.sysml"
     },
     "System": {
+      "artifact_kinds": [
+        "attributes",
+        "ports",
+        "parts",
+        "connections"
+      ],
       "attributes": {},
       "base_part_def": null,
       "base_part_name": null,
@@ -35,6 +65,12 @@
           "doc": null,
           "name": "child",
           "part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -44,11 +80,29 @@
             "declared_parts": {},
             "declared_ports": {},
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "name": "Child",
             "parts": {},
             "ports": {},
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -61,12 +115,76 @@
       },
       "declared_ports": {},
       "doc": null,
+      "items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {
+          "child": {
+            "doc": null,
+            "name": "child",
+            "part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {},
+              "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
+              "name": "Child",
+              "parts": {},
+              "ports": {},
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {},
+              "source_file": "model.sysml"
+            },
+            "part_name": "Child"
+          }
+        },
+        "ports": {}
+      },
       "name": "System",
       "parts": {
         "child": {
           "doc": null,
           "name": "child",
           "part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -76,11 +194,29 @@
             "declared_parts": {},
             "declared_ports": {},
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "name": "Child",
             "parts": {},
             "ports": {},
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -92,8 +228,20 @@
         }
       },
       "ports": {},
+      "redefines_items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {}
+      },
       "remove_attributes": [],
       "remove_connections": [],
+      "remove_items": {
+        "attributes": [],
+        "connections": [],
+        "parts": [],
+        "ports": []
+      },
       "remove_parts": [],
       "remove_ports": [],
       "replace_attributes": {},

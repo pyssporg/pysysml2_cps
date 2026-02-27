@@ -4,12 +4,40 @@
   "port_definitions": {},
   "requirements": [
     {
+      "artifact_kinds": [
+        "text"
+      ],
       "identifier": "REQ_1",
+      "items": {
+        "text": {
+          "value": "The system shall parse requirements."
+        }
+      },
+      "redefines_items": {
+        "text": {}
+      },
+      "remove_items": {
+        "text": []
+      },
       "source_file": "requirements.sysml",
       "text": "The system shall parse requirements."
     },
     {
+      "artifact_kinds": [
+        "text"
+      ],
       "identifier": "REQ_2",
+      "items": {
+        "text": {
+          "value": "Multi-line requirement text should be normalized."
+        }
+      },
+      "redefines_items": {
+        "text": {}
+      },
+      "remove_items": {
+        "text": []
+      },
       "source_file": "requirements.sysml",
       "text": "Multi-line requirement text should be normalized."
     }

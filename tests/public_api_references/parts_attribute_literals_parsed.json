@@ -2,6 +2,12 @@
   "package": "Example",
   "part_definitions": {
     "Node": {
+      "artifact_kinds": [
+        "attributes",
+        "ports",
+        "parts",
+        "connections"
+      ],
       "attributes": {
         "count": {
           "doc": null,
@@ -61,11 +67,54 @@
       "declared_parts": {},
       "declared_ports": {},
       "doc": null,
+      "items": {
+        "attributes": {
+          "count": {
+            "doc": null,
+            "name": "count",
+            "type": {
+              "string_definition": null,
+              "type": "Integer"
+            },
+            "value": 3
+          },
+          "values": {
+            "doc": null,
+            "name": "values",
+            "type": {
+              "string_definition": null,
+              "type": [
+                "Real"
+              ]
+            },
+            "value": [
+              1.0,
+              2.0,
+              3.0
+            ]
+          }
+        },
+        "connections": {},
+        "parts": {},
+        "ports": {}
+      },
       "name": "Node",
       "parts": {},
       "ports": {},
+      "redefines_items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {}
+      },
       "remove_attributes": [],
       "remove_connections": [],
+      "remove_items": {
+        "attributes": [],
+        "connections": [],
+        "parts": [],
+        "ports": []
+      },
       "remove_parts": [],
       "remove_ports": [],
       "replace_attributes": {},

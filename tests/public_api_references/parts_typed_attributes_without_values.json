@@ -2,6 +2,12 @@
   "package": "Example",
   "part_definitions": {
     "Node": {
+      "artifact_kinds": [
+        "attributes",
+        "ports",
+        "parts",
+        "connections"
+      ],
       "attributes": {
         "enabled": {
           "doc": null,
@@ -49,11 +55,48 @@
       "declared_parts": {},
       "declared_ports": {},
       "doc": null,
+      "items": {
+        "attributes": {
+          "enabled": {
+            "doc": null,
+            "name": "enabled",
+            "type": {
+              "string_definition": null,
+              "type": "Boolean"
+            },
+            "value": null
+          },
+          "gain": {
+            "doc": null,
+            "name": "gain",
+            "type": {
+              "string_definition": null,
+              "type": "Real"
+            },
+            "value": null
+          }
+        },
+        "connections": {},
+        "parts": {},
+        "ports": {}
+      },
       "name": "Node",
       "parts": {},
       "ports": {},
+      "redefines_items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {}
+      },
       "remove_attributes": [],
       "remove_connections": [],
+      "remove_items": {
+        "attributes": [],
+        "connections": [],
+        "parts": [],
+        "ports": []
+      },
       "remove_parts": [],
       "remove_ports": [],
       "replace_attributes": {},

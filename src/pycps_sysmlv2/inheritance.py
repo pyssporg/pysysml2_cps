@@ -6,11 +6,8 @@ import copy
 from typing import Dict, List, Set, Tuple
 
 from .definitions import (
-    SysMLAttribute,
     SysMLConnection,
     SysMLPartDefinition,
-    SysMLPartReference,
-    SysMLPortReference,
 )
 
 
@@ -54,34 +51,22 @@ def _merge_with_base(part: SysMLPartDefinition, base: SysMLPartDefinition) -> No
     merged_parts = copy.deepcopy(base.parts)
     merged_connections = copy.deepcopy(base.connections)
 
-    for attr_name in part.remove_attributes:
-        if attr_name not in merged_attributes:
-            raise ValueError(f"Cannot remove unknown attribute {part.name}.{attr_name}")
-        del merged_attributes[attr_name]
-    for port_name in part.remove_ports:
-        if port_name not in merged_ports:
-            raise ValueError(f"Cannot remove unknown port {part.name}.{port_name}")
-        del merged_ports[port_name]
-    for part_name in part.remove_parts:
-        if part_name not in merged_parts:
-            raise ValueError(f"Cannot remove unknown part {part.name}.{part_name}")
-        del merged_parts[part_name]
+    merged_by_kind = {
+        "attributes": merged_attributes,
+        "ports": merged_ports,
+        "parts": merged_parts,
+    }
+    for kind, merged in merged_by_kind.items():
+        _apply_generic_remove(part=part, kind=kind, merged=merged)
+
     for connection in part.remove_connections:
         if not _remove_connection(merged_connections, connection):
             raise ValueError(f"Cannot remove unknown connection in {part.name}: {connection}")
 
-    _apply_redefines(
-        part=part,
-        merged_attributes=merged_attributes,
-        merged_ports=merged_ports,
-        merged_parts=merged_parts,
-    )
-    _apply_additions(
-        part=part,
-        merged_attributes=merged_attributes,
-        merged_ports=merged_ports,
-        merged_parts=merged_parts,
-    )
+    for kind, merged in merged_by_kind.items():
+        _apply_generic_redefines(part=part, kind=kind, merged=merged)
+    for kind, merged in merged_by_kind.items():
+        _apply_generic_additions(part=part, kind=kind, merged=merged)
 
     for connection in part.declared_connections:
         if _contains_connection(merged_connections, connection):
@@ -99,52 +84,41 @@ def _merge_with_base(part: SysMLPartDefinition, base: SysMLPartDefinition) -> No
     part.connections = merged_connections
 
 
-def _apply_redefines(
-    *,
-    part: SysMLPartDefinition,
-    merged_attributes: Dict[str, SysMLAttribute],
-    merged_ports: Dict[str, SysMLPortReference],
-    merged_parts: Dict[str, SysMLPartReference],
+def _apply_generic_remove(
+    *, part: SysMLPartDefinition, kind: str, merged: Dict[str, object]
 ) -> None:
-    for attr_name, attr in part.replace_attributes.items():
-        if attr_name not in merged_attributes:
-            raise ValueError(f"Cannot redefine unknown attribute {part.name}.{attr_name}")
-        merged_attributes[attr_name] = attr
-    for port_name, port in part.replace_ports.items():
-        if port_name not in merged_ports:
-            raise ValueError(f"Cannot redefine unknown port {part.name}.{port_name}")
-        merged_ports[port_name] = port
-    for part_name, subpart in part.replace_parts.items():
-        if part_name not in merged_parts:
-            raise ValueError(f"Cannot redefine unknown part {part.name}.{part_name}")
-        merged_parts[part_name] = subpart
+    singular = kind[:-1]
+    for key in part.remove_items[kind]:
+        if key not in merged:
+            raise ValueError(f"Cannot remove unknown {singular} {part.name}.{key}")
+        del merged[key]
 
 
-def _apply_additions(
-    *,
-    part: SysMLPartDefinition,
-    merged_attributes: Dict[str, SysMLAttribute],
-    merged_ports: Dict[str, SysMLPortReference],
-    merged_parts: Dict[str, SysMLPartReference],
+def _apply_generic_redefines(
+    *, part: SysMLPartDefinition, kind: str, merged: Dict[str, object]
 ) -> None:
-    for attr_name, attr in part.declared_attributes.items():
-        if attr_name in merged_attributes:
+    singular = kind[:-1]
+    for key, value in part.redefines_items[kind].items():
+        if key not in merged:
+            raise ValueError(f"Cannot redefine unknown {singular} {part.name}.{key}")
+        merged[key] = value
+
+
+def _apply_generic_additions(
+    *, part: SysMLPartDefinition, kind: str, merged: Dict[str, object]
+) -> None:
+    singular = kind[:-1]
+    for key, value in part.items[kind].items():
+        if key in merged:
+            hint = {
+                "attributes": "redefines attribute",
+                "ports": "redefines in/out port",
+                "parts": "redefines part",
+            }.get(kind, f"redefines {singular}")
             raise ValueError(
-                f"Attribute name collision in {part.name}: {attr_name} (use redefines attribute)"
+                f"{singular.capitalize()} name collision in {part.name}: {key} (use {hint})"
             )
-        merged_attributes[attr_name] = attr
-    for port_name, port in part.declared_ports.items():
-        if port_name in merged_ports:
-            raise ValueError(
-                f"Port name collision in {part.name}: {port_name} (use redefines in/out port)"
-            )
-        merged_ports[port_name] = port
-    for part_name, subpart in part.declared_parts.items():
-        if part_name in merged_parts:
-            raise ValueError(
-                f"Part name collision in {part.name}: {part_name} (use redefines part)"
-            )
-        merged_parts[part_name] = subpart
+        merged[key] = value
 
 
 def _connection_key(connection: SysMLConnection) -> Tuple[str, str, str, str]:
@@ -172,4 +146,3 @@ def _contains_connection(
 ) -> bool:
     key = _connection_key(connection)
     return any(_connection_key(candidate) == key for candidate in target_connections)
-

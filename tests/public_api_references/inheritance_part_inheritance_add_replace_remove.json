@@ -2,6 +2,12 @@
   "package": "Example",
   "part_definitions": {
     "Base": {
+      "artifact_kinds": [
+        "attributes",
+        "ports",
+        "parts",
+        "connections"
+      ],
       "attributes": {
         "remove_attr": {
           "doc": null,
@@ -51,6 +57,12 @@
           "doc": null,
           "name": "left",
           "part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -64,15 +76,58 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {
+                "out_a": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_a",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              }
+            },
             "name": "ChildA",
             "parts": {},
             "ports": {
@@ -81,16 +136,40 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -104,6 +183,12 @@
           "doc": null,
           "name": "right",
           "part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -117,15 +202,58 @@
                 "doc": null,
                 "name": "in_b",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {
+                "in_b": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_b",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              }
+            },
             "name": "ChildB",
             "parts": {},
             "ports": {
@@ -134,16 +262,40 @@
                 "doc": null,
                 "name": "in_b",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -160,9 +312,21 @@
           "doc": null,
           "name": "remove_port",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "SignalA"
@@ -172,21 +336,366 @@
           "doc": null,
           "name": "replace_port",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "SignalA"
         }
       },
       "doc": null,
+      "items": {
+        "attributes": {
+          "remove_attr": {
+            "doc": null,
+            "name": "remove_attr",
+            "type": {
+              "string_definition": null,
+              "type": "Integer"
+            },
+            "value": 1
+          },
+          "replace_attr": {
+            "doc": null,
+            "name": "replace_attr",
+            "type": {
+              "string_definition": null,
+              "type": "Integer"
+            },
+            "value": 2
+          }
+        },
+        "connections": {},
+        "parts": {
+          "left": {
+            "doc": null,
+            "name": "left",
+            "part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "out_a": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_a",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              },
+              "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "out_a": {
+                    "direction": "out",
+                    "doc": null,
+                    "name": "out_a",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                }
+              },
+              "name": "ChildA",
+              "parts": {},
+              "ports": {
+                "out_a": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_a",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              },
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {},
+              "source_file": "model.sysml"
+            },
+            "part_name": "ChildA"
+          },
+          "right": {
+            "doc": null,
+            "name": "right",
+            "part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "in_b": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_b",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              },
+              "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "in_b": {
+                    "direction": "in",
+                    "doc": null,
+                    "name": "in_b",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                }
+              },
+              "name": "ChildB",
+              "parts": {},
+              "ports": {
+                "in_b": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_b",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              },
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {},
+              "source_file": "model.sysml"
+            },
+            "part_name": "ChildB"
+          }
+        },
+        "ports": {
+          "remove_port": {
+            "direction": "out",
+            "doc": null,
+            "name": "remove_port",
+            "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "attributes": {},
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "SignalA",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml"
+            },
+            "port_name": "SignalA"
+          },
+          "replace_port": {
+            "direction": "out",
+            "doc": null,
+            "name": "replace_port",
+            "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "attributes": {},
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "SignalA",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml"
+            },
+            "port_name": "SignalA"
+          }
+        }
+      },
       "name": "Base",
       "parts": {
         "left": {
           "doc": null,
           "name": "left",
           "part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -200,15 +709,58 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {
+                "out_a": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_a",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              }
+            },
             "name": "ChildA",
             "parts": {},
             "ports": {
@@ -217,16 +769,40 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -240,6 +816,12 @@
           "doc": null,
           "name": "right",
           "part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -253,15 +835,58 @@
                 "doc": null,
                 "name": "in_b",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {
+                "in_b": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_b",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              }
+            },
             "name": "ChildB",
             "parts": {},
             "ports": {
@@ -270,16 +895,40 @@
                 "doc": null,
                 "name": "in_b",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -296,9 +945,21 @@
           "doc": null,
           "name": "remove_port",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "SignalA"
@@ -308,16 +969,40 @@
           "doc": null,
           "name": "replace_port",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "SignalA"
         }
       },
+      "redefines_items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {}
+      },
       "remove_attributes": [],
       "remove_connections": [],
+      "remove_items": {
+        "attributes": [],
+        "connections": [],
+        "parts": [],
+        "ports": []
+      },
       "remove_parts": [],
       "remove_ports": [],
       "replace_attributes": {},
@@ -326,6 +1011,12 @@
       "source_file": "model.sysml"
     },
     "ChildA": {
+      "artifact_kinds": [
+        "attributes",
+        "ports",
+        "parts",
+        "connections"
+      ],
       "attributes": {},
       "base_part_def": null,
       "base_part_name": null,
@@ -339,15 +1030,58 @@
           "doc": null,
           "name": "out_a",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "SignalA"
         }
       },
       "doc": null,
+      "items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {
+          "out_a": {
+            "direction": "out",
+            "doc": null,
+            "name": "out_a",
+            "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "attributes": {},
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "SignalA",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml"
+            },
+            "port_name": "SignalA"
+          }
+        }
+      },
       "name": "ChildA",
       "parts": {},
       "ports": {
@@ -356,16 +1090,40 @@
           "doc": null,
           "name": "out_a",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "SignalA"
         }
       },
+      "redefines_items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {}
+      },
       "remove_attributes": [],
       "remove_connections": [],
+      "remove_items": {
+        "attributes": [],
+        "connections": [],
+        "parts": [],
+        "ports": []
+      },
       "remove_parts": [],
       "remove_ports": [],
       "replace_attributes": {},
@@ -374,6 +1132,12 @@
       "source_file": "model.sysml"
     },
     "ChildB": {
+      "artifact_kinds": [
+        "attributes",
+        "ports",
+        "parts",
+        "connections"
+      ],
       "attributes": {},
       "base_part_def": null,
       "base_part_name": null,
@@ -387,15 +1151,58 @@
           "doc": null,
           "name": "in_b",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "SignalA"
         }
       },
       "doc": null,
+      "items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {
+          "in_b": {
+            "direction": "in",
+            "doc": null,
+            "name": "in_b",
+            "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "attributes": {},
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "SignalA",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml"
+            },
+            "port_name": "SignalA"
+          }
+        }
+      },
       "name": "ChildB",
       "parts": {},
       "ports": {
@@ -404,16 +1211,40 @@
           "doc": null,
           "name": "in_b",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "SignalA"
         }
       },
+      "redefines_items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {}
+      },
       "remove_attributes": [],
       "remove_connections": [],
+      "remove_items": {
+        "attributes": [],
+        "connections": [],
+        "parts": [],
+        "ports": []
+      },
       "remove_parts": [],
       "remove_ports": [],
       "replace_attributes": {},
@@ -422,6 +1253,12 @@
       "source_file": "model.sysml"
     },
     "Derived": {
+      "artifact_kinds": [
+        "attributes",
+        "ports",
+        "parts",
+        "connections"
+      ],
       "attributes": {
         "add_attr": {
           "doc": null,
@@ -443,6 +1280,12 @@
         }
       },
       "base_part_def": {
+        "artifact_kinds": [
+          "attributes",
+          "ports",
+          "parts",
+          "connections"
+        ],
         "attributes": {
           "remove_attr": {
             "doc": null,
@@ -492,6 +1335,12 @@
             "doc": null,
             "name": "left",
             "part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
               "attributes": {},
               "base_part_def": null,
               "base_part_name": null,
@@ -505,15 +1354,58 @@
                   "doc": null,
                   "name": "out_a",
                   "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
                     "attributes": {},
                     "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
                     "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
                     "source_file": "model.sysml"
                   },
                   "port_name": "SignalA"
                 }
               },
               "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "out_a": {
+                    "direction": "out",
+                    "doc": null,
+                    "name": "out_a",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                }
+              },
               "name": "ChildA",
               "parts": {},
               "ports": {
@@ -522,16 +1414,40 @@
                   "doc": null,
                   "name": "out_a",
                   "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
                     "attributes": {},
                     "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
                     "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
                     "source_file": "model.sysml"
                   },
                   "port_name": "SignalA"
                 }
               },
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
               "remove_attributes": [],
               "remove_connections": [],
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
               "remove_parts": [],
               "remove_ports": [],
               "replace_attributes": {},
@@ -545,6 +1461,12 @@
             "doc": null,
             "name": "right",
             "part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
               "attributes": {},
               "base_part_def": null,
               "base_part_name": null,
@@ -558,15 +1480,58 @@
                   "doc": null,
                   "name": "in_b",
                   "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
                     "attributes": {},
                     "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
                     "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
                     "source_file": "model.sysml"
                   },
                   "port_name": "SignalA"
                 }
               },
               "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "in_b": {
+                    "direction": "in",
+                    "doc": null,
+                    "name": "in_b",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                }
+              },
               "name": "ChildB",
               "parts": {},
               "ports": {
@@ -575,16 +1540,40 @@
                   "doc": null,
                   "name": "in_b",
                   "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
                     "attributes": {},
                     "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
                     "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
                     "source_file": "model.sysml"
                   },
                   "port_name": "SignalA"
                 }
               },
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
               "remove_attributes": [],
               "remove_connections": [],
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
               "remove_parts": [],
               "remove_ports": [],
               "replace_attributes": {},
@@ -601,9 +1590,21 @@
             "doc": null,
             "name": "remove_port",
             "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
               "attributes": {},
               "doc": null,
+              "items": {
+                "attributes": {}
+              },
               "name": "SignalA",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
               "source_file": "model.sysml"
             },
             "port_name": "SignalA"
@@ -613,21 +1614,366 @@
             "doc": null,
             "name": "replace_port",
             "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
               "attributes": {},
               "doc": null,
+              "items": {
+                "attributes": {}
+              },
               "name": "SignalA",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
               "source_file": "model.sysml"
             },
             "port_name": "SignalA"
           }
         },
         "doc": null,
+        "items": {
+          "attributes": {
+            "remove_attr": {
+              "doc": null,
+              "name": "remove_attr",
+              "type": {
+                "string_definition": null,
+                "type": "Integer"
+              },
+              "value": 1
+            },
+            "replace_attr": {
+              "doc": null,
+              "name": "replace_attr",
+              "type": {
+                "string_definition": null,
+                "type": "Integer"
+              },
+              "value": 2
+            }
+          },
+          "connections": {},
+          "parts": {
+            "left": {
+              "doc": null,
+              "name": "left",
+              "part_def": {
+                "artifact_kinds": [
+                  "attributes",
+                  "ports",
+                  "parts",
+                  "connections"
+                ],
+                "attributes": {},
+                "base_part_def": null,
+                "base_part_name": null,
+                "connections": [],
+                "declared_attributes": {},
+                "declared_connections": [],
+                "declared_parts": {},
+                "declared_ports": {
+                  "out_a": {
+                    "direction": "out",
+                    "doc": null,
+                    "name": "out_a",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                },
+                "doc": null,
+                "items": {
+                  "attributes": {},
+                  "connections": {},
+                  "parts": {},
+                  "ports": {
+                    "out_a": {
+                      "direction": "out",
+                      "doc": null,
+                      "name": "out_a",
+                      "port_def": {
+                        "artifact_kinds": [
+                          "attributes"
+                        ],
+                        "attributes": {},
+                        "doc": null,
+                        "items": {
+                          "attributes": {}
+                        },
+                        "name": "SignalA",
+                        "redefines_items": {
+                          "attributes": {}
+                        },
+                        "remove_items": {
+                          "attributes": []
+                        },
+                        "source_file": "model.sysml"
+                      },
+                      "port_name": "SignalA"
+                    }
+                  }
+                },
+                "name": "ChildA",
+                "parts": {},
+                "ports": {
+                  "out_a": {
+                    "direction": "out",
+                    "doc": null,
+                    "name": "out_a",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                },
+                "redefines_items": {
+                  "attributes": {},
+                  "connections": {},
+                  "parts": {},
+                  "ports": {}
+                },
+                "remove_attributes": [],
+                "remove_connections": [],
+                "remove_items": {
+                  "attributes": [],
+                  "connections": [],
+                  "parts": [],
+                  "ports": []
+                },
+                "remove_parts": [],
+                "remove_ports": [],
+                "replace_attributes": {},
+                "replace_parts": {},
+                "replace_ports": {},
+                "source_file": "model.sysml"
+              },
+              "part_name": "ChildA"
+            },
+            "right": {
+              "doc": null,
+              "name": "right",
+              "part_def": {
+                "artifact_kinds": [
+                  "attributes",
+                  "ports",
+                  "parts",
+                  "connections"
+                ],
+                "attributes": {},
+                "base_part_def": null,
+                "base_part_name": null,
+                "connections": [],
+                "declared_attributes": {},
+                "declared_connections": [],
+                "declared_parts": {},
+                "declared_ports": {
+                  "in_b": {
+                    "direction": "in",
+                    "doc": null,
+                    "name": "in_b",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                },
+                "doc": null,
+                "items": {
+                  "attributes": {},
+                  "connections": {},
+                  "parts": {},
+                  "ports": {
+                    "in_b": {
+                      "direction": "in",
+                      "doc": null,
+                      "name": "in_b",
+                      "port_def": {
+                        "artifact_kinds": [
+                          "attributes"
+                        ],
+                        "attributes": {},
+                        "doc": null,
+                        "items": {
+                          "attributes": {}
+                        },
+                        "name": "SignalA",
+                        "redefines_items": {
+                          "attributes": {}
+                        },
+                        "remove_items": {
+                          "attributes": []
+                        },
+                        "source_file": "model.sysml"
+                      },
+                      "port_name": "SignalA"
+                    }
+                  }
+                },
+                "name": "ChildB",
+                "parts": {},
+                "ports": {
+                  "in_b": {
+                    "direction": "in",
+                    "doc": null,
+                    "name": "in_b",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                },
+                "redefines_items": {
+                  "attributes": {},
+                  "connections": {},
+                  "parts": {},
+                  "ports": {}
+                },
+                "remove_attributes": [],
+                "remove_connections": [],
+                "remove_items": {
+                  "attributes": [],
+                  "connections": [],
+                  "parts": [],
+                  "ports": []
+                },
+                "remove_parts": [],
+                "remove_ports": [],
+                "replace_attributes": {},
+                "replace_parts": {},
+                "replace_ports": {},
+                "source_file": "model.sysml"
+              },
+              "part_name": "ChildB"
+            }
+          },
+          "ports": {
+            "remove_port": {
+              "direction": "out",
+              "doc": null,
+              "name": "remove_port",
+              "port_def": {
+                "artifact_kinds": [
+                  "attributes"
+                ],
+                "attributes": {},
+                "doc": null,
+                "items": {
+                  "attributes": {}
+                },
+                "name": "SignalA",
+                "redefines_items": {
+                  "attributes": {}
+                },
+                "remove_items": {
+                  "attributes": []
+                },
+                "source_file": "model.sysml"
+              },
+              "port_name": "SignalA"
+            },
+            "replace_port": {
+              "direction": "out",
+              "doc": null,
+              "name": "replace_port",
+              "port_def": {
+                "artifact_kinds": [
+                  "attributes"
+                ],
+                "attributes": {},
+                "doc": null,
+                "items": {
+                  "attributes": {}
+                },
+                "name": "SignalA",
+                "redefines_items": {
+                  "attributes": {}
+                },
+                "remove_items": {
+                  "attributes": []
+                },
+                "source_file": "model.sysml"
+              },
+              "port_name": "SignalA"
+            }
+          }
+        },
         "name": "Base",
         "parts": {
           "left": {
             "doc": null,
             "name": "left",
             "part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
               "attributes": {},
               "base_part_def": null,
               "base_part_name": null,
@@ -641,15 +1987,58 @@
                   "doc": null,
                   "name": "out_a",
                   "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
                     "attributes": {},
                     "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
                     "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
                     "source_file": "model.sysml"
                   },
                   "port_name": "SignalA"
                 }
               },
               "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "out_a": {
+                    "direction": "out",
+                    "doc": null,
+                    "name": "out_a",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                }
+              },
               "name": "ChildA",
               "parts": {},
               "ports": {
@@ -658,16 +2047,40 @@
                   "doc": null,
                   "name": "out_a",
                   "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
                     "attributes": {},
                     "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
                     "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
                     "source_file": "model.sysml"
                   },
                   "port_name": "SignalA"
                 }
               },
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
               "remove_attributes": [],
               "remove_connections": [],
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
               "remove_parts": [],
               "remove_ports": [],
               "replace_attributes": {},
@@ -681,6 +2094,12 @@
             "doc": null,
             "name": "right",
             "part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
               "attributes": {},
               "base_part_def": null,
               "base_part_name": null,
@@ -694,15 +2113,58 @@
                   "doc": null,
                   "name": "in_b",
                   "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
                     "attributes": {},
                     "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
                     "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
                     "source_file": "model.sysml"
                   },
                   "port_name": "SignalA"
                 }
               },
               "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "in_b": {
+                    "direction": "in",
+                    "doc": null,
+                    "name": "in_b",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                }
+              },
               "name": "ChildB",
               "parts": {},
               "ports": {
@@ -711,16 +2173,40 @@
                   "doc": null,
                   "name": "in_b",
                   "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
                     "attributes": {},
                     "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
                     "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
                     "source_file": "model.sysml"
                   },
                   "port_name": "SignalA"
                 }
               },
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
               "remove_attributes": [],
               "remove_connections": [],
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
               "remove_parts": [],
               "remove_ports": [],
               "replace_attributes": {},
@@ -737,9 +2223,21 @@
             "doc": null,
             "name": "remove_port",
             "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
               "attributes": {},
               "doc": null,
+              "items": {
+                "attributes": {}
+              },
               "name": "SignalA",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
               "source_file": "model.sysml"
             },
             "port_name": "SignalA"
@@ -749,16 +2247,40 @@
             "doc": null,
             "name": "replace_port",
             "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
               "attributes": {},
               "doc": null,
+              "items": {
+                "attributes": {}
+              },
               "name": "SignalA",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
               "source_file": "model.sysml"
             },
             "port_name": "SignalA"
           }
         },
+        "redefines_items": {
+          "attributes": {},
+          "connections": {},
+          "parts": {},
+          "ports": {}
+        },
         "remove_attributes": [],
         "remove_connections": [],
+        "remove_items": {
+          "attributes": [],
+          "connections": [],
+          "parts": [],
+          "ports": []
+        },
         "remove_parts": [],
         "remove_ports": [],
         "replace_attributes": {},
@@ -771,6 +2293,12 @@
         {
           "dst_component": "extra",
           "dst_part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -784,15 +2312,58 @@
                 "doc": null,
                 "name": "in_b",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {
+                "in_b": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_b",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              }
+            },
             "name": "ChildB",
             "parts": {},
             "ports": {
@@ -801,16 +2372,40 @@
                 "doc": null,
                 "name": "in_b",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -820,13 +2415,31 @@
           },
           "dst_port": "in_b",
           "dst_port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "src_component": "right",
           "src_part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -840,15 +2453,58 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {
+                "out_a": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_a",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              }
+            },
             "name": "ChildA",
             "parts": {},
             "ports": {
@@ -857,16 +2513,40 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -876,9 +2556,21 @@
           },
           "src_port": "out_a",
           "src_port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           }
         }
@@ -898,6 +2590,12 @@
         {
           "dst_component": "extra",
           "dst_part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -911,15 +2609,58 @@
                 "doc": null,
                 "name": "in_b",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {
+                "in_b": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_b",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              }
+            },
             "name": "ChildB",
             "parts": {},
             "ports": {
@@ -928,16 +2669,40 @@
                 "doc": null,
                 "name": "in_b",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -947,13 +2712,31 @@
           },
           "dst_port": "in_b",
           "dst_port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "src_component": "right",
           "src_part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -967,15 +2750,58 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {
+                "out_a": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_a",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              }
+            },
             "name": "ChildA",
             "parts": {},
             "ports": {
@@ -984,16 +2810,40 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -1003,9 +2853,21 @@
           },
           "src_port": "out_a",
           "src_port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           }
         }
@@ -1015,6 +2877,12 @@
           "doc": null,
           "name": "extra",
           "part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -1028,15 +2896,58 @@
                 "doc": null,
                 "name": "in_b",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {
+                "in_b": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_b",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              }
+            },
             "name": "ChildB",
             "parts": {},
             "ports": {
@@ -1045,16 +2956,40 @@
                 "doc": null,
                 "name": "in_b",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -1071,21 +3006,492 @@
           "doc": null,
           "name": "add_port",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "SignalA"
         }
       },
       "doc": null,
+      "items": {
+        "attributes": {
+          "add_attr": {
+            "doc": null,
+            "name": "add_attr",
+            "type": {
+              "string_definition": null,
+              "type": "Boolean"
+            },
+            "value": true
+          }
+        },
+        "connections": {
+          "right.out_a->extra.in_b": {
+            "dst_component": "extra",
+            "dst_part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "in_b": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_b",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              },
+              "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "in_b": {
+                    "direction": "in",
+                    "doc": null,
+                    "name": "in_b",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                }
+              },
+              "name": "ChildB",
+              "parts": {},
+              "ports": {
+                "in_b": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_b",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              },
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {},
+              "source_file": "model.sysml"
+            },
+            "dst_port": "in_b",
+            "dst_port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "attributes": {},
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "SignalA",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml"
+            },
+            "src_component": "right",
+            "src_part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "out_a": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_a",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              },
+              "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "out_a": {
+                    "direction": "out",
+                    "doc": null,
+                    "name": "out_a",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                }
+              },
+              "name": "ChildA",
+              "parts": {},
+              "ports": {
+                "out_a": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_a",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              },
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {},
+              "source_file": "model.sysml"
+            },
+            "src_port": "out_a",
+            "src_port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "attributes": {},
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "SignalA",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml"
+            }
+          }
+        },
+        "parts": {
+          "extra": {
+            "doc": null,
+            "name": "extra",
+            "part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "in_b": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_b",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              },
+              "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "in_b": {
+                    "direction": "in",
+                    "doc": null,
+                    "name": "in_b",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                }
+              },
+              "name": "ChildB",
+              "parts": {},
+              "ports": {
+                "in_b": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_b",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              },
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {},
+              "source_file": "model.sysml"
+            },
+            "part_name": "ChildB"
+          }
+        },
+        "ports": {
+          "add_port": {
+            "direction": "out",
+            "doc": null,
+            "name": "add_port",
+            "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "attributes": {},
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "SignalA",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml"
+            },
+            "port_name": "SignalA"
+          }
+        }
+      },
       "name": "Derived",
       "parts": {
         "extra": {
           "doc": null,
           "name": "extra",
           "part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -1099,15 +3505,58 @@
                 "doc": null,
                 "name": "in_b",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {
+                "in_b": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_b",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              }
+            },
             "name": "ChildB",
             "parts": {},
             "ports": {
@@ -1116,16 +3565,40 @@
                 "doc": null,
                 "name": "in_b",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -1139,6 +3612,12 @@
           "doc": null,
           "name": "left",
           "part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -1152,15 +3631,58 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {
+                "out_a": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_a",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              }
+            },
             "name": "ChildA",
             "parts": {},
             "ports": {
@@ -1169,16 +3691,40 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -1192,6 +3738,12 @@
           "doc": null,
           "name": "right",
           "part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -1205,15 +3757,58 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {
+                "out_a": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_a",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              }
+            },
             "name": "ChildA",
             "parts": {},
             "ports": {
@@ -1222,16 +3817,40 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -1248,9 +3867,21 @@
           "doc": null,
           "name": "add_port",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalA",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "SignalA"
@@ -1260,18 +3891,208 @@
           "doc": null,
           "name": "replace_port",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalB",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "SignalB"
+        }
+      },
+      "redefines_items": {
+        "attributes": {
+          "replace_attr": {
+            "doc": null,
+            "name": "replace_attr",
+            "type": {
+              "string_definition": null,
+              "type": "Integer"
+            },
+            "value": 99
+          }
+        },
+        "connections": {},
+        "parts": {
+          "right": {
+            "doc": null,
+            "name": "right",
+            "part_def": {
+              "artifact_kinds": [
+                "attributes",
+                "ports",
+                "parts",
+                "connections"
+              ],
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "out_a": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_a",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              },
+              "doc": null,
+              "items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {
+                  "out_a": {
+                    "direction": "out",
+                    "doc": null,
+                    "name": "out_a",
+                    "port_def": {
+                      "artifact_kinds": [
+                        "attributes"
+                      ],
+                      "attributes": {},
+                      "doc": null,
+                      "items": {
+                        "attributes": {}
+                      },
+                      "name": "SignalA",
+                      "redefines_items": {
+                        "attributes": {}
+                      },
+                      "remove_items": {
+                        "attributes": []
+                      },
+                      "source_file": "model.sysml"
+                    },
+                    "port_name": "SignalA"
+                  }
+                }
+              },
+              "name": "ChildA",
+              "parts": {},
+              "ports": {
+                "out_a": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_a",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              },
+              "redefines_items": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {}
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_items": {
+                "attributes": [],
+                "connections": [],
+                "parts": [],
+                "ports": []
+              },
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {},
+              "source_file": "model.sysml"
+            },
+            "part_name": "ChildA"
+          }
+        },
+        "ports": {
+          "replace_port": {
+            "direction": "out",
+            "doc": null,
+            "name": "replace_port",
+            "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "attributes": {},
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "SignalB",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml"
+            },
+            "port_name": "SignalB"
+          }
         }
       },
       "remove_attributes": [
         "remove_attr"
       ],
       "remove_connections": [],
+      "remove_items": {
+        "attributes": [
+          "remove_attr"
+        ],
+        "connections": [],
+        "parts": [],
+        "ports": [
+          "remove_port"
+        ]
+      },
       "remove_parts": [],
       "remove_ports": [
         "remove_port"
@@ -1292,6 +4113,12 @@
           "doc": null,
           "name": "right",
           "part_def": {
+            "artifact_kinds": [
+              "attributes",
+              "ports",
+              "parts",
+              "connections"
+            ],
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
@@ -1305,15 +4132,58 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
             "doc": null,
+            "items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {
+                "out_a": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_a",
+                  "port_def": {
+                    "artifact_kinds": [
+                      "attributes"
+                    ],
+                    "attributes": {},
+                    "doc": null,
+                    "items": {
+                      "attributes": {}
+                    },
+                    "name": "SignalA",
+                    "redefines_items": {
+                      "attributes": {}
+                    },
+                    "remove_items": {
+                      "attributes": []
+                    },
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "SignalA"
+                }
+              }
+            },
             "name": "ChildA",
             "parts": {},
             "ports": {
@@ -1322,16 +4192,40 @@
                 "doc": null,
                 "name": "out_a",
                 "port_def": {
+                  "artifact_kinds": [
+                    "attributes"
+                  ],
                   "attributes": {},
                   "doc": null,
+                  "items": {
+                    "attributes": {}
+                  },
                   "name": "SignalA",
+                  "redefines_items": {
+                    "attributes": {}
+                  },
+                  "remove_items": {
+                    "attributes": []
+                  },
                   "source_file": "model.sysml"
                 },
                 "port_name": "SignalA"
               }
             },
+            "redefines_items": {
+              "attributes": {},
+              "connections": {},
+              "parts": {},
+              "ports": {}
+            },
             "remove_attributes": [],
             "remove_connections": [],
+            "remove_items": {
+              "attributes": [],
+              "connections": [],
+              "parts": [],
+              "ports": []
+            },
             "remove_parts": [],
             "remove_ports": [],
             "replace_attributes": {},
@@ -1348,9 +4242,21 @@
           "doc": null,
           "name": "replace_port",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "SignalB",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "SignalB"
@@ -1361,15 +4267,39 @@
   },
   "port_definitions": {
     "SignalA": {
+      "artifact_kinds": [
+        "attributes"
+      ],
       "attributes": {},
       "doc": null,
+      "items": {
+        "attributes": {}
+      },
       "name": "SignalA",
+      "redefines_items": {
+        "attributes": {}
+      },
+      "remove_items": {
+        "attributes": []
+      },
       "source_file": "model.sysml"
     },
     "SignalB": {
+      "artifact_kinds": [
+        "attributes"
+      ],
       "attributes": {},
       "doc": null,
+      "items": {
+        "attributes": {}
+      },
       "name": "SignalB",
+      "redefines_items": {
+        "attributes": {}
+      },
+      "remove_items": {
+        "attributes": []
+      },
       "source_file": "model.sysml"
     }
   },

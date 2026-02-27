@@ -2,6 +2,12 @@
   "package": "Example",
   "part_definitions": {
     "Node": {
+      "artifact_kinds": [
+        "attributes",
+        "ports",
+        "parts",
+        "connections"
+      ],
       "attributes": {},
       "base_part_def": null,
       "base_part_name": null,
@@ -15,9 +21,21 @@
           "doc": null,
           "name": "input",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "Signal",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "Signal"
@@ -27,15 +45,82 @@
           "doc": null,
           "name": "output",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "Signal",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "Signal"
         }
       },
       "doc": null,
+      "items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {
+          "input": {
+            "direction": "in",
+            "doc": null,
+            "name": "input",
+            "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "attributes": {},
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "Signal",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml"
+            },
+            "port_name": "Signal"
+          },
+          "output": {
+            "direction": "out",
+            "doc": null,
+            "name": "output",
+            "port_def": {
+              "artifact_kinds": [
+                "attributes"
+              ],
+              "attributes": {},
+              "doc": null,
+              "items": {
+                "attributes": {}
+              },
+              "name": "Signal",
+              "redefines_items": {
+                "attributes": {}
+              },
+              "remove_items": {
+                "attributes": []
+              },
+              "source_file": "model.sysml"
+            },
+            "port_name": "Signal"
+          }
+        }
+      },
       "name": "Node",
       "parts": {},
       "ports": {
@@ -44,9 +129,21 @@
           "doc": null,
           "name": "input",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "Signal",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "Signal"
@@ -56,16 +153,40 @@
           "doc": null,
           "name": "output",
           "port_def": {
+            "artifact_kinds": [
+              "attributes"
+            ],
             "attributes": {},
             "doc": null,
+            "items": {
+              "attributes": {}
+            },
             "name": "Signal",
+            "redefines_items": {
+              "attributes": {}
+            },
+            "remove_items": {
+              "attributes": []
+            },
             "source_file": "model.sysml"
           },
           "port_name": "Signal"
         }
       },
+      "redefines_items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {}
+      },
       "remove_attributes": [],
       "remove_connections": [],
+      "remove_items": {
+        "attributes": [],
+        "connections": [],
+        "parts": [],
+        "ports": []
+      },
       "remove_parts": [],
       "remove_ports": [],
       "replace_attributes": {},
@@ -76,9 +197,21 @@
   },
   "port_definitions": {
     "Signal": {
+      "artifact_kinds": [
+        "attributes"
+      ],
       "attributes": {},
       "doc": null,
+      "items": {
+        "attributes": {}
+      },
       "name": "Signal",
+      "redefines_items": {
+        "attributes": {}
+      },
+      "remove_items": {
+        "attributes": []
+      },
       "source_file": "model.sysml"
     }
   },

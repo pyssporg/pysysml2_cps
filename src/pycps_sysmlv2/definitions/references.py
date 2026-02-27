@@ -4,20 +4,33 @@ from dataclasses import dataclass
 from typing import Optional
 
 from .base import DefinitionBase
+from .definitions import SysMLPartDefinition, SysMLPortDefinition, SysMLRequirementDefinition
 
 
 @dataclass(kw_only=True)
 class SysMLPartReference(DefinitionBase):
-    name: str
     part_name: str
-    doc: Optional[str] = None
-    part_def: Optional["SysMLPartDefinition"] = None
+    part_def: Optional[SysMLPartDefinition] = None
 
 
 @dataclass(kw_only=True)
 class SysMLPortReference(DefinitionBase):
-    name: str
     direction: str  # "in" or "out"
     port_name: str
-    doc: Optional[str] = None
-    port_def: Optional["SysMLPortDefinition"] = None
+    port_def: Optional[SysMLPortDefinition] = None
+
+
+@dataclass(kw_only=True)
+class SysMLRequirementReference(DefinitionBase):
+    requirement_name: str
+    requirement_def: Optional[SysMLRequirementDefinition] = None
+
+    @property
+    def identifier(self) -> str:
+        return self.name
+
+    @property
+    def text(self) -> str:
+        if self.requirement_def is None:
+            return ""
+        return self.requirement_def.text

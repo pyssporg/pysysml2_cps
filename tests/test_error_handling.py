@@ -219,7 +219,9 @@ def test_requirement_usage_requires_known_definition(tmp_path: Path):
         tmp_path / "model.sysml",
         """
         package Example {
-          requirement MissingReq : MissingDef;
+          part def System {
+            requirement MissingReq : MissingDef;
+          }
         }
         """,
     )

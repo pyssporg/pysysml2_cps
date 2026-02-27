@@ -9,6 +9,8 @@ from .definitions import (
     SysMLAttribute,
     SysMLPartDefinition,
     SysMLPartReference,
+    SysMLRequirementDefinition,
+    SysMLRequirementReference,
     SysMLPortReference,
 )
 
@@ -19,6 +21,9 @@ class SysMLExporter:
 
     def export_architecture(self, architecture: SysMLArchitecture, mode: str = "declared") -> str:
         lines = [f"package {architecture.package} {{"]
+        lines.extend(self._emit_requirement_definitions(architecture, level=1))
+        if architecture.requirement_definitions:
+            lines.append("")
         lines.extend(self._emit_port_definitions(architecture, level=1))
         if architecture.port_definitions:
             lines.append("")
@@ -32,8 +37,12 @@ class SysMLExporter:
         if mode == "flattened":
             return {"architecture.sysml": self.export_architecture(architecture, mode=mode)}
 
+        grouped_requirements: Dict[str, Dict[str, SysMLRequirementDefinition]] = {}
         grouped_parts: Dict[str, Dict[str, SysMLPartDefinition]] = {}
         grouped_ports: Dict[str, Dict[str, object]] = {}
+        for name, requirement in architecture.requirement_definitions.items():
+            file_name = requirement.source_file or "architecture.sysml"
+            grouped_requirements.setdefault(file_name, {})[name] = requirement
         for name, part in architecture.part_definitions.items():
             file_name = part.source_file or "architecture.sysml"
             grouped_parts.setdefault(file_name, {})[name] = part
@@ -42,11 +51,15 @@ class SysMLExporter:
             grouped_ports.setdefault(file_name, {})[name] = port
 
         file_texts: Dict[str, str] = {}
-        file_names = sorted(set(grouped_parts) | set(grouped_ports))
+        file_names = sorted(set(grouped_requirements) | set(grouped_parts) | set(grouped_ports))
         for file_name in file_names:
+            file_requirements = grouped_requirements.get(file_name, {})
             file_parts = grouped_parts.get(file_name, {})
             file_ports = grouped_ports.get(file_name, {})
             lines = [f"package {architecture.package} {{"]
+            lines.extend(self._emit_requirement_definitions_subset(file_requirements, level=1))
+            if file_requirements and (file_ports or file_parts):
+                lines.append("")
             lines.extend(self._emit_port_definitions_subset(file_ports, level=1))
             if file_ports and file_parts:
                 lines.append("")
@@ -58,15 +71,43 @@ class SysMLExporter:
     def _emit_port_definitions(self, architecture: SysMLArchitecture, level: int) -> List[str]:
         return self._emit_port_definitions_subset(architecture.port_definitions, level)
 
+    def _emit_requirement_definitions(self, architecture: SysMLArchitecture, level: int) -> List[str]:
+        return self._emit_requirement_definitions_subset(
+            architecture.requirement_definitions, level
+        )
+
+    def _emit_requirement_definitions_subset(
+        self, requirement_definitions: Dict[str, SysMLRequirementDefinition], level: int
+    ) -> List[str]:
+        lines: List[str] = []
+        pad = self.indent * level
+        for name in sorted(requirement_definitions):
+            requirement = requirement_definitions[name]
+            header = f"{pad}requirement def {requirement.name}"
+            if requirement.specializes is not None:
+                header += f" specializes {requirement.specializes}"
+            header += " {"
+            lines.append(header)
+            if requirement.text:
+                lines.append(f"{pad}{self.indent}doc /* {requirement.text} */")
+            lines.append(f"{pad}}}")
+            lines.append("")
+        if lines and lines[-1] == "":
+            lines.pop()
+        return lines
+
     def _emit_port_definitions_subset(self, port_definitions: Dict[str, object], level: int) -> List[str]:
         lines: List[str] = []
         pad = self.indent * level
         for name in sorted(port_definitions):
             port = port_definitions[name]
             lines.append(f"{pad}port def {port.name} {{")
-            attrs = port.items.get("attributes", getattr(port, "attributes", {}))
+            attrs = port.items.get("attributes", {})
             for attr in sorted(attrs.values(), key=lambda a: a.name):
                 lines.append(f"{pad}{self.indent}{self._format_attribute(attr)}")
+            reqs = port.items.get("requirements", {})
+            for req_name in sorted(reqs):
+                lines.append(f"{pad}{self.indent}{self._format_requirement_ref(reqs[req_name])}")
             lines.append(f"{pad}}}")
             lines.append("")
         if lines and lines[-1] == "":
@@ -108,19 +149,19 @@ class SysMLExporter:
         pad = self.indent * level
         lines: List[str] = []
         declared_items = getattr(part, "declared_items", part.items)
-        for kind in ("attributes", "ports", "parts"):
+        for kind in ("attributes", "ports", "parts", "requirements"):
             singular = kind[:-1]
             for name in sorted(part.remove_items.get(kind, set())):
                 lines.append(f"{pad}remove {singular} {name};")
         for key in sorted(part.remove_items.get("connections", set())):
             lines.append(f"{pad}{self._format_remove_connection_key(key)}")
 
-        for kind in ("attributes", "ports", "parts"):
+        for kind in ("attributes", "ports", "parts", "requirements"):
             values = part.redefines_items.get(kind, {})
             for name in sorted(values):
                 lines.append(f"{pad}redefines {self._format_member(kind, values[name])}")
 
-        for kind in ("attributes", "ports", "parts"):
+        for kind in ("attributes", "ports", "parts", "requirements"):
             values = declared_items.get(kind, {})
             for name in sorted(values):
                 lines.append(f"{pad}{self._format_member(kind, values[name])}")
@@ -137,6 +178,10 @@ class SysMLExporter:
             lines.append(f"{pad}{self._format_port_ref(port)}")
         for subpart in sorted(part.items.get("parts", {}).values(), key=lambda p: p.name):
             lines.append(f"{pad}{self._format_part_ref(subpart)}")
+        for requirement in sorted(
+            part.items.get("requirements", {}).values(), key=lambda r: r.name
+        ):
+            lines.append(f"{pad}{self._format_requirement_ref(requirement)}")
         for connection in part.items.get("connections", {}).values():
             lines.append(f"{pad}{self._format_connection(connection)}")
         return lines
@@ -161,7 +206,14 @@ class SysMLExporter:
             return self._format_port_ref(value)  # type: ignore[arg-type]
         if kind == "parts":
             return self._format_part_ref(value)  # type: ignore[arg-type]
+        if kind == "requirements":
+            return self._format_requirement_ref(value)  # type: ignore[arg-type]
         raise ValueError(f"Unsupported member kind for export: {kind}")
+
+    def _format_requirement_ref(self, requirement: SysMLRequirementReference) -> str:
+        if requirement.requirement_name == requirement.name:
+            return f"requirement {requirement.name};"
+        return f"requirement {requirement.name} : {requirement.requirement_name};"
 
     def _format_connection(self, connection) -> str:
         return (

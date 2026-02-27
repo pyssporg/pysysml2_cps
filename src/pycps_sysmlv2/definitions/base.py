@@ -15,7 +15,7 @@ class DefinitionBase:
         return json_dumps(self)
 
 @dataclass
-class DeclaredDefinition(DefinitionBase):
+class InherenceDefinition(DefinitionBase):
     """Generic declared artifact container with dynamic artifact kinds."""
     specializes: Optional[str] = None
     specializes_obj: Optional[object] = None
@@ -23,8 +23,6 @@ class DeclaredDefinition(DefinitionBase):
 
     artifact_kinds: Tuple[str, ...] = field(default_factory=tuple)
     items: Dict[str, Dict[str, object]] = field(default_factory=dict)
-
-    # not utilized in resolved definitions
     redefines_items: Dict[str, Dict[str, object]] = field(default_factory=dict)
     remove_items: Dict[str, Set[str]] = field(default_factory=dict)
 

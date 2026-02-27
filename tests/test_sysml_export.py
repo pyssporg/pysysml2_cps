@@ -14,6 +14,10 @@ def test_export_declared_and_flattened_sysml(tmp_path: Path):
         tmp_path / "model.sysml",
         """
         package Example {
+          requirement def ReqA {
+            doc /* Requirement A */
+          }
+
           port def SignalA {}
           port def SignalB {}
 
@@ -21,6 +25,7 @@ def test_export_declared_and_flattened_sysml(tmp_path: Path):
             attribute keep = 1;
             attribute replace_me = 2;
             out port out_a : SignalA;
+            requirement keep_req : ReqA;
           }
 
           part def Derived specializes Base {
@@ -37,6 +42,8 @@ def test_export_declared_and_flattened_sysml(tmp_path: Path):
 
     assert "part def Derived specializes Base" in declared
     assert "redefines attribute replace_me = 99;" in declared
+    assert "requirement def ReqA {" in declared
+    assert "requirement keep_req : ReqA;" in flattened
     assert "part def Derived {" in flattened
     assert "specializes Base" not in flattened
     assert "attribute keep = 1;" in flattened

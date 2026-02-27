@@ -8,7 +8,8 @@
         "attributes",
         "ports",
         "parts",
-        "connections"
+        "connections",
+        "requirements"
       ],
       "declared_items": {
         "attributes": {
@@ -23,6 +24,10 @@
         "ports": {
           "remove_port": "__ref__",
           "replace_port": "__ref__"
+        },
+        "requirements": {
+          "keep_req": "__ref__",
+          "replace_req": "__ref__"
         }
       },
       "doc": null,
@@ -81,6 +86,48 @@
             "port_name": "SignalA",
             "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPortReference'>"
           }
+        },
+        "requirements": {
+          "keep_req": {
+            "doc": null,
+            "name": "keep_req",
+            "requirement_def": {
+              "artifact_kinds": [
+                "text"
+              ],
+              "declared_items": {
+                "text": {
+                  "text": "Base req"
+                }
+              },
+              "doc": null,
+              "items": {
+                "text": {
+                  "text": "Base req"
+                }
+              },
+              "name": "ReqA",
+              "redefines_items": {
+                "text": {}
+              },
+              "remove_items": {
+                "text": []
+              },
+              "source_file": "model.sysml",
+              "specializes": null,
+              "specializes_obj": null,
+              "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLRequirementDefinition'>"
+            },
+            "requirement_name": "ReqA",
+            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLRequirementReference'>"
+          },
+          "replace_req": {
+            "doc": null,
+            "name": "replace_req",
+            "requirement_def": "__ref__",
+            "requirement_name": "ReqA",
+            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLRequirementReference'>"
+          }
         }
       },
       "name": "Base",
@@ -88,13 +135,15 @@
         "attributes": {},
         "connections": {},
         "parts": {},
-        "ports": {}
+        "ports": {},
+        "requirements": {}
       },
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
-        "ports": []
+        "ports": [],
+        "requirements": []
       },
       "source_file": "model.sysml",
       "specializes": null,
@@ -106,7 +155,8 @@
         "attributes",
         "ports",
         "parts",
-        "connections"
+        "connections",
+        "requirements"
       ],
       "declared_items": {
         "attributes": {},
@@ -114,7 +164,8 @@
         "parts": {},
         "ports": {
           "out_a": "__ref__"
-        }
+        },
+        "requirements": {}
       },
       "doc": null,
       "items": {
@@ -130,20 +181,23 @@
             "port_name": "SignalA",
             "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPortReference'>"
           }
-        }
+        },
+        "requirements": {}
       },
       "name": "ChildA",
       "redefines_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
-        "ports": {}
+        "ports": {},
+        "requirements": {}
       },
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
-        "ports": []
+        "ports": [],
+        "requirements": []
       },
       "source_file": "model.sysml",
       "specializes": null,
@@ -155,7 +209,8 @@
         "attributes",
         "ports",
         "parts",
-        "connections"
+        "connections",
+        "requirements"
       ],
       "declared_items": {
         "attributes": {},
@@ -163,7 +218,8 @@
         "parts": {},
         "ports": {
           "in_b": "__ref__"
-        }
+        },
+        "requirements": {}
       },
       "doc": null,
       "items": {
@@ -179,20 +235,23 @@
             "port_name": "SignalA",
             "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPortReference'>"
           }
-        }
+        },
+        "requirements": {}
       },
       "name": "ChildB",
       "redefines_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
-        "ports": {}
+        "ports": {},
+        "requirements": {}
       },
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
-        "ports": []
+        "ports": [],
+        "requirements": []
       },
       "source_file": "model.sysml",
       "specializes": null,
@@ -204,7 +263,8 @@
         "attributes",
         "ports",
         "parts",
-        "connections"
+        "connections",
+        "requirements"
       ],
       "declared_items": {
         "attributes": {
@@ -218,6 +278,9 @@
         },
         "ports": {
           "add_port": "__ref__"
+        },
+        "requirements": {
+          "add_req": "__ref__"
         }
       },
       "doc": null,
@@ -281,6 +344,48 @@
             "port_name": "SignalB",
             "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPortReference'>"
           }
+        },
+        "requirements": {
+          "add_req": {
+            "doc": null,
+            "name": "add_req",
+            "requirement_def": "__ref__",
+            "requirement_name": "ReqA",
+            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLRequirementReference'>"
+          },
+          "replace_req": {
+            "doc": null,
+            "name": "replace_req",
+            "requirement_def": {
+              "artifact_kinds": [
+                "text"
+              ],
+              "declared_items": {
+                "text": {
+                  "text": "Alt req"
+                }
+              },
+              "doc": null,
+              "items": {
+                "text": {
+                  "text": "Alt req"
+                }
+              },
+              "name": "ReqB",
+              "redefines_items": {
+                "text": {}
+              },
+              "remove_items": {
+                "text": []
+              },
+              "source_file": "model.sysml",
+              "specializes": null,
+              "specializes_obj": null,
+              "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLRequirementDefinition'>"
+            },
+            "requirement_name": "ReqB",
+            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLRequirementReference'>"
+          }
         }
       },
       "name": "Derived",
@@ -294,6 +399,9 @@
         },
         "ports": {
           "replace_port": "__ref__"
+        },
+        "requirements": {
+          "replace_req": "__ref__"
         }
       },
       "remove_items": {
@@ -304,6 +412,9 @@
         "parts": [],
         "ports": [
           "remove_port"
+        ],
+        "requirements": [
+          "keep_req"
         ]
       },
       "source_file": "model.sysml",
@@ -315,21 +426,26 @@
   "port_definitions": {
     "SignalA": {
       "artifact_kinds": [
-        "attributes"
+        "attributes",
+        "requirements"
       ],
       "declared_items": {
-        "attributes": {}
+        "attributes": {},
+        "requirements": {}
       },
       "doc": null,
       "items": {
-        "attributes": {}
+        "attributes": {},
+        "requirements": {}
       },
       "name": "SignalA",
       "redefines_items": {
-        "attributes": {}
+        "attributes": {},
+        "requirements": {}
       },
       "remove_items": {
-        "attributes": []
+        "attributes": [],
+        "requirements": []
       },
       "source_file": "model.sysml",
       "specializes": null,
@@ -338,21 +454,26 @@
     },
     "SignalB": {
       "artifact_kinds": [
-        "attributes"
+        "attributes",
+        "requirements"
       ],
       "declared_items": {
-        "attributes": {}
+        "attributes": {},
+        "requirements": {}
       },
       "doc": null,
       "items": {
-        "attributes": {}
+        "attributes": {},
+        "requirements": {}
       },
       "name": "SignalB",
       "redefines_items": {
-        "attributes": {}
+        "attributes": {},
+        "requirements": {}
       },
       "remove_items": {
-        "attributes": []
+        "attributes": [],
+        "requirements": []
       },
       "source_file": "model.sysml",
       "specializes": null,
@@ -360,6 +481,9 @@
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPortDefinition'>"
     }
   },
-  "requirements": [],
+  "requirement_definitions": {
+    "ReqA": "__ref__",
+    "ReqB": "__ref__"
+  },
   "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
 }

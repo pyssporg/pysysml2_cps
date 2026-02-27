@@ -7,8 +7,9 @@ from .definitions import (
     SysMLPartDefinition,
     SysMLPortDefinition,
     SysMLRequirement,
+    SysMLRequirementDefinition,
 )
-from .references import SysMLPartReference, SysMLPortReference
+from .references import SysMLPartReference, SysMLPortReference, SysMLRequirementReference
 from .types import PrimitiveType, SYSML_TYPE_MAP, SysMLType
 
 __all__ = [
@@ -16,11 +17,13 @@ __all__ = [
     "SYSML_TYPE_MAP",
     "SysMLType",
     "SysMLAttribute",
-    "SysMLRequirement",
     "SysMLConnection",
+    "SysMLRequirement",
+    "SysMLRequirementDefinition",
     "SysMLPortDefinition",
     "SysMLPartDefinition",
     "SysMLPartReference",
     "SysMLPortReference",
+    "SysMLRequirementReference",
     "SysMLArchitecture",
 ]

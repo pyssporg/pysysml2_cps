@@ -2,53 +2,167 @@
   "doc": null,
   "name": "Example",
   "package": "Example",
-  "part_definitions": {},
-  "port_definitions": {},
-  "requirements": [
-    {
+  "part_definitions": {
+    "System": {
       "artifact_kinds": [
-        "text"
+        "attributes",
+        "ports",
+        "parts",
+        "connections",
+        "requirements"
       ],
-      "doc": null,
-      "items": {
-        "text": {
-          "text": "The system shall parse requirements."
+      "declared_items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {
+          "input": "__ref__"
+        },
+        "requirements": {
+          "REQ_1": "__ref__"
         }
       },
-      "name": "REQ_1",
+      "doc": null,
+      "items": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {
+          "input": {
+            "direction": "in",
+            "doc": null,
+            "name": "input",
+            "port_def": "__ref__",
+            "port_name": "Signal",
+            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPortReference'>"
+          }
+        },
+        "requirements": {
+          "REQ_1": {
+            "doc": null,
+            "name": "REQ_1",
+            "requirement_def": {
+              "artifact_kinds": [
+                "text"
+              ],
+              "declared_items": {
+                "text": {
+                  "text": "The system shall parse requirements."
+                }
+              },
+              "doc": null,
+              "items": {
+                "text": {
+                  "text": "The system shall parse requirements."
+                }
+              },
+              "name": "ParseRequirement",
+              "redefines_items": {
+                "text": {}
+              },
+              "remove_items": {
+                "text": []
+              },
+              "source_file": "requirements.sysml",
+              "specializes": null,
+              "specializes_obj": null,
+              "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLRequirementDefinition'>"
+            },
+            "requirement_name": "ParseRequirement",
+            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLRequirementReference'>"
+          }
+        }
+      },
+      "name": "System",
       "redefines_items": {
-        "text": {}
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
       },
       "remove_items": {
-        "text": []
+        "attributes": [],
+        "connections": [],
+        "parts": [],
+        "ports": [],
+        "requirements": []
       },
       "source_file": "requirements.sysml",
       "specializes": null,
       "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLRequirement'>"
-    },
-    {
-      "artifact_kinds": [
-        "text"
-      ],
-      "doc": null,
-      "items": {
-        "text": {
-          "text": "Multi-line requirement text should be normalized."
-        }
-      },
-      "name": "REQ_2",
-      "redefines_items": {
-        "text": {}
-      },
-      "remove_items": {
-        "text": []
-      },
-      "source_file": "requirements.sysml",
-      "specializes": null,
-      "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLRequirement'>"
+      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     }
-  ],
+  },
+  "port_definitions": {
+    "Signal": {
+      "artifact_kinds": [
+        "attributes",
+        "requirements"
+      ],
+      "declared_items": {
+        "attributes": {},
+        "requirements": {
+          "REQ_2": "__ref__"
+        }
+      },
+      "doc": null,
+      "items": {
+        "attributes": {},
+        "requirements": {
+          "REQ_2": {
+            "doc": null,
+            "name": "REQ_2",
+            "requirement_def": {
+              "artifact_kinds": [
+                "text"
+              ],
+              "declared_items": {
+                "text": {
+                  "text": "Multi-line requirement text should be normalized."
+                }
+              },
+              "doc": null,
+              "items": {
+                "text": {
+                  "text": "Multi-line requirement text should be normalized."
+                }
+              },
+              "name": "NormalizeRequirement",
+              "redefines_items": {
+                "text": {}
+              },
+              "remove_items": {
+                "text": []
+              },
+              "source_file": "requirements.sysml",
+              "specializes": null,
+              "specializes_obj": null,
+              "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLRequirementDefinition'>"
+            },
+            "requirement_name": "NormalizeRequirement",
+            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLRequirementReference'>"
+          }
+        }
+      },
+      "name": "Signal",
+      "redefines_items": {
+        "attributes": {},
+        "requirements": {}
+      },
+      "remove_items": {
+        "attributes": [],
+        "requirements": []
+      },
+      "source_file": "requirements.sysml",
+      "specializes": null,
+      "specializes_obj": null,
+      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPortDefinition'>"
+    }
+  },
+  "requirement_definitions": {
+    "NormalizeRequirement": "__ref__",
+    "ParseRequirement": "__ref__"
+  },
   "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
 }

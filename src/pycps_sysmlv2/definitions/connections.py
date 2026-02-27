@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from .base import DefinitionBase
+from .definitions import SysMLPartDefinition, SysMLPortDefinition
 
 
 @dataclass(kw_only=True)
@@ -12,7 +13,7 @@ class SysMLConnection(DefinitionBase):
     src_port: str
     dst_component: str
     dst_port: str
-    src_part_def: Optional["SysMLPartDefinition"] = None
-    dst_part_def: Optional["SysMLPartDefinition"] = None
-    src_port_def: Optional["SysMLPortDefinition"] = None
-    dst_port_def: Optional["SysMLPortDefinition"] = None
+    src_part_def: Optional[SysMLPartDefinition] = None
+    dst_part_def: Optional[SysMLPartDefinition] = None
+    src_port_def: Optional[SysMLPortDefinition] = None
+    dst_port_def: Optional[SysMLPortDefinition] = None

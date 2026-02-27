@@ -8,33 +8,38 @@
         "attributes",
         "ports",
         "parts",
-        "connections"
+        "connections",
+        "requirements"
       ],
       "declared_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
-        "ports": {}
+        "ports": {},
+        "requirements": {}
       },
       "doc": null,
       "items": {
         "attributes": {},
         "connections": {},
         "parts": {},
-        "ports": {}
+        "ports": {},
+        "requirements": {}
       },
       "name": "Child",
       "redefines_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
-        "ports": {}
+        "ports": {},
+        "requirements": {}
       },
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
-        "ports": []
+        "ports": [],
+        "requirements": []
       },
       "source_file": "main.sysml",
       "specializes": null,
@@ -46,7 +51,8 @@
         "attributes",
         "ports",
         "parts",
-        "connections"
+        "connections",
+        "requirements"
       ],
       "declared_items": {
         "attributes": {},
@@ -54,7 +60,8 @@
         "parts": {
           "child": "__ref__"
         },
-        "ports": {}
+        "ports": {},
+        "requirements": {}
       },
       "doc": null,
       "items": {
@@ -69,20 +76,23 @@
             "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPartReference'>"
           }
         },
-        "ports": {}
+        "ports": {},
+        "requirements": {}
       },
       "name": "System",
       "redefines_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
-        "ports": {}
+        "ports": {},
+        "requirements": {}
       },
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
-        "ports": []
+        "ports": [],
+        "requirements": []
       },
       "source_file": "main.sysml",
       "specializes": null,
@@ -91,6 +101,6 @@
     }
   },
   "port_definitions": {},
-  "requirements": [],
+  "requirement_definitions": {},
   "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
 }

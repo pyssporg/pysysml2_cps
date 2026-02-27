@@ -19,17 +19,30 @@ def test_requirements_are_collected(tmp_path: Path):
             */
           }
 
-          requirement REQ_1 : ParseRequirement;
-          requirement REQ_2 : NormalizeRequirement;
+          port def Signal {
+            requirement REQ_2 : NormalizeRequirement;
+          }
+
+          part def System {
+            requirement REQ_1 : ParseRequirement;
+            in port input : Signal;
+          }
         }
         """,
     )
 
     architecture = load_architecture(tmp_path)
 
-    assert [req.identifier for req in architecture.requirements] == ["REQ_1", "REQ_2"]
-    assert architecture.requirements[0].text == "The system shall parse requirements."
-    assert architecture.requirements[1].text == (
+    assert set(architecture.requirement_definitions) == {
+        "NormalizeRequirement",
+        "ParseRequirement",
+    }
+    system_reqs = architecture.part_definitions["System"].items["requirements"]
+    signal_reqs = architecture.port_definitions["Signal"].items["requirements"]
+    assert [req.identifier for req in system_reqs.values()] == ["REQ_1"]
+    assert [req.identifier for req in signal_reqs.values()] == ["REQ_2"]
+    assert next(iter(system_reqs.values())).text == "The system shall parse requirements."
+    assert next(iter(signal_reqs.values())).text == (
         "Multi-line requirement text should be normalized."
     )
     write_reference("requirements_collected", architecture)

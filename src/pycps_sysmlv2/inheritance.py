@@ -7,10 +7,21 @@ from typing import Dict, List, Set
 
 from .definitions import (
     SysMLPartDefinition,
+    SysMLRequirementDefinition,
 )
 
 
 def resolve_part_inheritance(parts: Dict[str, SysMLPartDefinition]) -> None:
+    _resolve_definition_inheritance(parts, label="part")
+
+
+def resolve_requirement_inheritance(
+    requirements: Dict[str, SysMLRequirementDefinition],
+) -> None:
+    _resolve_definition_inheritance(requirements, label="requirement")
+
+
+def _resolve_definition_inheritance(definitions: Dict[str, object], label: str) -> None:
     visited: Set[str] = set()
     visiting: Set[str] = set()
     stack: List[str] = []
@@ -26,46 +37,46 @@ def resolve_part_inheritance(parts: Dict[str, SysMLPartDefinition]) -> None:
         visiting.add(name)
         stack.append(name)
 
-        part = parts[name]
-        if part.specializes is not None:
-            if part.specializes not in parts:
+        definition = definitions[name]
+        if definition.specializes is not None:
+            if definition.specializes not in definitions:
                 raise ValueError(
-                    f"Base part definition not found for {part.name}: {part.specializes}"
+                    f"Base {label} definition not found for {definition.name}: {definition.specializes}"
                 )
-            part.specializes_obj = parts[part.specializes]
-            resolve(part.specializes)
-            _merge_with_base(part, parts[part.specializes])
+            definition.specializes_obj = definitions[definition.specializes]
+            resolve(definition.specializes)
+            _merge_with_base(definition, definitions[definition.specializes])
 
         stack.pop()
         visiting.remove(name)
         visited.add(name)
 
-    for name in parts:
+    for name in definitions:
         resolve(name)
 
 
-def _merge_with_base(part: SysMLPartDefinition, base: SysMLPartDefinition) -> None:
-    declared_items = getattr(part, "declared_items", part.items)
+def _merge_with_base(definition: object, base: object) -> None:
+    declared_items = getattr(definition, "declared_items", definition.items)
     merged_by_kind = {
         kind: copy.deepcopy(base.items.get(kind, {}))
-        for kind in part.artifact_kinds
+        for kind in definition.artifact_kinds
         if kind != "connections"
     }
     merged_connections = copy.deepcopy(base.items.get("connections", {}))
 
     for kind, merged in merged_by_kind.items():
-        _apply_generic_remove(part=part, kind=kind, merged=merged)
+        _apply_generic_remove(definition=definition, kind=kind, merged=merged)
 
-    for key in part.remove_items.get("connections", set()):
+    for key in definition.remove_items.get("connections", set()):
         if key not in merged_connections:
-            raise ValueError(f"Cannot remove unknown connection in {part.name}: {key}")
+            raise ValueError(f"Cannot remove unknown connection in {definition.name}: {key}")
         del merged_connections[key]
 
     for kind, merged in merged_by_kind.items():
-        _apply_generic_redefines(part=part, kind=kind, merged=merged)
+        _apply_generic_redefines(definition=definition, kind=kind, merged=merged)
     for kind, merged in merged_by_kind.items():
         _apply_generic_additions(
-            part=part,
+            definition=definition,
             kind=kind,
             merged=merged,
             additions=declared_items.get(kind, {}),
@@ -74,7 +85,7 @@ def _merge_with_base(part: SysMLPartDefinition, base: SysMLPartDefinition) -> No
     for key, connection in declared_items.get("connections", {}).items():
         if key in merged_connections:
             raise ValueError(
-                f"Connection already exists in {part.name}: "
+                f"Connection already exists in {definition.name}: "
                 f"{connection.src_component}.{connection.src_port} to "
                 f"{connection.dst_component}.{connection.dst_port} "
                 f"(use remove connect first)"
@@ -82,33 +93,34 @@ def _merge_with_base(part: SysMLPartDefinition, base: SysMLPartDefinition) -> No
         merged_connections[key] = connection
 
     for kind, merged in merged_by_kind.items():
-        part.items[kind] = merged
-    part.items["connections"] = merged_connections
+        definition.items[kind] = merged
+    if "connections" in definition.artifact_kinds:
+        definition.items["connections"] = merged_connections
 
 
 def _apply_generic_remove(
-    *, part: SysMLPartDefinition, kind: str, merged: Dict[str, object]
+    *, definition: object, kind: str, merged: Dict[str, object]
 ) -> None:
     singular = kind[:-1]
-    for key in part.remove_items.get(kind, set()):
+    for key in definition.remove_items.get(kind, set()):
         if key not in merged:
-            raise ValueError(f"Cannot remove unknown {singular} {part.name}.{key}")
+            raise ValueError(f"Cannot remove unknown {singular} {definition.name}.{key}")
         del merged[key]
 
 
 def _apply_generic_redefines(
-    *, part: SysMLPartDefinition, kind: str, merged: Dict[str, object]
+    *, definition: object, kind: str, merged: Dict[str, object]
 ) -> None:
     singular = kind[:-1]
-    for key, value in part.redefines_items.get(kind, {}).items():
+    for key, value in definition.redefines_items.get(kind, {}).items():
         if key not in merged:
-            raise ValueError(f"Cannot redefine unknown {singular} {part.name}.{key}")
+            raise ValueError(f"Cannot redefine unknown {singular} {definition.name}.{key}")
         merged[key] = value
 
 
 def _apply_generic_additions(
     *,
-    part: SysMLPartDefinition,
+    definition: object,
     kind: str,
     merged: Dict[str, object],
     additions: Dict[str, object],
@@ -122,6 +134,6 @@ def _apply_generic_additions(
                 "parts": "redefines part",
             }.get(kind, f"redefines {singular}")
             raise ValueError(
-                f"{singular.capitalize()} name collision in {part.name}: {key} (use {hint})"
+                f"{singular.capitalize()} name collision in {definition.name}: {key} (use {hint})"
             )
         merged[key] = value

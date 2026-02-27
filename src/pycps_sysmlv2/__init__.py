@@ -10,6 +10,8 @@ from .definitions import (
     SysMLPartReference,
     SysMLPortDefinition,
     SysMLPortReference,
+    SysMLRequirementDefinition,
+    SysMLRequirementReference,
     SysMLRequirement,
     SysMLType,
 )

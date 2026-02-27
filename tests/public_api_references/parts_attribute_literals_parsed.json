@@ -8,7 +8,8 @@
         "attributes",
         "ports",
         "parts",
-        "connections"
+        "connections",
+        "requirements"
       ],
       "declared_items": {
         "attributes": {
@@ -17,7 +18,8 @@
         },
         "connections": {},
         "parts": {},
-        "ports": {}
+        "ports": {},
+        "requirements": {}
       },
       "doc": null,
       "items": {
@@ -49,20 +51,23 @@
         },
         "connections": {},
         "parts": {},
-        "ports": {}
+        "ports": {},
+        "requirements": {}
       },
       "name": "Node",
       "redefines_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
-        "ports": {}
+        "ports": {},
+        "requirements": {}
       },
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
-        "ports": []
+        "ports": [],
+        "requirements": []
       },
       "source_file": "model.sysml",
       "specializes": null,
@@ -71,6 +76,6 @@
     }
   },
   "port_definitions": {},
-  "requirements": [],
+  "requirement_definitions": {},
   "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
 }

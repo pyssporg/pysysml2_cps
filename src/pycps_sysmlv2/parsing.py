@@ -15,9 +15,10 @@ from .definitions import (
     SysMLPartReference,
     SysMLPortDefinition,
     SysMLPortReference,
-    SysMLRequirement,
+    SysMLRequirementDefinition,
+    SysMLRequirementReference,
 )
-from .inheritance import resolve_part_inheritance
+from .inheritance import resolve_part_inheritance, resolve_requirement_inheritance
 from .parser_utils import collect_block, normalize_doc, strip_inline_comment
 
 
@@ -66,7 +67,7 @@ def _connection_key(connection: SysMLConnection) -> str:
 def _parse_sysml_files(files: List[Path]) -> SysMLArchitecture:
     part_defs: Dict[str, SysMLPartDefinition] = {}
     port_defs: Dict[str, SysMLPortDefinition] = {}
-    requirements: List[SysMLRequirement] = []
+    requirement_defs: Dict[str, SysMLRequirementDefinition] = {}
     package_name: Optional[str] = None
 
     for path in files:
@@ -110,18 +111,24 @@ def _parse_sysml_files(files: List[Path]) -> SysMLArchitecture:
                 strict=True,
             )
 
-        requirements.extend(_parse_requirements(body, source_path=path, package_name=pkg))
+        parsed_req_defs = _parse_requirements(body, source_path=path, package_name=pkg)
+        for name, req_def in parsed_req_defs.items():
+            if name in requirement_defs:
+                raise ValueError(f"Duplicate requirement definition for {name} in {path}")
+            requirement_defs[name] = req_def
 
     resolve_part_inheritance(part_defs)
+    resolve_requirement_inheritance(requirement_defs)
     _attach_port_definitions(part_defs, port_defs)
     _attach_part_definitions(part_defs)
     _attach_connection_definitions(part_defs)
+    _attach_requirement_definitions(part_defs, port_defs, requirement_defs)
     return SysMLArchitecture(
         name=package_name or "Package",
         package=package_name or "Package",
         part_definitions=part_defs,
         port_definitions=port_defs,
-        requirements=requirements,
+        requirement_definitions=requirement_defs,
     )
 
 
@@ -154,6 +161,26 @@ def _extract_named_blocks(body: str, keyword: str) -> List[Tuple[str, str]]:
 def _extract_part_blocks(body: str) -> List[Tuple[str, Optional[str], str]]:
     pattern = re.compile(
         r"part def\s+([A-Za-z0-9_]+)(?:\s*specializes\s*([A-Za-z0-9_]+))?\s*\{",
+        re.MULTILINE,
+    )
+    blocks: List[Tuple[str, Optional[str], str]] = []
+    idx = 0
+    while True:
+        match = pattern.search(body, idx)
+        if not match:
+            break
+        name = match.group(1)
+        base_name = match.group(2)
+        brace_start = match.end() - 1
+        block, new_idx = collect_block(body, brace_start)
+        blocks.append((name, base_name, block))
+        idx = new_idx
+    return blocks
+
+
+def _extract_requirement_blocks(body: str) -> List[Tuple[str, Optional[str], str]]:
+    pattern = re.compile(
+        r"requirement def\s+([A-Za-z0-9_]+)(?:\s*specializes\s*([A-Za-z0-9_]+))?\s*\{",
         re.MULTILINE,
     )
     blocks: List[Tuple[str, Optional[str], str]] = []
@@ -214,6 +241,9 @@ def _parse_part_block(
         elif line.startswith("part "):
             part = _parse_part_reference(line, pending_doc)
             items["parts"][part.name] = part
+        elif line.startswith("requirement "):
+            requirement = _parse_requirement_reference(line, pending_doc)
+            items["requirements"][requirement.name] = requirement
         elif line.startswith("connect "):
             connection = _parse_connection(line)
             items["connections"][_connection_key(connection)] = connection
@@ -273,6 +303,9 @@ def _parse_port_block(
         if line.startswith("attribute "):
             attr = _parse_attribute(line, pending_doc)
             items["attributes"][attr.name] = attr
+        elif line.startswith("requirement "):
+            requirement = _parse_requirement_reference(line, pending_doc)
+            items["requirements"][requirement.name] = requirement
         elif strict:
             raise _unknown_statement_error(
                 package_name=package_name,
@@ -352,6 +385,26 @@ def _parse_part_reference(line: str, doc: Optional[str]) -> SysMLPartReference:
     return SysMLPartReference(name=name.strip(), part_name=target.strip(), doc=doc)
 
 
+def _parse_requirement_reference(line: str, doc: Optional[str]) -> SysMLRequirementReference:
+    content = line[len("requirement ") :].strip()
+    if content.endswith(";"):
+        content = content[:-1].strip()
+    if ":" in content:
+        name, target = content.split(":", 1)
+        req_name = name.strip()
+        req_def_name = target.strip()
+    else:
+        req_name = content.strip()
+        req_def_name = req_name
+    if not req_name:
+        raise ValueError(f"Malformed requirement usage: {line}")
+    return SysMLRequirementReference(
+        name=req_name,
+        requirement_name=req_def_name,
+        doc=doc,
+    )
+
+
 def _parse_connection(line: str) -> SysMLConnection:
     match = _CONNECTION_RE.fullmatch(line.strip())
     if match is None:
@@ -384,6 +437,8 @@ def _parse_replacement(
         return ("ports", _parse_port_endpoint("out", content, doc))
     if content.startswith("part "):
         return ("parts", _parse_part_reference(content, doc))
+    if content.startswith("requirement "):
+        return ("requirements", _parse_requirement_reference(content, doc))
     raise ValueError(f"Malformed redefines statement: {line}")
 
 
@@ -407,6 +462,11 @@ def _parse_removal(
         if not name:
             raise ValueError(f"Malformed remove part statement: {line}")
         return ("parts", name)
+    if content.startswith("requirement "):
+        name = content_no_suffix[len("requirement ") :].strip()
+        if not name:
+            raise ValueError(f"Malformed remove requirement statement: {line}")
+        return ("requirements", name)
     if content.startswith("connect "):
         if not content.endswith(";"):
             content = f"{content};"
@@ -481,6 +541,30 @@ def _attach_connection_definitions(parts: Dict[str, SysMLPartDefinition]) -> Non
                     f"{c.dst_part_def.name}.{c.dst_port}"
                 )
 
+
+def _attach_requirement_definitions(
+    parts: Dict[str, SysMLPartDefinition],
+    ports: Dict[str, SysMLPortDefinition],
+    requirement_defs: Dict[str, SysMLRequirementDefinition],
+) -> None:
+    for part in parts.values():
+        for req in part.items.get("requirements", {}).values():
+            req.requirement_def = requirement_defs.get(req.requirement_name)
+            if req.requirement_def is None:
+                raise ValueError(
+                    "Requirement usage references unknown requirement definition "
+                    f"{req.requirement_name} in part {part.name}"
+                )
+
+    for port in ports.values():
+        for req in port.items.get("requirements", {}).values():
+            req.requirement_def = requirement_defs.get(req.requirement_name)
+            if req.requirement_def is None:
+                raise ValueError(
+                    "Requirement usage references unknown requirement definition "
+                    f"{req.requirement_name} in port {port.name}"
+                )
+
 def _iter_block_items(block: str) -> Iterator[Tuple[str, str]]:
     lines = block.splitlines()
     idx = 0
@@ -504,57 +588,33 @@ def _iter_block_items(block: str) -> Iterator[Tuple[str, str]]:
 
 def _parse_requirements(
     body: str, source_path: Path, package_name: str
-) -> List[SysMLRequirement]:
-    reqs: List[SysMLRequirement] = []
+) -> Dict[str, SysMLRequirementDefinition]:
+    req_defs: Dict[str, SysMLRequirementDefinition] = {}
     if re.search(r"comment\s+[A-Za-z0-9_]+\s*/\*", body):
         raise ValueError(
             "Comment-based requirements are not supported; use requirement def/requirement syntax"
         )
 
-    req_defs: Dict[str, str] = {}
-    for name, block in _extract_named_blocks(body, "requirement def"):
-        text = ""
+    for name, base_name, block in _extract_requirement_blocks(body):
+        text: Optional[str] = None
         for kind, payload in _iter_block_items(block):
             if kind == "doc":
                 text = payload
                 break
-        req_defs[name] = text
-
-    usage_pattern = re.compile(
-        r"requirement\s+([A-Za-z0-9_]+)(?:\s*:\s*([A-Za-z0-9_]+))?\s*;"
-    )
-    for match in usage_pattern.finditer(body):
-        usage_name = match.group(1)
-        target_def = match.group(2) or usage_name
-        if target_def not in req_defs:
-            raise ValueError(
-                "Requirement usage references unknown requirement definition "
-                f"{target_def} in package {package_name} ({source_path})"
-            )
-        reqs.append(
-            SysMLRequirement(
-                name=usage_name,
-                source_file=source_path.name,
-                items={"text": {"text": req_defs[target_def]}},
-                redefines_items={"text": {}},
-                remove_items={"text": set()},
-            )
+        items = {kind: {} for kind in SysMLRequirementDefinition.artifact_kinds}
+        if text is not None:
+            items["text"]["text"] = text
+        req_def = SysMLRequirementDefinition(
+            name=name,
+            specializes=base_name,
+            source_file=source_path.name,
+            items=items,
+            redefines_items={kind: {} for kind in SysMLRequirementDefinition.artifact_kinds},
+            remove_items={kind: set() for kind in SysMLRequirementDefinition.artifact_kinds},
         )
-
-    if reqs:
-        return reqs
-
-    for identifier, text in req_defs.items():
-        reqs.append(
-            SysMLRequirement(
-                name=identifier,
-                source_file=source_path.name,
-                items={"text": {"text": text}},
-                redefines_items={"text": {}},
-                remove_items={"text": set()},
-            )
-        )
-    return reqs
+        req_def.declared_items = {kind: dict(values) for kind, values in items.items()}
+        req_defs[name] = req_def
+    return req_defs
 
 
 def _unknown_statement_error(

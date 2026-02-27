@@ -3,20 +3,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, Iterable, Tuple
 
-from .base import DeclaredDefinition
+from .base import InherenceDefinition
 
 
 @dataclass
-class SysMLRequirement(DeclaredDefinition):
+class SysMLRequirementDefinition(InherenceDefinition):
     artifact_kinds: Tuple[str, ...] = ("text",)
-
-    @property
-    def identifier(self) -> str:
-        return self.name
-
-    @identifier.setter
-    def identifier(self, value: str) -> None:
-        self.name = value
 
     @property
     def text(self) -> str:
@@ -29,8 +21,8 @@ class SysMLRequirement(DeclaredDefinition):
 
 
 @dataclass
-class SysMLPortDefinition(DeclaredDefinition):
-    artifact_kinds: Tuple[str, ...] = ("attributes",)
+class SysMLPortDefinition(InherenceDefinition):
+    artifact_kinds: Tuple[str, ...] = ("attributes", "requirements")
 
     @property
     def attributes(self) -> Dict[str, object]:
@@ -42,8 +34,8 @@ class SysMLPortDefinition(DeclaredDefinition):
 
 
 @dataclass
-class SysMLPartDefinition(DeclaredDefinition):
-    artifact_kinds: Tuple[str, ...] = ("attributes", "ports", "parts", "connections")
+class SysMLPartDefinition(InherenceDefinition):
+    artifact_kinds: Tuple[str, ...] = ("attributes", "ports", "parts", "connections", "requirements")
 
     @property
     def attributes(self) -> Dict[str, object]:
@@ -86,3 +78,7 @@ class SysMLPartDefinition(DeclaredDefinition):
             )
             mapped[key] = c
         self.items["connections"] = mapped
+
+
+# Backward-compatible alias.
+SysMLRequirement = SysMLRequirementDefinition

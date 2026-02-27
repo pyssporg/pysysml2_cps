@@ -8,7 +8,8 @@
         "attributes",
         "ports",
         "parts",
-        "connections"
+        "connections",
+        "requirements"
       ],
       "declared_items": {
         "attributes": {},
@@ -17,7 +18,8 @@
         "ports": {
           "input": "__ref__",
           "output": "__ref__"
-        }
+        },
+        "requirements": {}
       },
       "doc": null,
       "items": {
@@ -41,20 +43,23 @@
             "port_name": "Signal",
             "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPortReference'>"
           }
-        }
+        },
+        "requirements": {}
       },
       "name": "Node",
       "redefines_items": {
         "attributes": {},
         "connections": {},
         "parts": {},
-        "ports": {}
+        "ports": {},
+        "requirements": {}
       },
       "remove_items": {
         "attributes": [],
         "connections": [],
         "parts": [],
-        "ports": []
+        "ports": [],
+        "requirements": []
       },
       "source_file": "model.sysml",
       "specializes": null,
@@ -65,21 +70,26 @@
   "port_definitions": {
     "Signal": {
       "artifact_kinds": [
-        "attributes"
+        "attributes",
+        "requirements"
       ],
       "declared_items": {
-        "attributes": {}
+        "attributes": {},
+        "requirements": {}
       },
       "doc": null,
       "items": {
-        "attributes": {}
+        "attributes": {},
+        "requirements": {}
       },
       "name": "Signal",
       "redefines_items": {
-        "attributes": {}
+        "attributes": {},
+        "requirements": {}
       },
       "remove_items": {
-        "attributes": []
+        "attributes": [],
+        "requirements": []
       },
       "source_file": "model.sysml",
       "specializes": null,
@@ -87,6 +97,6 @@
       "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPortDefinition'>"
     }
   },
-  "requirements": [],
+  "requirement_definitions": {},
   "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
 }

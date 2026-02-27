@@ -51,7 +51,7 @@ pip install "git+https://github.com/jkCXf9X4/py_sysml_v2_cps.git@v0.1.0"
 Main import:
 
 ```python
-from pycps_sysmlv2 import load_architecture
+from pycps_sysmlv2 import load_architecture, export_architecture
 ```
 
 Main entrypoint:
@@ -63,6 +63,10 @@ Main entrypoint:
     - `part_definitions`
     - `port_definitions`
     - `requirements`
+- `export_architecture(architecture, mode="declared" | "flattened")`:
+  - Emits SysML text from the in-memory architecture.
+- `export_architecture_files(architecture, mode="declared")`:
+  - Emits a `dict[file_name, sysml_text]` grouped by original source file when known.
 
 ## Quickstart
 
@@ -303,6 +307,8 @@ python -m build
 ## Package layout
 
 - `src/pycps_sysmlv2/` - package implementation
+- `src/pycps_sysmlv2/inheritance.py` - inheritance merge pass
+- `src/pycps_sysmlv2/exporter.py` - SysML text export
 - `tests/` - package-local tests
 - `examples/` - small usage scripts
 - `docs/` - package-specific notes

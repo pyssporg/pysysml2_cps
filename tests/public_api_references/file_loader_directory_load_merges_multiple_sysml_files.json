@@ -6,6 +6,23 @@
       "base_part_def": null,
       "base_part_name": null,
       "connections": [],
+      "declared_attributes": {},
+      "declared_connections": [],
+      "declared_parts": {},
+      "declared_ports": {
+        "in_signal": {
+          "direction": "in",
+          "doc": null,
+          "name": "in_signal",
+          "port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal",
+            "source_file": "ports.sysml"
+          },
+          "port_name": "Signal"
+        }
+      },
       "doc": null,
       "name": "Consumer",
       "parts": {},
@@ -17,7 +34,8 @@
           "port_def": {
             "attributes": {},
             "doc": null,
-            "name": "Signal"
+            "name": "Signal",
+            "source_file": "ports.sysml"
           },
           "port_name": "Signal"
         }
@@ -28,13 +46,31 @@
       "remove_ports": [],
       "replace_attributes": {},
       "replace_parts": {},
-      "replace_ports": {}
+      "replace_ports": {},
+      "source_file": "parts.sysml"
     },
     "Producer": {
       "attributes": {},
       "base_part_def": null,
       "base_part_name": null,
       "connections": [],
+      "declared_attributes": {},
+      "declared_connections": [],
+      "declared_parts": {},
+      "declared_ports": {
+        "out_signal": {
+          "direction": "out",
+          "doc": null,
+          "name": "out_signal",
+          "port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal",
+            "source_file": "ports.sysml"
+          },
+          "port_name": "Signal"
+        }
+      },
       "doc": null,
       "name": "Producer",
       "parts": {},
@@ -46,7 +82,8 @@
           "port_def": {
             "attributes": {},
             "doc": null,
-            "name": "Signal"
+            "name": "Signal",
+            "source_file": "ports.sysml"
           },
           "port_name": "Signal"
         }
@@ -57,7 +94,8 @@
       "remove_ports": [],
       "replace_attributes": {},
       "replace_parts": {},
-      "replace_ports": {}
+      "replace_ports": {},
+      "source_file": "parts.sysml"
     },
     "System": {
       "attributes": {},
@@ -71,6 +109,23 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "Consumer",
             "parts": {},
@@ -82,7 +137,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -93,13 +149,15 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "parts.sysml"
           },
           "dst_port": "in_signal",
           "dst_port_def": {
             "attributes": {},
             "doc": null,
-            "name": "Signal"
+            "name": "Signal",
+            "source_file": "ports.sysml"
           },
           "src_component": "src",
           "src_part_def": {
@@ -107,6 +165,23 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "Producer",
             "parts": {},
@@ -118,7 +193,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -129,27 +205,44 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "parts.sysml"
           },
           "src_port": "out_signal",
           "src_port_def": {
             "attributes": {},
             "doc": null,
-            "name": "Signal"
+            "name": "Signal",
+            "source_file": "ports.sysml"
           }
         }
       ],
-      "doc": null,
-      "name": "System",
-      "parts": {
-        "dst": {
-          "doc": null,
-          "name": "dst",
-          "part_def": {
+      "declared_attributes": {},
+      "declared_connections": [
+        {
+          "dst_component": "dst",
+          "dst_part_def": {
             "attributes": {},
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "Consumer",
             "parts": {},
@@ -161,7 +254,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -172,7 +266,125 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "parts.sysml"
+          },
+          "dst_port": "in_signal",
+          "dst_port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal",
+            "source_file": "ports.sysml"
+          },
+          "src_component": "src",
+          "src_part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "doc": null,
+            "name": "Producer",
+            "parts": {},
+            "ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {},
+            "source_file": "parts.sysml"
+          },
+          "src_port": "out_signal",
+          "src_port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal",
+            "source_file": "ports.sysml"
+          }
+        }
+      ],
+      "declared_parts": {
+        "dst": {
+          "doc": null,
+          "name": "dst",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "doc": null,
+            "name": "Consumer",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {},
+            "source_file": "parts.sysml"
           },
           "part_name": "Consumer"
         },
@@ -184,6 +396,23 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "Producer",
             "parts": {},
@@ -195,7 +424,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -206,7 +436,119 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "parts.sysml"
+          },
+          "part_name": "Producer"
+        }
+      },
+      "declared_ports": {},
+      "doc": null,
+      "name": "System",
+      "parts": {
+        "dst": {
+          "doc": null,
+          "name": "dst",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "doc": null,
+            "name": "Consumer",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {},
+            "source_file": "parts.sysml"
+          },
+          "part_name": "Consumer"
+        },
+        "src": {
+          "doc": null,
+          "name": "src",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "doc": null,
+            "name": "Producer",
+            "parts": {},
+            "ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "ports.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {},
+            "source_file": "parts.sysml"
           },
           "part_name": "Producer"
         }
@@ -218,14 +560,16 @@
       "remove_ports": [],
       "replace_attributes": {},
       "replace_parts": {},
-      "replace_ports": {}
+      "replace_ports": {},
+      "source_file": "composition.sysml"
     }
   },
   "port_definitions": {
     "Signal": {
       "attributes": {},
       "doc": null,
-      "name": "Signal"
+      "name": "Signal",
+      "source_file": "ports.sysml"
     }
   },
   "requirements": []

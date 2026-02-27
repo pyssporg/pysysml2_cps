@@ -52,6 +52,19 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
   - requirement extraction (`requirement def`, `requirement ... : ...;`)
   - validation of unresolved references with contextual `ValueError`s
 
+### `src/pycps_sysmlv2/inheritance.py`
+
+- Isolated inheritance-resolution pass.
+- Applies `remove -> redefines -> add` semantics.
+- Keeps parsed declared members separate from effective merged members.
+
+### `src/pycps_sysmlv2/exporter.py`
+
+- SysML text export.
+- `declared` mode preserves inheritance intent (`specializes`, `redefines`, `remove`).
+- `flattened` mode emits effective merged definitions.
+- Multi-file declared export groups definitions by recorded `source_file` when available.
+
 ### `src/pycps_sysmlv2/definitions.py`
 
 - Core domain model and type helpers.
@@ -138,6 +151,8 @@ Common places to extend behavior:
   - add another validation pass after connection resolution.
 - Better diagnostics:
   - add custom exception classes with file/line metadata.
+- Additional export targets:
+  - extend `exporter.py` with additional artifact emitters while reusing declared/effective views.
 
 ## Testing Strategy
 

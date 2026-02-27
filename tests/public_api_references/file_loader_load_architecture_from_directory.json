@@ -6,6 +6,10 @@
       "base_part_def": null,
       "base_part_name": null,
       "connections": [],
+      "declared_attributes": {},
+      "declared_connections": [],
+      "declared_parts": {},
+      "declared_ports": {},
       "doc": null,
       "name": "Child",
       "parts": {},
@@ -16,13 +20,46 @@
       "remove_ports": [],
       "replace_attributes": {},
       "replace_parts": {},
-      "replace_ports": {}
+      "replace_ports": {},
+      "source_file": "main.sysml"
     },
     "System": {
       "attributes": {},
       "base_part_def": null,
       "base_part_name": null,
       "connections": [],
+      "declared_attributes": {},
+      "declared_connections": [],
+      "declared_parts": {
+        "child": {
+          "doc": null,
+          "name": "child",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {},
+            "doc": null,
+            "name": "Child",
+            "parts": {},
+            "ports": {},
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {},
+            "source_file": "main.sysml"
+          },
+          "part_name": "Child"
+        }
+      },
+      "declared_ports": {},
       "doc": null,
       "name": "System",
       "parts": {
@@ -34,6 +71,10 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {},
             "doc": null,
             "name": "Child",
             "parts": {},
@@ -44,7 +85,8 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "main.sysml"
           },
           "part_name": "Child"
         }
@@ -56,7 +98,8 @@
       "remove_ports": [],
       "replace_attributes": {},
       "replace_parts": {},
-      "replace_ports": {}
+      "replace_ports": {},
+      "source_file": "main.sysml"
     }
   },
   "port_definitions": {},

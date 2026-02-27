@@ -5,10 +5,12 @@
   "requirements": [
     {
       "identifier": "REQ_1",
+      "source_file": "requirements.sysml",
       "text": "The system shall parse requirements."
     },
     {
       "identifier": "REQ_2",
+      "source_file": "requirements.sysml",
       "text": "Multi-line requirement text should be normalized."
     }
   ]

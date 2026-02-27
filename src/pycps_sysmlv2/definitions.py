@@ -166,6 +166,7 @@ class SysMLAttribute:
 class SysMLRequirement:
     identifier: str
     text: str
+    source_file: Optional[str] = None
 
     def __str__(self) -> str:
         return json_dumps(self)
@@ -191,6 +192,7 @@ class SysMLPortDefinition:
     name: str
     doc: Optional[str] = None
     attributes: Dict[str, SysMLAttribute] = field(default_factory=dict)
+    source_file: Optional[str] = None
 
     def __str__(self) -> str:
         return json_dumps(self)
@@ -202,10 +204,15 @@ class SysMLPartDefinition:
     doc: Optional[str] = None
     base_part_name: Optional[str] = None
     base_part_def: Optional["SysMLPartDefinition"] = None
+    source_file: Optional[str] = None
     attributes: Dict[str, SysMLAttribute] = field(default_factory=dict)
     ports: Dict[str, SysMLPortReference] = field(default_factory=dict)
     parts: Dict[str, SysMLPartReference] = field(default_factory=dict)
     connections: List[SysMLConnection] = field(default_factory=list)
+    declared_attributes: Dict[str, SysMLAttribute] = field(default_factory=dict)
+    declared_ports: Dict[str, SysMLPortReference] = field(default_factory=dict)
+    declared_parts: Dict[str, SysMLPartReference] = field(default_factory=dict)
+    declared_connections: List[SysMLConnection] = field(default_factory=list)
     replace_attributes: Dict[str, SysMLAttribute] = field(default_factory=dict)
     replace_ports: Dict[str, SysMLPortReference] = field(default_factory=dict)
     replace_parts: Dict[str, SysMLPartReference] = field(default_factory=dict)

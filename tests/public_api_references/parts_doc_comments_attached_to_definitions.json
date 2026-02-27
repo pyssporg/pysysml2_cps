@@ -16,6 +16,43 @@
       "base_part_def": null,
       "base_part_name": null,
       "connections": [],
+      "declared_attributes": {
+        "threshold": {
+          "doc": "attribute docs",
+          "name": "threshold",
+          "type": {
+            "string_definition": null,
+            "type": "Integer"
+          },
+          "value": 2
+        }
+      },
+      "declared_connections": [],
+      "declared_parts": {},
+      "declared_ports": {
+        "input": {
+          "direction": "in",
+          "doc": "input docs",
+          "name": "input",
+          "port_def": {
+            "attributes": {
+              "p": {
+                "doc": "payload docs",
+                "name": "p",
+                "type": {
+                  "string_definition": null,
+                  "type": "Integer"
+                },
+                "value": 1
+              }
+            },
+            "doc": "signal docs",
+            "name": "Signal",
+            "source_file": "model.sysml"
+          },
+          "port_name": "Signal"
+        }
+      },
       "doc": "node docs",
       "name": "Node",
       "parts": {},
@@ -37,7 +74,8 @@
               }
             },
             "doc": "signal docs",
-            "name": "Signal"
+            "name": "Signal",
+            "source_file": "model.sysml"
           },
           "port_name": "Signal"
         }
@@ -48,7 +86,8 @@
       "remove_ports": [],
       "replace_attributes": {},
       "replace_parts": {},
-      "replace_ports": {}
+      "replace_ports": {},
+      "source_file": "model.sysml"
     }
   },
   "port_definitions": {
@@ -65,7 +104,8 @@
         }
       },
       "doc": "signal docs",
-      "name": "Signal"
+      "name": "Signal",
+      "source_file": "model.sysml"
     }
   },
   "requirements": []

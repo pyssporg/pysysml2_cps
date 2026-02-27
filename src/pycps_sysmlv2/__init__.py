@@ -2,20 +2,19 @@
 
 __version__ = "0.1.0"
 
-from .parsing import (
+from .definitions import (
     SysMLArchitecture,
     SysMLAttribute,
     SysMLConnection,
-    SysMLFolderParser,
     SysMLPartDefinition,
     SysMLPartReference,
     SysMLPortDefinition,
     SysMLPortReference,
     SysMLRequirement,
     SysMLType,
-    load_architecture,
-    load_system,
 )
+from .exporter import SysMLExporter, export_architecture, export_architecture_files
+from .parsing import SysMLFolderParser, load_architecture, load_system
 
 
 from .parser_utils import json_dumps

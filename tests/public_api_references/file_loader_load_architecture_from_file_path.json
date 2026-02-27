@@ -6,6 +6,10 @@
       "base_part_def": null,
       "base_part_name": null,
       "connections": [],
+      "declared_attributes": {},
+      "declared_connections": [],
+      "declared_parts": {},
+      "declared_ports": {},
       "doc": null,
       "name": "Child",
       "parts": {},
@@ -16,7 +20,8 @@
       "remove_ports": [],
       "replace_attributes": {},
       "replace_parts": {},
-      "replace_ports": {}
+      "replace_ports": {},
+      "source_file": "model.sysml"
     }
   },
   "port_definitions": {},

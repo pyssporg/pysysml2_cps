@@ -6,6 +6,23 @@
       "base_part_def": null,
       "base_part_name": null,
       "connections": [],
+      "declared_attributes": {},
+      "declared_connections": [],
+      "declared_parts": {},
+      "declared_ports": {
+        "out_signal": {
+          "direction": "out",
+          "doc": null,
+          "name": "out_signal",
+          "port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal",
+            "source_file": "model.sysml"
+          },
+          "port_name": "Signal"
+        }
+      },
       "doc": null,
       "name": "A",
       "parts": {},
@@ -17,7 +34,8 @@
           "port_def": {
             "attributes": {},
             "doc": null,
-            "name": "Signal"
+            "name": "Signal",
+            "source_file": "model.sysml"
           },
           "port_name": "Signal"
         }
@@ -28,13 +46,31 @@
       "remove_ports": [],
       "replace_attributes": {},
       "replace_parts": {},
-      "replace_ports": {}
+      "replace_ports": {},
+      "source_file": "model.sysml"
     },
     "B": {
       "attributes": {},
       "base_part_def": null,
       "base_part_name": null,
       "connections": [],
+      "declared_attributes": {},
+      "declared_connections": [],
+      "declared_parts": {},
+      "declared_ports": {
+        "in_signal": {
+          "direction": "in",
+          "doc": null,
+          "name": "in_signal",
+          "port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal",
+            "source_file": "model.sysml"
+          },
+          "port_name": "Signal"
+        }
+      },
       "doc": null,
       "name": "B",
       "parts": {},
@@ -46,7 +82,8 @@
           "port_def": {
             "attributes": {},
             "doc": null,
-            "name": "Signal"
+            "name": "Signal",
+            "source_file": "model.sysml"
           },
           "port_name": "Signal"
         }
@@ -57,7 +94,8 @@
       "remove_ports": [],
       "replace_attributes": {},
       "replace_parts": {},
-      "replace_ports": {}
+      "replace_ports": {},
+      "source_file": "model.sysml"
     },
     "Base": {
       "attributes": {},
@@ -71,6 +109,23 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "B",
             "parts": {},
@@ -82,7 +137,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "model.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -93,13 +149,15 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "model.sysml"
           },
           "dst_port": "in_signal",
           "dst_port_def": {
             "attributes": {},
             "doc": null,
-            "name": "Signal"
+            "name": "Signal",
+            "source_file": "model.sysml"
           },
           "src_component": "a",
           "src_part_def": {
@@ -107,6 +165,23 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "A",
             "parts": {},
@@ -118,7 +193,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "model.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -129,19 +205,136 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "model.sysml"
           },
           "src_port": "out_signal",
           "src_port_def": {
             "attributes": {},
             "doc": null,
-            "name": "Signal"
+            "name": "Signal",
+            "source_file": "model.sysml"
           }
         }
       ],
-      "doc": null,
-      "name": "Base",
-      "parts": {
+      "declared_attributes": {},
+      "declared_connections": [
+        {
+          "dst_component": "b",
+          "dst_part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "doc": null,
+            "name": "B",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {},
+            "source_file": "model.sysml"
+          },
+          "dst_port": "in_signal",
+          "dst_port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal",
+            "source_file": "model.sysml"
+          },
+          "src_component": "a",
+          "src_part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "doc": null,
+            "name": "A",
+            "parts": {},
+            "ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {},
+            "source_file": "model.sysml"
+          },
+          "src_port": "out_signal",
+          "src_port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal",
+            "source_file": "model.sysml"
+          }
+        }
+      ],
+      "declared_parts": {
         "a": {
           "doc": null,
           "name": "a",
@@ -150,6 +343,23 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "A",
             "parts": {},
@@ -161,7 +371,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "model.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -172,7 +383,8 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "model.sysml"
           },
           "part_name": "A"
         },
@@ -184,6 +396,23 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "B",
             "parts": {},
@@ -195,7 +424,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "model.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -206,7 +436,8 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "model.sysml"
           },
           "part_name": "B"
         },
@@ -218,6 +449,23 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "C",
             "parts": {},
@@ -229,7 +477,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "model.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -240,7 +489,172 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "model.sysml"
+          },
+          "part_name": "C"
+        }
+      },
+      "declared_ports": {},
+      "doc": null,
+      "name": "Base",
+      "parts": {
+        "a": {
+          "doc": null,
+          "name": "a",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "doc": null,
+            "name": "A",
+            "parts": {},
+            "ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {},
+            "source_file": "model.sysml"
+          },
+          "part_name": "A"
+        },
+        "b": {
+          "doc": null,
+          "name": "b",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "doc": null,
+            "name": "B",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {},
+            "source_file": "model.sysml"
+          },
+          "part_name": "B"
+        },
+        "c": {
+          "doc": null,
+          "name": "c",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "doc": null,
+            "name": "C",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {},
+            "source_file": "model.sysml"
           },
           "part_name": "C"
         }
@@ -252,13 +666,31 @@
       "remove_ports": [],
       "replace_attributes": {},
       "replace_parts": {},
-      "replace_ports": {}
+      "replace_ports": {},
+      "source_file": "model.sysml"
     },
     "C": {
       "attributes": {},
       "base_part_def": null,
       "base_part_name": null,
       "connections": [],
+      "declared_attributes": {},
+      "declared_connections": [],
+      "declared_parts": {},
+      "declared_ports": {
+        "in_signal": {
+          "direction": "in",
+          "doc": null,
+          "name": "in_signal",
+          "port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal",
+            "source_file": "model.sysml"
+          },
+          "port_name": "Signal"
+        }
+      },
       "doc": null,
       "name": "C",
       "parts": {},
@@ -270,7 +702,8 @@
           "port_def": {
             "attributes": {},
             "doc": null,
-            "name": "Signal"
+            "name": "Signal",
+            "source_file": "model.sysml"
           },
           "port_name": "Signal"
         }
@@ -281,7 +714,8 @@
       "remove_ports": [],
       "replace_attributes": {},
       "replace_parts": {},
-      "replace_ports": {}
+      "replace_ports": {},
+      "source_file": "model.sysml"
     },
     "Derived": {
       "attributes": {},
@@ -297,6 +731,23 @@
               "base_part_def": null,
               "base_part_name": null,
               "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "in_signal": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
               "doc": null,
               "name": "B",
               "parts": {},
@@ -308,7 +759,8 @@
                   "port_def": {
                     "attributes": {},
                     "doc": null,
-                    "name": "Signal"
+                    "name": "Signal",
+                    "source_file": "model.sysml"
                   },
                   "port_name": "Signal"
                 }
@@ -319,13 +771,15 @@
               "remove_ports": [],
               "replace_attributes": {},
               "replace_parts": {},
-              "replace_ports": {}
+              "replace_ports": {},
+              "source_file": "model.sysml"
             },
             "dst_port": "in_signal",
             "dst_port_def": {
               "attributes": {},
               "doc": null,
-              "name": "Signal"
+              "name": "Signal",
+              "source_file": "model.sysml"
             },
             "src_component": "a",
             "src_part_def": {
@@ -333,6 +787,23 @@
               "base_part_def": null,
               "base_part_name": null,
               "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "out_signal": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
               "doc": null,
               "name": "A",
               "parts": {},
@@ -344,7 +815,8 @@
                   "port_def": {
                     "attributes": {},
                     "doc": null,
-                    "name": "Signal"
+                    "name": "Signal",
+                    "source_file": "model.sysml"
                   },
                   "port_name": "Signal"
                 }
@@ -355,19 +827,136 @@
               "remove_ports": [],
               "replace_attributes": {},
               "replace_parts": {},
-              "replace_ports": {}
+              "replace_ports": {},
+              "source_file": "model.sysml"
             },
             "src_port": "out_signal",
             "src_port_def": {
               "attributes": {},
               "doc": null,
-              "name": "Signal"
+              "name": "Signal",
+              "source_file": "model.sysml"
             }
           }
         ],
-        "doc": null,
-        "name": "Base",
-        "parts": {
+        "declared_attributes": {},
+        "declared_connections": [
+          {
+            "dst_component": "b",
+            "dst_part_def": {
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "in_signal": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "doc": null,
+              "name": "B",
+              "parts": {},
+              "ports": {
+                "in_signal": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {},
+              "source_file": "model.sysml"
+            },
+            "dst_port": "in_signal",
+            "dst_port_def": {
+              "attributes": {},
+              "doc": null,
+              "name": "Signal",
+              "source_file": "model.sysml"
+            },
+            "src_component": "a",
+            "src_part_def": {
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "out_signal": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "doc": null,
+              "name": "A",
+              "parts": {},
+              "ports": {
+                "out_signal": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {},
+              "source_file": "model.sysml"
+            },
+            "src_port": "out_signal",
+            "src_port_def": {
+              "attributes": {},
+              "doc": null,
+              "name": "Signal",
+              "source_file": "model.sysml"
+            }
+          }
+        ],
+        "declared_parts": {
           "a": {
             "doc": null,
             "name": "a",
@@ -376,6 +965,23 @@
               "base_part_def": null,
               "base_part_name": null,
               "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "out_signal": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
               "doc": null,
               "name": "A",
               "parts": {},
@@ -387,7 +993,8 @@
                   "port_def": {
                     "attributes": {},
                     "doc": null,
-                    "name": "Signal"
+                    "name": "Signal",
+                    "source_file": "model.sysml"
                   },
                   "port_name": "Signal"
                 }
@@ -398,7 +1005,8 @@
               "remove_ports": [],
               "replace_attributes": {},
               "replace_parts": {},
-              "replace_ports": {}
+              "replace_ports": {},
+              "source_file": "model.sysml"
             },
             "part_name": "A"
           },
@@ -410,6 +1018,23 @@
               "base_part_def": null,
               "base_part_name": null,
               "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "in_signal": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
               "doc": null,
               "name": "B",
               "parts": {},
@@ -421,7 +1046,8 @@
                   "port_def": {
                     "attributes": {},
                     "doc": null,
-                    "name": "Signal"
+                    "name": "Signal",
+                    "source_file": "model.sysml"
                   },
                   "port_name": "Signal"
                 }
@@ -432,7 +1058,8 @@
               "remove_ports": [],
               "replace_attributes": {},
               "replace_parts": {},
-              "replace_ports": {}
+              "replace_ports": {},
+              "source_file": "model.sysml"
             },
             "part_name": "B"
           },
@@ -444,6 +1071,23 @@
               "base_part_def": null,
               "base_part_name": null,
               "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "in_signal": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
               "doc": null,
               "name": "C",
               "parts": {},
@@ -455,7 +1099,8 @@
                   "port_def": {
                     "attributes": {},
                     "doc": null,
-                    "name": "Signal"
+                    "name": "Signal",
+                    "source_file": "model.sysml"
                   },
                   "port_name": "Signal"
                 }
@@ -466,7 +1111,172 @@
               "remove_ports": [],
               "replace_attributes": {},
               "replace_parts": {},
-              "replace_ports": {}
+              "replace_ports": {},
+              "source_file": "model.sysml"
+            },
+            "part_name": "C"
+          }
+        },
+        "declared_ports": {},
+        "doc": null,
+        "name": "Base",
+        "parts": {
+          "a": {
+            "doc": null,
+            "name": "a",
+            "part_def": {
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "out_signal": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "doc": null,
+              "name": "A",
+              "parts": {},
+              "ports": {
+                "out_signal": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {},
+              "source_file": "model.sysml"
+            },
+            "part_name": "A"
+          },
+          "b": {
+            "doc": null,
+            "name": "b",
+            "part_def": {
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "in_signal": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "doc": null,
+              "name": "B",
+              "parts": {},
+              "ports": {
+                "in_signal": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {},
+              "source_file": "model.sysml"
+            },
+            "part_name": "B"
+          },
+          "c": {
+            "doc": null,
+            "name": "c",
+            "part_def": {
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "declared_attributes": {},
+              "declared_connections": [],
+              "declared_parts": {},
+              "declared_ports": {
+                "in_signal": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "doc": null,
+              "name": "C",
+              "parts": {},
+              "ports": {
+                "in_signal": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal",
+                    "source_file": "model.sysml"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {},
+              "source_file": "model.sysml"
             },
             "part_name": "C"
           }
@@ -478,7 +1288,8 @@
         "remove_ports": [],
         "replace_attributes": {},
         "replace_parts": {},
-        "replace_ports": {}
+        "replace_ports": {},
+        "source_file": "model.sysml"
       },
       "base_part_name": "Base",
       "connections": [
@@ -489,6 +1300,23 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "C",
             "parts": {},
@@ -500,7 +1328,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "model.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -511,13 +1340,15 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "model.sysml"
           },
           "dst_port": "in_signal",
           "dst_port_def": {
             "attributes": {},
             "doc": null,
-            "name": "Signal"
+            "name": "Signal",
+            "source_file": "model.sysml"
           },
           "src_component": "a",
           "src_part_def": {
@@ -525,6 +1356,23 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "A",
             "parts": {},
@@ -536,7 +1384,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "model.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -547,16 +1396,137 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "model.sysml"
           },
           "src_port": "out_signal",
           "src_port_def": {
             "attributes": {},
             "doc": null,
-            "name": "Signal"
+            "name": "Signal",
+            "source_file": "model.sysml"
           }
         }
       ],
+      "declared_attributes": {},
+      "declared_connections": [
+        {
+          "dst_component": "c",
+          "dst_part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "doc": null,
+            "name": "C",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {},
+            "source_file": "model.sysml"
+          },
+          "dst_port": "in_signal",
+          "dst_port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal",
+            "source_file": "model.sysml"
+          },
+          "src_component": "a",
+          "src_part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "doc": null,
+            "name": "A",
+            "parts": {},
+            "ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {},
+            "source_file": "model.sysml"
+          },
+          "src_port": "out_signal",
+          "src_port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal",
+            "source_file": "model.sysml"
+          }
+        }
+      ],
+      "declared_parts": {},
+      "declared_ports": {},
       "doc": null,
       "name": "Derived",
       "parts": {
@@ -568,6 +1538,23 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "A",
             "parts": {},
@@ -579,7 +1566,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "model.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -590,7 +1578,8 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "model.sysml"
           },
           "part_name": "A"
         },
@@ -602,6 +1591,23 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "B",
             "parts": {},
@@ -613,7 +1619,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "model.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -624,7 +1631,8 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "model.sysml"
           },
           "part_name": "B"
         },
@@ -636,6 +1644,23 @@
             "base_part_def": null,
             "base_part_name": null,
             "connections": [],
+            "declared_attributes": {},
+            "declared_connections": [],
+            "declared_parts": {},
+            "declared_ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal",
+                  "source_file": "model.sysml"
+                },
+                "port_name": "Signal"
+              }
+            },
             "doc": null,
             "name": "C",
             "parts": {},
@@ -647,7 +1672,8 @@
                 "port_def": {
                   "attributes": {},
                   "doc": null,
-                  "name": "Signal"
+                  "name": "Signal",
+                  "source_file": "model.sysml"
                 },
                 "port_name": "Signal"
               }
@@ -658,7 +1684,8 @@
             "remove_ports": [],
             "replace_attributes": {},
             "replace_parts": {},
-            "replace_ports": {}
+            "replace_ports": {},
+            "source_file": "model.sysml"
           },
           "part_name": "C"
         }
@@ -681,14 +1708,16 @@
       "remove_ports": [],
       "replace_attributes": {},
       "replace_parts": {},
-      "replace_ports": {}
+      "replace_ports": {},
+      "source_file": "model.sysml"
     }
   },
   "port_definitions": {
     "Signal": {
       "attributes": {},
       "doc": null,
-      "name": "Signal"
+      "name": "Signal",
+      "source_file": "model.sysml"
     }
   },
   "requirements": []

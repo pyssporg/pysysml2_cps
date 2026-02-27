@@ -24,7 +24,21 @@
           "direction": "in",
           "doc": "input docs",
           "name": "input",
-          "port_def": "__ref__",
+          "port_def": {
+            "attributes": {
+              "p": {
+                "doc": "payload docs",
+                "name": "p",
+                "type": {
+                  "string_definition": null,
+                  "type": "Integer"
+                },
+                "value": 1
+              }
+            },
+            "doc": "signal docs",
+            "name": "Signal"
+          },
           "port_name": "Signal"
         }
       },

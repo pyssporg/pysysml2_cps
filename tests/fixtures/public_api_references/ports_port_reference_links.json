@@ -14,7 +14,11 @@
           "direction": "in",
           "doc": null,
           "name": "input",
-          "port_def": "__ref__",
+          "port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal"
+          },
           "port_name": "Signal"
         }
       },

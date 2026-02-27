@@ -14,7 +14,11 @@
           "direction": "in",
           "doc": null,
           "name": "in_signal",
-          "port_def": "__ref__",
+          "port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal"
+          },
           "port_name": "Signal"
         }
       },
@@ -39,7 +43,11 @@
           "direction": "out",
           "doc": null,
           "name": "out_signal",
-          "port_def": "__ref__",
+          "port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal"
+          },
           "port_name": "Signal"
         }
       },
@@ -58,13 +66,77 @@
       "connections": [
         {
           "dst_component": "dst",
-          "dst_part_def": "__ref__",
+          "dst_part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "Consumer",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
           "dst_port": "in_signal",
-          "dst_port_def": "__ref__",
+          "dst_port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal"
+          },
           "src_component": "src",
-          "src_part_def": "__ref__",
+          "src_part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "Producer",
+            "parts": {},
+            "ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
           "src_port": "out_signal",
-          "src_port_def": "__ref__"
+          "src_port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal"
+          }
         }
       ],
       "doc": null,
@@ -73,13 +145,69 @@
         "dst": {
           "doc": null,
           "name": "dst",
-          "part_def": "__ref__",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "Consumer",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
           "part_name": "Consumer"
         },
         "src": {
           "doc": null,
           "name": "src",
-          "part_def": "__ref__",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "Producer",
+            "parts": {},
+            "ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
           "part_name": "Producer"
         }
       },

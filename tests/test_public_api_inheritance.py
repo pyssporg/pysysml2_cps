@@ -32,16 +32,16 @@ def test_part_inheritance_add_replace_remove(tmp_path: Path):
             part right : ChildB;
           }
 
-          part def Derived : Base {
+          part def Derived specializes Base {
             remove attribute remove_attr;
-            replace attribute replace_attr = 99;
+            redefines attribute replace_attr = 99;
             attribute add_attr = true;
 
             remove port remove_port;
-            replace out port replace_port : SignalB;
+            redefines out port replace_port : SignalB;
             out port add_port : SignalA;
 
-            replace part right : ChildA;
+            redefines part right : ChildA;
             part extra : ChildB;
             connect right.out_a to extra.in_b;
           }
@@ -103,7 +103,7 @@ def test_part_inheritance_remove_connection_then_add_new_connection(tmp_path: Pa
             connect a.out_signal to b.in_signal;
           }
 
-          part def Derived : Base {
+          part def Derived specializes Base {
             remove connect a.out_signal to b.in_signal;
             connect a.out_signal to c.in_signal;
           }

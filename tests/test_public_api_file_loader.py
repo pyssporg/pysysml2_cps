@@ -109,3 +109,29 @@ def test_load_system_returns_requested_part_definition(tmp_path: Path):
     assert "child" in system.parts
     assert system.parts["child"].part_name == "Child"
     write_reference("file_loader_load_system_returns_requested_part_definition", architecture)
+
+
+def test_load_architecture_from_file_does_not_parse_sibling_files(tmp_path: Path):
+    model_path = tmp_path / "model.sysml"
+    write_model(
+        model_path,
+        """
+        package Example {
+          part def Child {}
+        }
+        """,
+    )
+    write_model(
+        tmp_path / "other.sysml",
+        """
+        package WrongPackage {
+          part def ShouldNotBeLoaded {}
+        }
+        """,
+    )
+
+    architecture = load_architecture(model_path)
+
+    assert architecture.package == "Example"
+    assert set(architecture.part_definitions) == {"Child"}
+    write_reference("file_loader_file_does_not_parse_siblings", architecture)

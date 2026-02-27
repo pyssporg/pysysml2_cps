@@ -14,7 +14,11 @@
           "direction": "out",
           "doc": null,
           "name": "out_signal",
-          "port_def": "__ref__",
+          "port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal"
+          },
           "port_name": "Signal"
         }
       },
@@ -39,7 +43,11 @@
           "direction": "in",
           "doc": null,
           "name": "in_signal",
-          "port_def": "__ref__",
+          "port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal"
+          },
           "port_name": "Signal"
         }
       },
@@ -58,13 +66,77 @@
       "connections": [
         {
           "dst_component": "b",
-          "dst_part_def": "__ref__",
+          "dst_part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "B",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
           "dst_port": "in_signal",
-          "dst_port_def": "__ref__",
+          "dst_port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal"
+          },
           "src_component": "a",
-          "src_part_def": "__ref__",
+          "src_part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "A",
+            "parts": {},
+            "ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
           "src_port": "out_signal",
-          "src_port_def": "__ref__"
+          "src_port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal"
+          }
         }
       ],
       "doc": null,
@@ -73,19 +145,103 @@
         "a": {
           "doc": null,
           "name": "a",
-          "part_def": "__ref__",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "A",
+            "parts": {},
+            "ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
           "part_name": "A"
         },
         "b": {
           "doc": null,
           "name": "b",
-          "part_def": "__ref__",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "B",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
           "part_name": "B"
         },
         "c": {
           "doc": null,
           "name": "c",
-          "part_def": "__ref__",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "C",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
           "part_name": "C"
         }
       },
@@ -107,7 +263,17 @@
       "name": "C",
       "parts": {},
       "ports": {
-        "in_signal": "__ref__"
+        "in_signal": {
+          "direction": "in",
+          "doc": null,
+          "name": "in_signal",
+          "port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal"
+          },
+          "port_name": "Signal"
+        }
       },
       "remove_attributes": [],
       "remove_connections": [],
@@ -119,26 +285,383 @@
     },
     "Derived": {
       "attributes": {},
-      "base_part_def": "__ref__",
+      "base_part_def": {
+        "attributes": {},
+        "base_part_def": null,
+        "base_part_name": null,
+        "connections": [
+          {
+            "dst_component": "b",
+            "dst_part_def": {
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "doc": null,
+              "name": "B",
+              "parts": {},
+              "ports": {
+                "in_signal": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {}
+            },
+            "dst_port": "in_signal",
+            "dst_port_def": {
+              "attributes": {},
+              "doc": null,
+              "name": "Signal"
+            },
+            "src_component": "a",
+            "src_part_def": {
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "doc": null,
+              "name": "A",
+              "parts": {},
+              "ports": {
+                "out_signal": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {}
+            },
+            "src_port": "out_signal",
+            "src_port_def": {
+              "attributes": {},
+              "doc": null,
+              "name": "Signal"
+            }
+          }
+        ],
+        "doc": null,
+        "name": "Base",
+        "parts": {
+          "a": {
+            "doc": null,
+            "name": "a",
+            "part_def": {
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "doc": null,
+              "name": "A",
+              "parts": {},
+              "ports": {
+                "out_signal": {
+                  "direction": "out",
+                  "doc": null,
+                  "name": "out_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {}
+            },
+            "part_name": "A"
+          },
+          "b": {
+            "doc": null,
+            "name": "b",
+            "part_def": {
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "doc": null,
+              "name": "B",
+              "parts": {},
+              "ports": {
+                "in_signal": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {}
+            },
+            "part_name": "B"
+          },
+          "c": {
+            "doc": null,
+            "name": "c",
+            "part_def": {
+              "attributes": {},
+              "base_part_def": null,
+              "base_part_name": null,
+              "connections": [],
+              "doc": null,
+              "name": "C",
+              "parts": {},
+              "ports": {
+                "in_signal": {
+                  "direction": "in",
+                  "doc": null,
+                  "name": "in_signal",
+                  "port_def": {
+                    "attributes": {},
+                    "doc": null,
+                    "name": "Signal"
+                  },
+                  "port_name": "Signal"
+                }
+              },
+              "remove_attributes": [],
+              "remove_connections": [],
+              "remove_parts": [],
+              "remove_ports": [],
+              "replace_attributes": {},
+              "replace_parts": {},
+              "replace_ports": {}
+            },
+            "part_name": "C"
+          }
+        },
+        "ports": {},
+        "remove_attributes": [],
+        "remove_connections": [],
+        "remove_parts": [],
+        "remove_ports": [],
+        "replace_attributes": {},
+        "replace_parts": {},
+        "replace_ports": {}
+      },
       "base_part_name": "Base",
       "connections": [
         {
           "dst_component": "c",
-          "dst_part_def": "__ref__",
+          "dst_part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "C",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
           "dst_port": "in_signal",
-          "dst_port_def": "__ref__",
+          "dst_port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal"
+          },
           "src_component": "a",
-          "src_part_def": "__ref__",
+          "src_part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "A",
+            "parts": {},
+            "ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
           "src_port": "out_signal",
-          "src_port_def": "__ref__"
+          "src_port_def": {
+            "attributes": {},
+            "doc": null,
+            "name": "Signal"
+          }
         }
       ],
       "doc": null,
       "name": "Derived",
       "parts": {
-        "a": "__ref__",
-        "b": "__ref__",
-        "c": "__ref__"
+        "a": {
+          "doc": null,
+          "name": "a",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "A",
+            "parts": {},
+            "ports": {
+              "out_signal": {
+                "direction": "out",
+                "doc": null,
+                "name": "out_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
+          "part_name": "A"
+        },
+        "b": {
+          "doc": null,
+          "name": "b",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "B",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
+          "part_name": "B"
+        },
+        "c": {
+          "doc": null,
+          "name": "c",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "C",
+            "parts": {},
+            "ports": {
+              "in_signal": {
+                "direction": "in",
+                "doc": null,
+                "name": "in_signal",
+                "port_def": {
+                  "attributes": {},
+                  "doc": null,
+                  "name": "Signal"
+                },
+                "port_name": "Signal"
+              }
+            },
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
+          "part_name": "C"
+        }
       },
       "ports": {},
       "remove_attributes": [],

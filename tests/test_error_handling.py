@@ -70,7 +70,7 @@ def test_part_inheritance_unknown_base_fails(tmp_path: Path):
         tmp_path / "model.sysml",
         """
         package Example {
-          part def Derived : MissingBase {
+          part def Derived specializes MissingBase {
             attribute x = 1;
           }
         }
@@ -83,14 +83,30 @@ def test_part_inheritance_unknown_base_fails(tmp_path: Path):
         load_architecture(tmp_path)
 
 
+def test_legacy_colon_inheritance_syntax_is_rejected(tmp_path: Path):
+    _write(
+        tmp_path / "model.sysml",
+        """
+        package Example {
+          part def Derived : Base {}
+        }
+        """,
+    )
+
+    with pytest.raises(
+        ValueError, match="Legacy inheritance syntax ':' is not supported"
+    ):
+        load_architecture(tmp_path)
+
+
 def test_part_inheritance_cycle_fails(tmp_path: Path):
     _write(
         tmp_path / "model.sysml",
         """
         package Example {
-          part def A : B {}
-          part def B : C {}
-          part def C : A {}
+          part def A specializes B {}
+          part def B specializes C {}
+          part def C specializes A {}
         }
         """,
     )
@@ -99,7 +115,7 @@ def test_part_inheritance_cycle_fails(tmp_path: Path):
         load_architecture(tmp_path)
 
 
-def test_replace_requires_existing_member(tmp_path: Path):
+def test_redefines_requires_existing_member(tmp_path: Path):
     _write(
         tmp_path / "model.sysml",
         """
@@ -107,14 +123,14 @@ def test_replace_requires_existing_member(tmp_path: Path):
           part def Base {
             attribute present = 1;
           }
-          part def Derived : Base {
-            replace attribute missing = 2;
+          part def Derived specializes Base {
+            redefines attribute missing = 2;
           }
         }
         """,
     )
 
-    with pytest.raises(ValueError, match="Cannot replace unknown attribute Derived.missing"):
+    with pytest.raises(ValueError, match="Cannot redefine unknown attribute Derived.missing"):
         load_architecture(tmp_path)
 
 
@@ -124,7 +140,7 @@ def test_remove_requires_existing_member(tmp_path: Path):
         """
         package Example {
           part def Base {}
-          part def Derived : Base {
+          part def Derived specializes Base {
             remove port missingPort;
           }
         }
@@ -143,7 +159,7 @@ def test_add_collision_requires_replace(tmp_path: Path):
           part def Base {
             attribute value = 1;
           }
-          part def Derived : Base {
+          part def Derived specializes Base {
             attribute value = 2;
           }
         }
@@ -152,12 +168,12 @@ def test_add_collision_requires_replace(tmp_path: Path):
 
     with pytest.raises(
         ValueError,
-        match="Attribute name collision in Derived: value \\(use replace attribute\\)",
+        match="Attribute name collision in Derived: value \\(use redefines attribute\\)",
     ):
         load_architecture(tmp_path)
 
 
-def test_replace_connect_is_not_supported(tmp_path: Path):
+def test_replace_syntax_is_rejected(tmp_path: Path):
     _write(
         tmp_path / "model.sysml",
         """
@@ -167,12 +183,67 @@ def test_replace_connect_is_not_supported(tmp_path: Path):
             part b : Base;
             connect a.p to b.p;
           }
-          part def Derived : Base {
+          part def Derived specializes Base {
             replace connect a.p to b.p;
           }
         }
         """,
     )
 
-    with pytest.raises(ValueError, match="Malformed replace statement"):
+    with pytest.raises(
+        ValueError,
+        match="Unknown statement while parsing part def Derived in package Example",
+    ):
+        load_architecture(tmp_path)
+
+
+def test_comment_based_requirements_are_rejected(tmp_path: Path):
+    _write(
+        tmp_path / "model.sysml",
+        """
+        package Example {
+          comment REQ_1 /* legacy style requirement */
+        }
+        """,
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="Comment-based requirements are not supported; use requirement def/requirement syntax",
+    ):
+        load_architecture(tmp_path)
+
+
+def test_requirement_usage_requires_known_definition(tmp_path: Path):
+    _write(
+        tmp_path / "model.sysml",
+        """
+        package Example {
+          requirement MissingReq : MissingDef;
+        }
+        """,
+    )
+
+    with pytest.raises(
+        ValueError, match="Requirement usage references unknown requirement definition"
+    ):
+        load_architecture(tmp_path)
+
+
+def test_unknown_part_statement_fails_with_context(tmp_path: Path):
+    _write(
+        tmp_path / "model.sysml",
+        """
+        package Example {
+          part def Node {
+            action unsupported();
+          }
+        }
+        """,
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="Unknown statement while parsing part def Node in package Example",
+    ):
         load_architecture(tmp_path)

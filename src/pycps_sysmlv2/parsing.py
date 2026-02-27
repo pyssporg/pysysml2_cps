@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 import copy
 import re
-from typing import Dict, Iterator, List, Optional, Set, Tuple
+from typing import Any, Dict, Iterator, List, Optional, Set, Tuple
 
 from .definitions import (
     SysMLArchitecture,
@@ -33,52 +33,13 @@ class SysMLFolderParser:
         files = sorted(self.folder.glob("*.sysml"))
         if not files:
             raise FileNotFoundError(f"No .sysml files found under {self.folder}")
-
-        part_defs: Dict[str, SysMLPartDefinition] = {}
-        port_defs: Dict[str, SysMLPortDefinition] = {}
-        requirements: List[SysMLRequirement] = []
-        package_name: Optional[str] = None
-
-        for path in files:
-            text = path.read_text()
-            pkg, body = _extract_package_body(text, path)
-            if package_name is None:
-                package_name = pkg
-            elif pkg != package_name:
-                raise ValueError(
-                    f"Mismatched package names: {package_name} vs {pkg} in {path}"
-                )
-
-            for name, base_name, block in _extract_part_blocks(body):
-                if name in part_defs:
-                    raise ValueError(f"Duplicate part definition for {name} in {path}")
-                part_defs[name] = _parse_part_block(name, block, base_name)
-
-            for name, block in _extract_named_blocks(body, "port def"):
-                if name in port_defs:
-                    raise ValueError(f"Duplicate port definition for {name} in {path}")
-                port_defs[name] = _parse_port_block(name, block)
-
-            requirements.extend(_parse_requirements(body))
-
-        _attach_base_part_definitions(part_defs)
-        _resolve_part_inheritance(part_defs)
-        _attach_port_definitions(part_defs, port_defs)
-        _attach_part_definitions(part_defs)
-
-        _attach_connection_definitions(part_defs, port_defs)
-        return SysMLArchitecture(
-            package=package_name or "Package",
-            part_definitions=part_defs,
-            port_definitions=port_defs,
-            requirements=requirements,
-        )
+        return _parse_sysml_files(files)
 
 
 def load_architecture(folder: Path | str) -> SysMLArchitecture:
     path = Path(folder)
     if path.is_file():
-        path = path.parent
+        return _parse_sysml_files([path])
     return SysMLFolderParser(path).parse()
 
 
@@ -93,6 +54,67 @@ _PACKAGE_RE = re.compile(r"package\s+([A-Za-z0-9_]+)\s*\{", re.MULTILINE)
 _CONNECTION_RE = re.compile(
     r"connect\s+([A-Za-z0-9_]+)\.([A-Za-z0-9_]+)\s+to\s+([A-Za-z0-9_]+)\.([A-Za-z0-9_]+)\s*;"
 )
+
+
+def _parse_sysml_files(files: List[Path]) -> SysMLArchitecture:
+    part_defs: Dict[str, SysMLPartDefinition] = {}
+    port_defs: Dict[str, SysMLPortDefinition] = {}
+    requirements: List[SysMLRequirement] = []
+    package_name: Optional[str] = None
+
+    for path in files:
+        text = path.read_text()
+        pkg, body = _extract_package_body(text, path)
+        legacy_inheritance = re.search(
+            r"part def\s+[A-Za-z0-9_]+\s*:\s*[A-Za-z0-9_]+\s*\{", body
+        )
+        if legacy_inheritance is not None:
+            raise ValueError(
+                f"Legacy inheritance syntax ':' is not supported in {path}; "
+                "use 'specializes' instead"
+            )
+        if package_name is None:
+            package_name = pkg
+        elif pkg != package_name:
+            raise ValueError(
+                f"Mismatched package names: {package_name} vs {pkg} in {path}"
+            )
+
+        for name, base_name, block in _extract_part_blocks(body):
+            if name in part_defs:
+                raise ValueError(f"Duplicate part definition for {name} in {path}")
+            part_defs[name] = _parse_part_block(
+                name=name,
+                block=block,
+                base_part_name=base_name,
+                source_path=path,
+                package_name=pkg,
+                strict=True,
+            )
+
+        for name, block in _extract_named_blocks(body, "port def"):
+            if name in port_defs:
+                raise ValueError(f"Duplicate port definition for {name} in {path}")
+            port_defs[name] = _parse_port_block(
+                name=name,
+                block=block,
+                source_path=path,
+                package_name=pkg,
+                strict=True,
+            )
+
+        requirements.extend(_parse_requirements(body, source_path=path, package_name=pkg))
+
+    _resolve_part_inheritance(part_defs)
+    _attach_port_definitions(part_defs, port_defs)
+    _attach_part_definitions(part_defs)
+    _attach_connection_definitions(part_defs)
+    return SysMLArchitecture(
+        package=package_name or "Package",
+        part_definitions=part_defs,
+        port_definitions=port_defs,
+        requirements=requirements,
+    )
 
 
 def _extract_package_body(text: str, path: Path) -> Tuple[str, str]:
@@ -123,7 +145,8 @@ def _extract_named_blocks(body: str, keyword: str) -> List[Tuple[str, str]]:
 
 def _extract_part_blocks(body: str) -> List[Tuple[str, Optional[str], str]]:
     pattern = re.compile(
-        r"part def\s+([A-Za-z0-9_]+)(?:\s*:\s*([A-Za-z0-9_]+))?\s*\{", re.MULTILINE
+        r"part def\s+([A-Za-z0-9_]+)(?:\s*specializes\s*([A-Za-z0-9_]+))?\s*\{",
+        re.MULTILINE,
     )
     blocks: List[Tuple[str, Optional[str], str]] = []
     idx = 0
@@ -141,7 +164,12 @@ def _extract_part_blocks(body: str) -> List[Tuple[str, Optional[str], str]]:
 
 
 def _parse_part_block(
-    name: str, block: str, base_part_name: Optional[str]
+    name: str,
+    block: str,
+    base_part_name: Optional[str],
+    source_path: Path,
+    package_name: str,
+    strict: bool,
 ) -> SysMLPartDefinition:
     attributes: Dict[str, SysMLAttribute] = {}
     ports: Dict[str, SysMLPortReference] = {}
@@ -183,7 +211,7 @@ def _parse_part_block(
             parts[part.name] = part
         elif line.startswith("connect "):
             connections.append(_parse_connection(line))
-        elif line.startswith("replace "):
+        elif line.startswith("redefines "):
             (
                 replacement_attr,
                 replacement_port,
@@ -210,6 +238,14 @@ def _parse_part_block(
                 remove_parts.add(remove_part)
             if remove_connection is not None:
                 remove_connections.append(remove_connection)
+        elif strict:
+            raise _unknown_statement_error(
+                package_name=package_name,
+                source_path=source_path,
+                definition_kind="part def",
+                definition_name=name,
+                line=line,
+            )
 
         pending_doc = None
 
@@ -231,7 +267,9 @@ def _parse_part_block(
     )
 
 
-def _parse_port_block(name: str, block: str) -> SysMLPortDefinition:
+def _parse_port_block(
+    name: str, block: str, source_path: Path, package_name: str, strict: bool
+) -> SysMLPortDefinition:
     attributes: Dict[str, SysMLAttribute] = {}
     port_doc: Optional[str] = None
     pending_doc: Optional[str] = None
@@ -250,6 +288,14 @@ def _parse_port_block(name: str, block: str) -> SysMLPortDefinition:
         if line.startswith("attribute "):
             attr = _parse_attribute(line, pending_doc)
             attributes[attr.name] = attr
+        elif strict:
+            raise _unknown_statement_error(
+                package_name=package_name,
+                source_path=source_path,
+                definition_kind="port def",
+                definition_name=name,
+                line=line,
+            )
         pending_doc = None
 
     return SysMLPortDefinition(name=name, doc=port_doc, attributes=attributes)
@@ -260,8 +306,8 @@ def _parse_attribute(line: str, doc: Optional[str]) -> SysMLAttribute:
     if content.endswith(";"):
         content = content[:-1].strip()
 
-    attr_type: Optional[str] = None
-    value: Optional[str] = None
+    attr_type: Optional[SysMLType] = None
+    value: Optional[Any] = None
     if "=" in content:
         name, value = content.split("=", 1)
         name = name.strip()
@@ -329,7 +375,10 @@ def _parse_replacement(
     Optional[SysMLPortReference],
     Optional[SysMLPartReference],
 ]:
-    content = line[len("replace ") :].strip()
+    if line.startswith("redefines "):
+        content = line[len("redefines ") :].strip()
+    else:
+        raise ValueError(f"Malformed redefines statement: {line}")
     if content.startswith("attribute "):
         return (_parse_attribute(content, doc), None, None)
     if content.startswith("in port "):
@@ -338,7 +387,7 @@ def _parse_replacement(
         return (None, _parse_port_endpoint("out", content, doc), None)
     if content.startswith("part "):
         return (None, None, _parse_part_reference(content, doc))
-    raise ValueError(f"Malformed replace statement: {line}")
+    raise ValueError(f"Malformed redefines statement: {line}")
 
 
 def _parse_removal(
@@ -368,17 +417,6 @@ def _parse_removal(
     raise ValueError(f"Malformed remove statement: {line}")
 
 
-def _attach_base_part_definitions(parts: Dict[str, SysMLPartDefinition]) -> None:
-    for part in parts.values():
-        if part.base_part_name is None:
-            continue
-        part.base_part_def = parts.get(part.base_part_name)
-        if part.base_part_def is None:
-            raise ValueError(
-                f"Base part definition not found for {part.name}: {part.base_part_name}"
-            )
-
-
 def _resolve_part_inheritance(parts: Dict[str, SysMLPartDefinition]) -> None:
     visited: Set[str] = set()
     visiting: Set[str] = set()
@@ -401,6 +439,7 @@ def _resolve_part_inheritance(parts: Dict[str, SysMLPartDefinition]) -> None:
                 raise ValueError(
                     f"Base part definition not found for {part.name}: {part.base_part_name}"
                 )
+            part.base_part_def = parts[part.base_part_name]
             resolve(part.base_part_name)
             _merge_with_base(part, parts[part.base_part_name])
 
@@ -438,32 +477,32 @@ def _merge_with_base(
 
     for attr_name, attr in part.replace_attributes.items():
         if attr_name not in merged_attributes:
-            raise ValueError(f"Cannot replace unknown attribute {part.name}.{attr_name}")
+            raise ValueError(f"Cannot redefine unknown attribute {part.name}.{attr_name}")
         merged_attributes[attr_name] = attr
     for port_name, port in part.replace_ports.items():
         if port_name not in merged_ports:
-            raise ValueError(f"Cannot replace unknown port {part.name}.{port_name}")
+            raise ValueError(f"Cannot redefine unknown port {part.name}.{port_name}")
         merged_ports[port_name] = port
     for part_name, subpart in part.replace_parts.items():
         if part_name not in merged_parts:
-            raise ValueError(f"Cannot replace unknown part {part.name}.{part_name}")
+            raise ValueError(f"Cannot redefine unknown part {part.name}.{part_name}")
         merged_parts[part_name] = subpart
     for attr_name, attr in part.attributes.items():
         if attr_name in merged_attributes:
             raise ValueError(
-                f"Attribute name collision in {part.name}: {attr_name} (use replace attribute)"
+                f"Attribute name collision in {part.name}: {attr_name} (use redefines attribute)"
             )
         merged_attributes[attr_name] = attr
     for port_name, port in part.ports.items():
         if port_name in merged_ports:
             raise ValueError(
-                f"Port name collision in {part.name}: {port_name} (use replace in/out port)"
+                f"Port name collision in {part.name}: {port_name} (use redefines in/out port)"
             )
         merged_ports[port_name] = port
     for part_name, subpart in part.parts.items():
         if part_name in merged_parts:
             raise ValueError(
-                f"Part name collision in {part.name}: {part_name} (use replace part)"
+                f"Part name collision in {part.name}: {part_name} (use redefines part)"
             )
         merged_parts[part_name] = subpart
     for connection in part.connections:
@@ -527,9 +566,7 @@ def _attach_part_definitions(parts: Dict[str, SysMLPartDefinition]) -> None:
             subpart.part_def = parts.get(subpart.part_name)
 
 
-def _attach_connection_definitions(
-    parts: Dict[str, SysMLPartDefinition], ports: Dict[str, SysMLPortDefinition]
-) -> None:
+def _attach_connection_definitions(parts: Dict[str, SysMLPartDefinition]) -> None:
 
     for part in parts.values():
         for c in part.connections:
@@ -596,11 +633,54 @@ def _iter_block_items(block: str) -> Iterator[Tuple[str, str]]:
             yield ("stmt", stripped)
 
 
-def _parse_requirements(body: str) -> List[SysMLRequirement]:
+def _parse_requirements(
+    body: str, source_path: Path, package_name: str
+) -> List[SysMLRequirement]:
     reqs: List[SysMLRequirement] = []
-    pattern = re.compile(r"comment\s+([A-Za-z0-9_]+)\s*/\*\s*(.*?)\s*\*/", re.DOTALL)
-    for match in pattern.finditer(body):
-        identifier = match.group(1)
-        text = re.sub(r"\s+", " ", match.group(2).strip())
+    if re.search(r"comment\s+[A-Za-z0-9_]+\s*/\*", body):
+        raise ValueError(
+            "Comment-based requirements are not supported; use requirement def/requirement syntax"
+        )
+
+    req_defs: Dict[str, str] = {}
+    for name, block in _extract_named_blocks(body, "requirement def"):
+        text = ""
+        for kind, payload in _iter_block_items(block):
+            if kind == "doc":
+                text = payload
+                break
+        req_defs[name] = text
+
+    usage_pattern = re.compile(
+        r"requirement\s+([A-Za-z0-9_]+)(?:\s*:\s*([A-Za-z0-9_]+))?\s*;"
+    )
+    for match in usage_pattern.finditer(body):
+        usage_name = match.group(1)
+        target_def = match.group(2) or usage_name
+        if target_def not in req_defs:
+            raise ValueError(
+                "Requirement usage references unknown requirement definition "
+                f"{target_def} in package {package_name} ({source_path})"
+            )
+        reqs.append(SysMLRequirement(identifier=usage_name, text=req_defs[target_def]))
+
+    if reqs:
+        return reqs
+
+    for identifier, text in req_defs.items():
         reqs.append(SysMLRequirement(identifier=identifier, text=text))
     return reqs
+
+
+def _unknown_statement_error(
+    package_name: str,
+    source_path: Path,
+    definition_kind: str,
+    definition_name: str,
+    line: str,
+) -> ValueError:
+    return ValueError(
+        "Unknown statement while parsing "
+        f"{definition_kind} {definition_name} in package {package_name} "
+        f"({source_path}): {line}"
+    )

@@ -19,11 +19,13 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
 
 `load_architecture(path)` drives the full pipeline:
 
-1. Normalize input path to a folder.
-2. Parse all `*.sysml` files in that folder.
+1. Normalize input path.
+2. Parse either:
+   - all `*.sysml` files in a folder, or
+   - a single file if a file path is provided.
 3. Extract packages, `part def`, `port def`, and requirements.
 4. Build model objects (`SysMLPartDefinition`, `SysMLPortDefinition`, etc.).
-5. Resolve part inheritance (remove -> replace -> add merge order).
+5. Resolve part inheritance (remove -> redefines -> add merge order).
 6. Resolve references:
    - part ports -> port definitions
    - subpart instances -> part definitions
@@ -46,8 +48,8 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
 - Internal responsibilities:
   - package extraction and consistency checks
   - block extraction (`part def`, `port def`)
-  - statement parsing (`attribute`, `in/out port`, `part`, `connect`, `replace`, `remove`)
-  - requirement extraction (`comment X /* ... */`)
+  - statement parsing (`attribute`, `in/out port`, `part`, `connect`, `redefines`, `remove`)
+  - requirement extraction (`requirement def`, `requirement ... : ...;`)
   - validation of unresolved references with contextual `ValueError`s
 
 ### `src/pycps_sysmlv2/definitions.py`
@@ -108,7 +110,7 @@ The parser validates during load rather than deferring failures:
 
 - `package Name { ... }`
 - `part def Name { ... }`
-- `part def Derived : Base { ... }`
+- `part def Derived specializes Base { ... }`
 - `port def Name { ... }`
 - `attribute name = literal;`
 - `attribute name: Type;`
@@ -116,10 +118,11 @@ The parser validates during load rather than deferring failures:
 - `out port p : PortType;`
 - `part child : PartDef;`
 - `connect a.port to b.port;`
-- `replace attribute|in/out port|part ...`
+- `redefines attribute|in/out port|part ...`
 - `remove attribute|port|part|connect ...`
 - `doc /* ... */`
-- `comment Requirement_ID /* ... */`
+- `requirement def RequirementName { ... }`
+- `requirement ReqId : RequirementName;`
 
 Non-goals currently include full SysML v2 language coverage and behavioral semantics.
 
@@ -138,7 +141,7 @@ Common places to extend behavior:
 
 ## Testing Strategy
 
-- `tests/test_public_api.py`: fixture-based happy-path behavior.
+- `tests/test_public_api_*.py`: split public API behavior by concern.
 - `tests/test_type_utils.py`: typing/literal inference behavior.
 - `tests/test_error_handling.py`: failure mode and error-message regression coverage.
 

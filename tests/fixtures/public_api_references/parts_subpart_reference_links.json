@@ -29,7 +29,23 @@
         "child": {
           "doc": null,
           "name": "child",
-          "part_def": "__ref__",
+          "part_def": {
+            "attributes": {},
+            "base_part_def": null,
+            "base_part_name": null,
+            "connections": [],
+            "doc": null,
+            "name": "Child",
+            "parts": {},
+            "ports": {},
+            "remove_attributes": [],
+            "remove_connections": [],
+            "remove_parts": [],
+            "remove_ports": [],
+            "replace_attributes": {},
+            "replace_parts": {},
+            "replace_ports": {}
+          },
           "part_name": "Child"
         }
       },

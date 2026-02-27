@@ -10,10 +10,17 @@ def test_requirements_are_collected(tmp_path: Path):
         tmp_path / "requirements.sysml",
         """
         package Example {
-          comment REQ_1 /* The system shall parse requirements. */
-          comment REQ_2 /*
-            Multi-line requirement text should be normalized.
-          */
+          requirement def ParseRequirement {
+            doc /* The system shall parse requirements. */
+          }
+          requirement def NormalizeRequirement {
+            doc /*
+              Multi-line requirement text should be normalized.
+            */
+          }
+
+          requirement REQ_1 : ParseRequirement;
+          requirement REQ_2 : NormalizeRequirement;
         }
         """,
     )

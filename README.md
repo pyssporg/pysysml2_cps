@@ -57,7 +57,7 @@ from pycps_sysmlv2 import load_architecture
 Main entrypoint:
 - `load_architecture(path)`:
   - If `path` is a folder, parses all `*.sysml` files in that folder.
-  - If `path` is a file, parses the file's parent folder.
+  - If `path` is a file, parses only that file.
   - Returns a `SysMLArchitecture` object with:
     - `package`
     - `part_definitions`
@@ -105,20 +105,20 @@ It includes:
 
 ## How parsing works
 
-Given a target directory, the parser:
-1. Reads all `*.sysml` files and checks they share the same `package`.
+Given a target path, the parser:
+1. Reads the target `*.sysml` file, or all `*.sysml` files in a target directory, and checks they share the same `package`.
 2. Extracts:
    - `part def ... { ... }`
    - `port def ... { ... }`
-   - `comment Requirement_* /* ... */` style requirements
+   - `requirement def ... { ... }` and `requirement ... : ...;`
 3. Parses members inside `part def` / `port def` blocks:
    - `attribute ...`
    - `in port ...` / `out port ...`
    - `part instance : PartDefinition;`
    - `connect A.port to B.port;`
-   - inheritance mutation statements (`replace ...`, `remove ...`)
+   - inheritance mutation statements (`redefines ...`, `remove ...`)
 4. Resolves cross-links:
-   - Part inheritance (merge order: remove -> replace -> add)
+  - Part inheritance (merge order: remove -> redefines -> add)
    - Port references -> port definitions
    - Part instances -> part definitions
    - Connections -> source/destination part and port references
@@ -131,7 +131,7 @@ operate directly on resolved objects.
 The parser currently supports:
 - `package Name { ... }`
 - `part def Name { ... }`
-- `part def Derived : Base { ... }`
+- `part def Derived specializes Base { ... }`
 - `port def Name { ... }`
 - `attribute x = <literal>;`
 - `attribute x: <type>;`
@@ -139,19 +139,30 @@ The parser currently supports:
 - `out port p : PortType;`
 - `part child : PartDef;`
 - `connect srcPart.srcPort to dstPart.dstPort;`
-- `replace attribute x = <literal>;`
-- `replace in port p : PortType;` / `replace out port p : PortType;`
-- `replace part child : PartDef;`
+- `redefines attribute x = <literal>;`
+- `redefines in port p : PortType;` / `redefines out port p : PortType;`
+- `redefines part child : PartDef;`
 - `remove attribute x;`
 - `remove port p;`
 - `remove part child;`
 - `remove connect srcPart.srcPort to dstPart.dstPort;`
 - `doc /* ... */` comments on parts/ports/attributes/references
-- `comment Requirement_ID /* ... */` requirement extraction
+- `requirement def RequirementName { doc /* ... */ }`
+- `requirement ReqId : RequirementName;`
 
 Literal parsing:
 - Booleans (`true`/`false`), numbers, strings, lists, and other Python-literal-compatible
   values via `ast.literal_eval`
+- This parser does not evaluate full SysML expression semantics (for example, units-aware expressions).
+
+## Subset vs Extension
+
+- Supported SysML v2-style subset:
+  - `specializes` for part inheritance
+  - `redefines` for overriding inherited members
+  - `requirement def` and `requirement` usage extraction
+- Project-specific extension:
+  - `remove ...` mutation statements
 
 Primitive type normalization includes common aliases:
 - Real: `Real`, `float`, `float32`, `float64`, `double`
@@ -169,7 +180,7 @@ from pycps_sysmlv2 import load_architecture
 # Folder input (all *.sysml files in the directory are parsed)
 arch = load_architecture("tests/fixtures/fixture_a")
 
-# File input also works (the file's parent folder is parsed)
+# File input parses only that file
 arch = load_architecture("tests/fixtures/fixture_a/composition.sysml")
 
 print(arch.package)  # FixtureA
@@ -253,11 +264,11 @@ The parser raises explicit exceptions for common structural issues:
   - missing package declaration
   - mismatched package names across files
   - duplicate `part def` or `port def` names
-  - malformed `port`, `part`, `connect`, `replace`, or `remove` statements
-  - unknown base parts in `part def Derived : Base { ... }`
+  - malformed `port`, `part`, `connect`, `redefines`, or `remove` statements
+  - unknown base parts in `part def Derived specializes Base { ... }`
   - inheritance cycles
-  - invalid `replace`/`remove` targets during inheritance merge
-  - inherited member collisions unless `replace` is used
+  - invalid `redefines`/`remove` targets during inheritance merge
+  - inherited member collisions unless `redefines` is used
   - unterminated `doc /* ... */` comment blocks
   - unresolved `part` references to unknown part definitions
   - unresolved `in/out port` references to unknown port definitions

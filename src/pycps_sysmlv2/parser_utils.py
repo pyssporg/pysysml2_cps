@@ -27,7 +27,8 @@ def to_jsonable(value: Any, suppress_list : List[Any] | None) -> Any:
     if hasattr(value, "__dict__"):
         if suppress_list is not None:
             suppress_list.append(value)
-        return {str(key): to_jsonable(val, suppress_list) for key, val in vars(value).items()}
+        t = {"value_type": str(type(value))}
+        return {**{str(key): to_jsonable(val, suppress_list) for key, val in vars(value).items()}, **t}
 
     return value
 

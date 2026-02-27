@@ -23,7 +23,8 @@
         "text": []
       },
       "source_file": "requirements.sysml",
-      "specializes": null
+      "specializes": null,
+      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLRequirement'>"
     },
     {
       "artifact_kinds": [
@@ -43,7 +44,9 @@
         "text": []
       },
       "source_file": "requirements.sysml",
-      "specializes": null
+      "specializes": null,
+      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLRequirement'>"
     }
-  ]
+  ],
+  "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
 }

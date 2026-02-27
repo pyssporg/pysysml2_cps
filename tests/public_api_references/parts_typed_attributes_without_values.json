@@ -26,16 +26,19 @@
             "doc": null,
             "name": "enabled",
             "type": "__ref__",
-            "value": null
+            "value": null,
+            "value_type": "<class 'pycps_sysmlv2.definitions.attributes.SysMLAttribute'>"
           },
           "gain": {
             "doc": null,
             "name": "gain",
             "type": {
               "string_definition": null,
-              "type": "Real"
+              "type": "Real",
+              "value_type": "<class 'pycps_sysmlv2.definitions.types.SysMLType'>"
             },
-            "value": null
+            "value": null,
+            "value_type": "<class 'pycps_sysmlv2.definitions.attributes.SysMLAttribute'>"
           }
         },
         "connections": {},
@@ -56,9 +59,11 @@
         "ports": []
       },
       "source_file": "model.sysml",
-      "specializes": null
+      "specializes": null,
+      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     }
   },
   "port_definitions": {},
-  "requirements": []
+  "requirements": [],
+  "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
 }

@@ -29,7 +29,8 @@
             "doc": null,
             "name": "in_signal",
             "port_def": "__ref__",
-            "port_name": "Signal"
+            "port_name": "Signal",
+            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPortReference'>"
           }
         }
       },
@@ -47,7 +48,8 @@
         "ports": []
       },
       "source_file": "model.sysml",
-      "specializes": null
+      "specializes": null,
+      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     },
     "Source": {
       "artifact_kinds": [
@@ -75,7 +77,8 @@
             "doc": null,
             "name": "out_signal",
             "port_def": "__ref__",
-            "port_name": "Signal"
+            "port_name": "Signal",
+            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPortReference'>"
           }
         }
       },
@@ -93,7 +96,8 @@
         "ports": []
       },
       "source_file": "model.sysml",
-      "specializes": null
+      "specializes": null,
+      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     },
     "System": {
       "artifact_kinds": [
@@ -127,7 +131,8 @@
             "src_component": "src",
             "src_part_def": "__ref__",
             "src_port": "out_signal",
-            "src_port_def": "__ref__"
+            "src_port_def": "__ref__",
+            "value_type": "<class 'pycps_sysmlv2.definitions.connections.SysMLConnection'>"
           }
         },
         "parts": {
@@ -135,13 +140,15 @@
             "doc": null,
             "name": "dst",
             "part_def": "__ref__",
-            "part_name": "Sink"
+            "part_name": "Sink",
+            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPartReference'>"
           },
           "src": {
             "doc": null,
             "name": "src",
             "part_def": "__ref__",
-            "part_name": "Source"
+            "part_name": "Source",
+            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPartReference'>"
           }
         },
         "ports": {}
@@ -160,7 +167,8 @@
         "ports": []
       },
       "source_file": "model.sysml",
-      "specializes": null
+      "specializes": null,
+      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
     }
   },
   "port_definitions": {
@@ -183,8 +191,10 @@
         "attributes": []
       },
       "source_file": "model.sysml",
-      "specializes": null
+      "specializes": null,
+      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPortDefinition'>"
     }
   },
-  "requirements": []
+  "requirements": [],
+  "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
 }

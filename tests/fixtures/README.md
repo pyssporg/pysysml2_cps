@@ -1,14 +1,13 @@
 # Test Fixtures
 
-Fixtures are split into small generic cases for easier verification:
+Public API tests now use small, focused inline SysML models split across:
 
-- `fixture_a/`: baseline parsing and link-resolution coverage
-- `fixture_b/`: inheritance coverage (`add`, `replace`, `remove`)
+- `tests/test_public_api_file_loader.py`
+- `tests/test_public_api_parts.py`
+- `tests/test_public_api_ports.py`
+- `tests/test_public_api_requirements.py`
+- `tests/test_public_api_inheritance.py`
 
-Each fixture folder contains separate `*.sysml` files to exercise folder-level
-loading and merge behavior.
+This folder keeps checked-in JSON architecture snapshots written by those tests:
 
-- `part def` blocks with attributes and in/out ports
-- `port def` payload schemas
-- `connect` statements
-- `comment` requirement entries
+- `public_api_references/`: parser output snapshots for quick debugging and git diffing

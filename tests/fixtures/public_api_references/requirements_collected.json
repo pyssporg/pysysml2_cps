@@ -1,0 +1,15 @@
+{
+  "package": "Example",
+  "part_definitions": {},
+  "port_definitions": {},
+  "requirements": [
+    {
+      "identifier": "REQ_1",
+      "text": "The system shall parse requirements."
+    },
+    {
+      "identifier": "REQ_2",
+      "text": "Multi-line requirement text should be normalized."
+    }
+  ]
+}

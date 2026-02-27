@@ -1,0 +1,58 @@
+{
+  "package": "Example",
+  "part_definitions": {
+    "Node": {
+      "attributes": {
+        "threshold": {
+          "doc": "attribute docs",
+          "name": "threshold",
+          "type": {
+            "string_definition": null,
+            "type": "Integer"
+          },
+          "value": 2
+        }
+      },
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [],
+      "doc": "node docs",
+      "name": "Node",
+      "parts": {},
+      "ports": {
+        "input": {
+          "direction": "in",
+          "doc": "input docs",
+          "name": "input",
+          "port_def": "__ref__",
+          "port_name": "Signal"
+        }
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    }
+  },
+  "port_definitions": {
+    "Signal": {
+      "attributes": {
+        "p": {
+          "doc": "payload docs",
+          "name": "p",
+          "type": {
+            "string_definition": null,
+            "type": "Integer"
+          },
+          "value": 1
+        }
+      },
+      "doc": "signal docs",
+      "name": "Signal"
+    }
+  },
+  "requirements": []
+}

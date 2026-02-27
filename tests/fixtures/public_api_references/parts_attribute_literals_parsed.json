@@ -1,0 +1,49 @@
+{
+  "package": "Example",
+  "part_definitions": {
+    "Node": {
+      "attributes": {
+        "count": {
+          "doc": null,
+          "name": "count",
+          "type": {
+            "string_definition": null,
+            "type": "Integer"
+          },
+          "value": 3
+        },
+        "values": {
+          "doc": null,
+          "name": "values",
+          "type": {
+            "string_definition": null,
+            "type": [
+              "Real"
+            ]
+          },
+          "value": [
+            1.0,
+            2.0,
+            3.0
+          ]
+        }
+      },
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [],
+      "doc": null,
+      "name": "Node",
+      "parts": {},
+      "ports": {},
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    }
+  },
+  "port_definitions": {},
+  "requirements": []
+}

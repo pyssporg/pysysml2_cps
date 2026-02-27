@@ -1,0 +1,218 @@
+{
+  "package": "Example",
+  "part_definitions": {
+    "Base": {
+      "attributes": {
+        "remove_attr": {
+          "doc": null,
+          "name": "remove_attr",
+          "type": {
+            "string_definition": null,
+            "type": "Integer"
+          },
+          "value": 1
+        },
+        "replace_attr": {
+          "doc": null,
+          "name": "replace_attr",
+          "type": {
+            "string_definition": null,
+            "type": "Integer"
+          },
+          "value": 2
+        }
+      },
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [],
+      "doc": null,
+      "name": "Base",
+      "parts": {
+        "left": {
+          "doc": null,
+          "name": "left",
+          "part_def": "__ref__",
+          "part_name": "ChildA"
+        },
+        "right": {
+          "doc": null,
+          "name": "right",
+          "part_def": "__ref__",
+          "part_name": "ChildB"
+        }
+      },
+      "ports": {
+        "remove_port": {
+          "direction": "out",
+          "doc": null,
+          "name": "remove_port",
+          "port_def": "__ref__",
+          "port_name": "SignalA"
+        },
+        "replace_port": {
+          "direction": "out",
+          "doc": null,
+          "name": "replace_port",
+          "port_def": "__ref__",
+          "port_name": "SignalA"
+        }
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    },
+    "ChildA": {
+      "attributes": {},
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [],
+      "doc": null,
+      "name": "ChildA",
+      "parts": {},
+      "ports": {
+        "out_a": {
+          "direction": "out",
+          "doc": null,
+          "name": "out_a",
+          "port_def": "__ref__",
+          "port_name": "SignalA"
+        }
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    },
+    "ChildB": {
+      "attributes": {},
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [],
+      "doc": null,
+      "name": "ChildB",
+      "parts": {},
+      "ports": {
+        "in_b": {
+          "direction": "in",
+          "doc": null,
+          "name": "in_b",
+          "port_def": "__ref__",
+          "port_name": "SignalA"
+        }
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    },
+    "Derived": {
+      "attributes": {
+        "add_attr": {
+          "doc": null,
+          "name": "add_attr",
+          "type": {
+            "string_definition": null,
+            "type": "Boolean"
+          },
+          "value": true
+        },
+        "replace_attr": {
+          "doc": null,
+          "name": "replace_attr",
+          "type": {
+            "string_definition": null,
+            "type": "Integer"
+          },
+          "value": 99
+        }
+      },
+      "base_part_def": "__ref__",
+      "base_part_name": "Base",
+      "connections": [
+        {
+          "dst_component": "extra",
+          "dst_part_def": "__ref__",
+          "dst_port": "in_b",
+          "dst_port_def": "__ref__",
+          "src_component": "right",
+          "src_part_def": "__ref__",
+          "src_port": "out_a",
+          "src_port_def": "__ref__"
+        }
+      ],
+      "doc": null,
+      "name": "Derived",
+      "parts": {
+        "extra": {
+          "doc": null,
+          "name": "extra",
+          "part_def": "__ref__",
+          "part_name": "ChildB"
+        },
+        "left": "__ref__",
+        "right": {
+          "doc": null,
+          "name": "right",
+          "part_def": "__ref__",
+          "part_name": "ChildA"
+        }
+      },
+      "ports": {
+        "add_port": {
+          "direction": "out",
+          "doc": null,
+          "name": "add_port",
+          "port_def": "__ref__",
+          "port_name": "SignalA"
+        },
+        "replace_port": {
+          "direction": "out",
+          "doc": null,
+          "name": "replace_port",
+          "port_def": "__ref__",
+          "port_name": "SignalB"
+        }
+      },
+      "remove_attributes": [
+        "remove_attr"
+      ],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [
+        "remove_port"
+      ],
+      "replace_attributes": {
+        "replace_attr": "__ref__"
+      },
+      "replace_parts": {
+        "right": "__ref__"
+      },
+      "replace_ports": {
+        "replace_port": "__ref__"
+      }
+    }
+  },
+  "port_definitions": {
+    "SignalA": {
+      "attributes": {},
+      "doc": null,
+      "name": "SignalA"
+    },
+    "SignalB": {
+      "attributes": {},
+      "doc": null,
+      "name": "SignalB"
+    }
+  },
+  "requirements": []
+}

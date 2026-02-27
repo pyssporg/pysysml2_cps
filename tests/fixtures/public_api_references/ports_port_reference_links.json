@@ -1,0 +1,38 @@
+{
+  "package": "Example",
+  "part_definitions": {
+    "Node": {
+      "attributes": {},
+      "base_part_def": null,
+      "base_part_name": null,
+      "connections": [],
+      "doc": null,
+      "name": "Node",
+      "parts": {},
+      "ports": {
+        "input": {
+          "direction": "in",
+          "doc": null,
+          "name": "input",
+          "port_def": "__ref__",
+          "port_name": "Signal"
+        }
+      },
+      "remove_attributes": [],
+      "remove_connections": [],
+      "remove_parts": [],
+      "remove_ports": [],
+      "replace_attributes": {},
+      "replace_parts": {},
+      "replace_ports": {}
+    }
+  },
+  "port_definitions": {
+    "Signal": {
+      "attributes": {},
+      "doc": null,
+      "name": "Signal"
+    }
+  },
+  "requirements": []
+}

@@ -12,7 +12,6 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
 
 - `src/pycps_sysmlv2/` - package source
 - `tests/` - unit and regression tests
-- `examples/` - runnable usage example
 - `docs/` - project documentation
 
 ## High-Level Flow
@@ -24,11 +23,12 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
    - all `*.sysml` files in a folder, or
    - a single file if a file path is provided.
 3. Extract packages, `part def`, `port def`, and requirements.
-4. Build model objects (`SysMLPartDefinition`, `SysMLPortDefinition`, etc.).
-5. Resolve part inheritance (remove -> redefines -> add merge order).
+4. Build model objects (`SysMLPartDefinition`, `SysMLPortDefinition`, `SysMLRequirementDefinition`, and reference objects).
+5. Resolve definition inheritance (parts, ports, requirements) with remove -> redefines -> add merge order.
 6. Resolve references:
    - part ports -> port definitions
    - subpart instances -> part definitions
+   - part/port requirement references -> requirement definitions
    - connections -> source/destination part and port definitions
 7. Return one `SysMLArchitecture` object.
 
@@ -47,15 +47,15 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
   - `load_system(folder_or_file, system_part)`
 - Internal responsibilities:
   - package extraction and consistency checks
-  - block extraction (`part def`, `port def`)
-  - statement parsing (`attribute`, `in/out port`, `part`, `connect`, `redefines`, `remove`)
-  - requirement extraction (`requirement def`, `requirement ... : ...;`)
+  - block extraction (`part def`, `port def`, `requirement def`)
+  - statement parsing (`attribute`, `in/out port`, `part`, `requirement`, `connect`, `redefines`, `remove`)
+  - requirement handling: top-level definitions + in-block references
   - validation of unresolved references with contextual `ValueError`s
 
 ### `src/pycps_sysmlv2/inheritance.py`
 
 - Isolated inheritance-resolution pass.
-- Applies `remove -> redefines -> add` semantics.
+- Applies `remove -> redefines -> add` semantics for part/port/requirement definitions.
 - Keeps parsed declared members separate from effective merged members.
 
 ### `src/pycps_sysmlv2/exporter.py`
@@ -65,17 +65,18 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
 - `flattened` mode emits effective merged definitions.
 - Multi-file declared export groups definitions by recorded `source_file` when available.
 
-### `src/pycps_sysmlv2/definitions.py`
+### `src/pycps_sysmlv2/definitions/`
 
 - Core domain model and type helpers.
 - Main classes:
   - `SysMLArchitecture`
   - `SysMLPartDefinition`
   - `SysMLPortDefinition`
+  - `SysMLRequirementDefinition`
   - `SysMLConnection`
-  - `SysMLRequirement`
   - `SysMLPartReference`
   - `SysMLPortReference`
+  - `SysMLRequirementReference`
   - `SysMLType` / `PrimitiveType`
 - Also includes literal-to-type inference for attributes.
 
@@ -94,8 +95,8 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
 
 The parser intentionally returns a resolved object graph, not only raw syntax.
 
-- Definitions (`part def`, `port def`) are keyed dictionaries on `SysMLArchitecture`.
-- References (`part`, `in/out port`) carry both:
+- Definitions (`part def`, `port def`, `requirement def`) are keyed dictionaries on `SysMLArchitecture`.
+- References (`part`, `in/out port`, `requirement`) carry both:
   - raw textual target names
   - resolved object links (or fail during load if missing)
 - Connections store endpoint names plus resolved endpoint definitions.
@@ -125,17 +126,19 @@ The parser validates during load rather than deferring failures:
 - `part def Name { ... }`
 - `part def Derived specializes Base { ... }`
 - `port def Name { ... }`
+- `port def Derived specializes BasePort { ... }`
+- `requirement def Name { ... }`
+- `requirement def Child specializes Parent { ... }`
 - `attribute name = literal;`
 - `attribute name: Type;`
 - `in port p : PortType;`
 - `out port p : PortType;`
 - `part child : PartDef;`
+- `requirement ReqId : RequirementDef;` (inside part/port blocks)
 - `connect a.port to b.port;`
-- `redefines attribute|in/out port|part ...`
-- `remove attribute|port|part|connect ...`
+- `redefines attribute|in/out port|part|requirement ...`
+- `remove attribute|port|part|requirement|connect ...`
 - `doc /* ... */`
-- `requirement def RequirementName { ... }`
-- `requirement ReqId : RequirementName;`
 
 Non-goals currently include full SysML v2 language coverage and behavioral semantics.
 

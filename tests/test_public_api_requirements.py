@@ -46,3 +46,32 @@ def test_requirements_are_collected(tmp_path: Path):
         "Multi-line requirement text should be normalized."
     )
     write_reference("requirements_collected", architecture)
+
+
+def test_requirement_definition_inheritance(tmp_path: Path):
+    write_model(
+        tmp_path / "requirements.sysml",
+        """
+        package Example {
+          requirement def BaseReq {
+            doc /* Base requirement text */
+          }
+
+          requirement def DerivedReq specializes BaseReq {}
+
+          part def System {
+            requirement REQ_1 : DerivedReq;
+          }
+        }
+        """,
+    )
+
+    architecture = load_architecture(tmp_path)
+    derived = architecture.requirement_definitions["DerivedReq"]
+    req_ref = architecture.part_definitions["System"].items["requirements"]["REQ_1"]
+
+    assert derived.specializes == "BaseReq"
+    assert derived.text == "Base requirement text"
+    assert req_ref.requirement_def is not None
+    assert req_ref.requirement_def.name == "DerivedReq"
+    assert req_ref.text == "Base requirement text"

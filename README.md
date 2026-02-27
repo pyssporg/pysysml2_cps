@@ -62,15 +62,13 @@ Main entrypoint:
     - `package`
     - `part_definitions`
     - `port_definitions`
-    - `requirements`
+    - `requirement_definitions`
 - `export_architecture(architecture, mode="declared" | "flattened")`:
   - Emits SysML text from the in-memory architecture.
 - `export_architecture_files(architecture, mode="declared")`:
   - Emits a `dict[file_name, sysml_text]` grouped by original source file when known.
 
 ## Quickstart
-
-[Example](examples/parse_architecture.py)
 
 ```python
 from pycps_sysmlv2 import load_architecture
@@ -87,12 +85,6 @@ for connection in fixture.connections:
         connection.dst_part_def.name,
         connection.dst_port_def.name,
     )
-```
-
-Run the bundled example from this repository root:
-
-```bash
-PYTHONPATH=src python3 examples/parse_architecture.py
 ```
 
 ## Architecture transparency
@@ -114,17 +106,19 @@ Given a target path, the parser:
 2. Extracts:
    - `part def ... { ... }`
    - `port def ... { ... }`
-   - `requirement def ... { ... }` and `requirement ... : ...;`
+   - `requirement def ... { ... }`
 3. Parses members inside `part def` / `port def` blocks:
    - `attribute ...`
    - `in port ...` / `out port ...`
    - `part instance : PartDefinition;`
+   - `requirement ReqId : RequirementDefinition;`
    - `connect A.port to B.port;`
    - inheritance mutation statements (`redefines ...`, `remove ...`)
 4. Resolves cross-links:
-  - Part inheritance (merge order: remove -> redefines -> add)
+   - Inheritance for part, port, and requirement definitions (merge order: remove -> redefines -> add)
    - Port references -> port definitions
    - Part instances -> part definitions
+   - Requirement references -> requirement definitions
    - Connections -> source/destination part and port references
 
 Output is a connected Python object graph (not raw text tokens), so downstream logic can
@@ -137,22 +131,26 @@ The parser currently supports:
 - `part def Name { ... }`
 - `part def Derived specializes Base { ... }`
 - `port def Name { ... }`
+- `port def DerivedPort specializes BasePort { ... }`
+- `requirement def RequirementName { ... }`
+- `requirement def ChildRequirement specializes ParentRequirement { ... }`
 - `attribute x = <literal>;`
 - `attribute x: <type>;`
 - `in port p : PortType;`
 - `out port p : PortType;`
 - `part child : PartDef;`
+- `requirement ReqId : RequirementDef;` (inside `part def` or `port def`)
 - `connect srcPart.srcPort to dstPart.dstPort;`
 - `redefines attribute x = <literal>;`
 - `redefines in port p : PortType;` / `redefines out port p : PortType;`
 - `redefines part child : PartDef;`
+- `redefines requirement ReqId : RequirementDef;`
 - `remove attribute x;`
 - `remove port p;`
 - `remove part child;`
+- `remove requirement ReqId;`
 - `remove connect srcPart.srcPort to dstPart.dstPort;`
 - `doc /* ... */` comments on parts/ports/attributes/references
-- `requirement def RequirementName { doc /* ... */ }`
-- `requirement ReqId : RequirementName;`
 
 Literal parsing:
 - Booleans (`true`/`false`), numbers, strings, lists, and other Python-literal-compatible
@@ -162,9 +160,9 @@ Literal parsing:
 ## Subset vs Extension
 
 - Supported SysML v2-style subset:
-  - `specializes` for part inheritance
+  - `specializes` for part, port, and requirement definition inheritance
   - `redefines` for overriding inherited members
-  - `requirement def` and `requirement` usage extraction
+  - top-level `requirement def` definitions with requirement references inside parts/ports
 - Project-specific extension:
   - `remove ...` mutation statements
 
@@ -210,14 +208,14 @@ for port_name, port_ref in child_a.ports.items():
             print("  -", attr.name, ":", attr.type.as_string())
 ```
 
-### 3. Trace parsed requirements for downstream checks/reporting
+### 3. Trace requirement references and resolved definitions
 
 ```python
 from pycps_sysmlv2 import load_architecture
 
 arch = load_architecture("tests/fixtures/fixture_a")
-for req in arch.requirements:
-    print(req.identifier, "->", req.text)
+for req_name, req_ref in arch.part_definitions["FixtureAComposition"].items["requirements"].items():
+    print(req_name, "->", req_ref.requirement_name, "->", req_ref.text)
 ```
 
 ### 4. Detect unresolved wiring in connections
@@ -248,13 +246,13 @@ print(child_a.attributes["valuesA"].value)  # [1.0, 2.0, 3.0] (list[float])
 
 ## Data model overview
 
-Core classes (in `src/pycps_sysmlv2/definitions.py`):
+Core classes (in `src/pycps_sysmlv2/definitions/`):
 - `SysMLArchitecture`: top-level package + collected definitions
-- `SysMLPartDefinition`: attributes, ports, subparts, connections
-- `SysMLPortDefinition`: typed payload attributes
+- `SysMLPartDefinition`: attributes, ports, subparts, connections, requirement references
+- `SysMLPortDefinition`: typed payload attributes + requirement references
+- `SysMLRequirementDefinition`: requirement definition (supports inheritance)
 - `SysMLConnection`: parsed connect statement + resolved src/dst links
-- `SysMLRequirement`: requirement identifier + text
-- `SysMLPartReference` and `SysMLPortReference`: instance/reference nodes with resolved targets
+- `SysMLPartReference`, `SysMLPortReference`, `SysMLRequirementReference`: reference nodes with resolved targets
 
 ## Error behavior and constraints
 
@@ -277,6 +275,8 @@ The parser raises explicit exceptions for common structural issues:
   - unresolved `part` references to unknown part definitions
   - unresolved `in/out port` references to unknown port definitions
   - unresolved connection endpoint port definitions
+  - requirement usage outside `part def` / `port def`
+  - unresolved requirement references
 
 ## Scope and non-goals
 
@@ -310,7 +310,6 @@ python -m build
 - `src/pycps_sysmlv2/inheritance.py` - inheritance merge pass
 - `src/pycps_sysmlv2/exporter.py` - SysML text export
 - `tests/` - package-local tests
-- `examples/` - small usage scripts
 - `docs/` - package-specific notes
 
 Package tests use generic fixtures under `tests/fixtures/fixture_a/` and

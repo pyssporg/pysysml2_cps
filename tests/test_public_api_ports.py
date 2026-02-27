@@ -89,3 +89,31 @@ def test_connection_links_parts_and_port_definitions(tmp_path: Path):
     assert connection.dst_port_def is not None
     assert connection.dst_port_def.name == "Signal"
     write_reference("ports_connection_links", architecture)
+
+
+def test_port_inheritance_adds_attributes_and_requirements(tmp_path: Path):
+    write_model(
+        tmp_path / "model.sysml",
+        """
+        package Example {
+          requirement def ReqA { doc /* Requirement A */ }
+
+          port def BasePort {
+            attribute width = 8;
+            requirement reqA : ReqA;
+          }
+
+          port def DerivedPort specializes BasePort {
+            attribute gain = 2.0;
+          }
+        }
+        """,
+    )
+
+    architecture = load_architecture(tmp_path)
+    derived = architecture.port_definitions["DerivedPort"]
+
+    assert derived.specializes == "BasePort"
+    assert "width" in derived.items["attributes"]
+    assert "gain" in derived.items["attributes"]
+    assert "reqA" in derived.items["requirements"]

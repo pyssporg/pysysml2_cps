@@ -10,4 +10,4 @@ Public API tests now use small, focused inline SysML models split across:
 
 This folder keeps checked-in JSON architecture snapshots written by those tests:
 
-- `public_api_references/`: parser output snapshots for quick debugging and git diffing
+- `public_api_references/`: parser/export snapshots (`.json` and `.sysml`) for quick debugging and git diffing

@@ -7,6 +7,7 @@ from typing import Dict, List, Set
 
 from .definitions import (
     SysMLPartDefinition,
+    SysMLPortDefinition,
     SysMLRequirementDefinition,
 )
 
@@ -19,6 +20,12 @@ def resolve_requirement_inheritance(
     requirements: Dict[str, SysMLRequirementDefinition],
 ) -> None:
     _resolve_definition_inheritance(requirements, label="requirement")
+
+
+def resolve_port_inheritance(
+    ports: Dict[str, SysMLPortDefinition],
+) -> None:
+    _resolve_definition_inheritance(ports, label="port")
 
 
 def _resolve_definition_inheritance(definitions: Dict[str, object], label: str) -> None:

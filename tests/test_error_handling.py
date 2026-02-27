@@ -232,6 +232,23 @@ def test_requirement_usage_requires_known_definition(tmp_path: Path):
         load_architecture(tmp_path)
 
 
+def test_top_level_requirement_usage_is_rejected(tmp_path: Path):
+    _write(
+        tmp_path / "model.sysml",
+        """
+        package Example {
+          requirement def ReqA { doc /* req */ }
+          requirement REQ_1 : ReqA;
+        }
+        """,
+    )
+
+    with pytest.raises(
+        ValueError, match="Requirement usage must be declared inside part def or port def blocks"
+    ):
+        load_architecture(tmp_path)
+
+
 def test_unknown_part_statement_fails_with_context(tmp_path: Path):
     _write(
         tmp_path / "model.sysml",

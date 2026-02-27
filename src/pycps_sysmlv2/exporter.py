@@ -24,7 +24,7 @@ class SysMLExporter:
         lines.extend(self._emit_requirement_definitions(architecture, level=1))
         if architecture.requirement_definitions:
             lines.append("")
-        lines.extend(self._emit_port_definitions(architecture, level=1))
+        lines.extend(self._emit_port_definitions(architecture, level=1, mode=mode))
         if architecture.port_definitions:
             lines.append("")
         lines.extend(self._emit_part_definitions(architecture, level=1, mode=mode))
@@ -60,7 +60,7 @@ class SysMLExporter:
             lines.extend(self._emit_requirement_definitions_subset(file_requirements, level=1))
             if file_requirements and (file_ports or file_parts):
                 lines.append("")
-            lines.extend(self._emit_port_definitions_subset(file_ports, level=1))
+            lines.extend(self._emit_port_definitions_subset(file_ports, level=1, mode=mode))
             if file_ports and file_parts:
                 lines.append("")
             lines.extend(self._emit_part_definitions_subset(file_parts, level=1, mode=mode))
@@ -68,8 +68,10 @@ class SysMLExporter:
             file_texts[file_name] = "\n".join(lines) + "\n"
         return file_texts
 
-    def _emit_port_definitions(self, architecture: SysMLArchitecture, level: int) -> List[str]:
-        return self._emit_port_definitions_subset(architecture.port_definitions, level)
+    def _emit_port_definitions(
+        self, architecture: SysMLArchitecture, level: int, mode: str
+    ) -> List[str]:
+        return self._emit_port_definitions_subset(architecture.port_definitions, level, mode)
 
     def _emit_requirement_definitions(self, architecture: SysMLArchitecture, level: int) -> List[str]:
         return self._emit_requirement_definitions_subset(
@@ -96,12 +98,18 @@ class SysMLExporter:
             lines.pop()
         return lines
 
-    def _emit_port_definitions_subset(self, port_definitions: Dict[str, object], level: int) -> List[str]:
+    def _emit_port_definitions_subset(
+        self, port_definitions: Dict[str, object], level: int, mode: str
+    ) -> List[str]:
         lines: List[str] = []
         pad = self.indent * level
         for name in sorted(port_definitions):
             port = port_definitions[name]
-            lines.append(f"{pad}port def {port.name} {{")
+            header = f"{pad}port def {port.name}"
+            if mode != "flattened" and port.specializes is not None:
+                header += f" specializes {port.specializes}"
+            header += " {"
+            lines.append(header)
             attrs = port.items.get("attributes", {})
             for attr in sorted(attrs.values(), key=lambda a: a.name):
                 lines.append(f"{pad}{self.indent}{self._format_attribute(attr)}")

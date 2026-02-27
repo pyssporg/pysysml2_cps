@@ -18,7 +18,11 @@ from .definitions import (
     SysMLRequirementDefinition,
     SysMLRequirementReference,
 )
-from .inheritance import resolve_part_inheritance, resolve_requirement_inheritance
+from .inheritance import (
+    resolve_part_inheritance,
+    resolve_port_inheritance,
+    resolve_requirement_inheritance,
+)
 from .parser_utils import collect_block, normalize_doc, strip_inline_comment
 
 
@@ -100,12 +104,13 @@ def _parse_sysml_files(files: List[Path]) -> SysMLArchitecture:
                 strict=True,
             )
 
-        for name, block in _extract_named_blocks(body, "port def"):
+        for name, base_name, block in _extract_port_blocks(body):
             if name in port_defs:
                 raise ValueError(f"Duplicate port definition for {name} in {path}")
             port_defs[name] = _parse_port_block(
                 name=name,
                 block=block,
+                base_port_name=base_name,
                 source_path=path,
                 package_name=pkg,
                 strict=True,
@@ -118,6 +123,7 @@ def _parse_sysml_files(files: List[Path]) -> SysMLArchitecture:
             requirement_defs[name] = req_def
 
     resolve_part_inheritance(part_defs)
+    resolve_port_inheritance(port_defs)
     resolve_requirement_inheritance(requirement_defs)
     _attach_port_definitions(part_defs, port_defs)
     _attach_part_definitions(part_defs)
@@ -181,6 +187,26 @@ def _extract_part_blocks(body: str) -> List[Tuple[str, Optional[str], str]]:
 def _extract_requirement_blocks(body: str) -> List[Tuple[str, Optional[str], str]]:
     pattern = re.compile(
         r"requirement def\s+([A-Za-z0-9_]+)(?:\s*specializes\s*([A-Za-z0-9_]+))?\s*\{",
+        re.MULTILINE,
+    )
+    blocks: List[Tuple[str, Optional[str], str]] = []
+    idx = 0
+    while True:
+        match = pattern.search(body, idx)
+        if not match:
+            break
+        name = match.group(1)
+        base_name = match.group(2)
+        brace_start = match.end() - 1
+        block, new_idx = collect_block(body, brace_start)
+        blocks.append((name, base_name, block))
+        idx = new_idx
+    return blocks
+
+
+def _extract_port_blocks(body: str) -> List[Tuple[str, Optional[str], str]]:
+    pattern = re.compile(
+        r"port def\s+([A-Za-z0-9_]+)(?:\s*specializes\s*([A-Za-z0-9_]+))?\s*\{",
         re.MULTILINE,
     )
     blocks: List[Tuple[str, Optional[str], str]] = []
@@ -280,11 +306,20 @@ def _parse_part_block(
 
 
 def _parse_port_block(
-    name: str, block: str, source_path: Path, package_name: str, strict: bool
+    name: str,
+    block: str,
+    base_port_name: Optional[str],
+    source_path: Path,
+    package_name: str,
+    strict: bool,
 ) -> SysMLPortDefinition:
     items: Dict[str, Dict[str, object]] = {
         kind: {} for kind in SysMLPortDefinition.artifact_kinds
     }
+    redefines_items: Dict[str, Dict[str, object]] = {
+        kind: {} for kind in SysMLPortDefinition.artifact_kinds
+    }
+    remove_items = {kind: set() for kind in SysMLPortDefinition.artifact_kinds}
     port_doc: Optional[str] = None
     pending_doc: Optional[str] = None
 
@@ -306,6 +341,28 @@ def _parse_port_block(
         elif line.startswith("requirement "):
             requirement = _parse_requirement_reference(line, pending_doc)
             items["requirements"][requirement.name] = requirement
+        elif line.startswith("redefines "):
+            replacement = _parse_replacement(line, pending_doc)
+            if replacement[0] not in items:
+                raise _unknown_statement_error(
+                    package_name=package_name,
+                    source_path=source_path,
+                    definition_kind="port def",
+                    definition_name=name,
+                    line=line,
+                )
+            redefines_items[replacement[0]][replacement[1].name] = replacement[1]
+        elif line.startswith("remove "):
+            remove_kind, remove_key = _parse_removal(line)
+            if remove_kind not in items:
+                raise _unknown_statement_error(
+                    package_name=package_name,
+                    source_path=source_path,
+                    definition_kind="port def",
+                    definition_name=name,
+                    line=line,
+                )
+            remove_items[remove_kind].add(remove_key)
         elif strict:
             raise _unknown_statement_error(
                 package_name=package_name,
@@ -319,10 +376,11 @@ def _parse_port_block(
     port = SysMLPortDefinition(
         name=name,
         doc=port_doc,
+        specializes=base_port_name,
         source_file=source_path.name,
         items=items,
-        redefines_items={kind: {} for kind in SysMLPortDefinition.artifact_kinds},
-        remove_items={kind: set() for kind in SysMLPortDefinition.artifact_kinds},
+        redefines_items=redefines_items,
+        remove_items=remove_items,
     )
     port.declared_items = {
         kind: dict(values) for kind, values in items.items()
@@ -614,7 +672,27 @@ def _parse_requirements(
         )
         req_def.declared_items = {kind: dict(values) for kind, values in items.items()}
         req_defs[name] = req_def
+
+    top_level_req_usage = _find_top_level_requirement_usage(body)
+    if top_level_req_usage is not None:
+        raise ValueError(
+            "Requirement usage must be declared inside part def or port def blocks "
+            f"in package {package_name} ({source_path}): {top_level_req_usage}"
+        )
     return req_defs
+
+
+def _find_top_level_requirement_usage(body: str) -> Optional[str]:
+    depth = 0
+    for raw_line in body.splitlines():
+        line = strip_inline_comment(raw_line).strip()
+        if not line:
+            depth += raw_line.count("{") - raw_line.count("}")
+            continue
+        if depth == 0 and line.startswith("requirement ") and not line.startswith("requirement def "):
+            return line
+        depth += raw_line.count("{") - raw_line.count("}")
+    return None
 
 
 def _unknown_statement_error(

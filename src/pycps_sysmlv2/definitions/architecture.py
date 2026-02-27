@@ -4,13 +4,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List
 
 from .base import DefinitionBase
-from .definitions import (
-    ResolvedPartDefinition,
-    ResolvedPortDefinition,
-    SysMLPartDefinition,
-    SysMLPortDefinition,
-    ResolvedRequirement, SysMLRequirement
-)
+from .definitions import SysMLPartDefinition, SysMLPortDefinition, SysMLRequirement
 
 
 @dataclass(kw_only=True)

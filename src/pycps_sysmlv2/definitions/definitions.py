@@ -7,10 +7,6 @@ from .base import DeclaredDefinition
 
 
 @dataclass
-class ResolvedRequirement(DeclaredDefinition):
-    artifact_kinds: Tuple[str, ...] = ("text",)
-
-@dataclass
 class SysMLRequirement(DeclaredDefinition):
     artifact_kinds: Tuple[str, ...] = ("text",)
 
@@ -33,10 +29,6 @@ class SysMLRequirement(DeclaredDefinition):
 
 
 @dataclass
-class ResolvedPortDefinition(DeclaredDefinition):
-    artifact_kinds: Tuple[str, ...] = ("attributes",)
-
-@dataclass
 class SysMLPortDefinition(DeclaredDefinition):
     artifact_kinds: Tuple[str, ...] = ("attributes",)
 
@@ -48,10 +40,6 @@ class SysMLPortDefinition(DeclaredDefinition):
     def attributes(self, value: Dict[str, object]) -> None:
         self.items["attributes"] = value
 
-
-@dataclass
-class ResolvedPartDefinition(DeclaredDefinition):
-    artifact_kinds: Tuple[str, ...] = ("attributes", "ports", "parts", "connections")
 
 @dataclass
 class SysMLPartDefinition(DeclaredDefinition):

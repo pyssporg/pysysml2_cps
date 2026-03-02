@@ -34,6 +34,8 @@ from pycps_sysmlv2 import SysMLParser
 
 - `SysMLParser(path).parse()`
 - `architecture.get_part(system_part)`
+- `architecture.add_part(...)`, `remove_part(...)`, `add_port(...)`, `remove_port(...)`, `add_requirement(...)`, `remove_requirement(...)`
+- `part_def.add_part(...)`, `add_port(...)`, `add_requirement(...)`, `add_connection(...)` and corresponding `remove_*`
 - `architecture.export_flattened()`
 - `architecture.export_declared()`
 

@@ -116,7 +116,7 @@
               "source_file": "model.sysml",
               "specializes": null,
               "specializes_obj": null,
-              "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLRequirementDefinition'>"
+              "value_type": "<class 'pycps_sysmlv2.definitions.requirement_definition.SysMLRequirementDefinition'>"
             },
             "requirement_name": "ReqA",
             "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLRequirementReference'>"
@@ -148,7 +148,7 @@
       "source_file": "model.sysml",
       "specializes": null,
       "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
+      "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
     },
     "ChildA": {
       "artifact_kinds": [
@@ -202,7 +202,7 @@
       "source_file": "model.sysml",
       "specializes": null,
       "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
+      "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
     },
     "ChildB": {
       "artifact_kinds": [
@@ -256,7 +256,7 @@
       "source_file": "model.sysml",
       "specializes": null,
       "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
+      "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
     },
     "Derived": {
       "artifact_kinds": [
@@ -381,7 +381,7 @@
               "source_file": "model.sysml",
               "specializes": null,
               "specializes_obj": null,
-              "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLRequirementDefinition'>"
+              "value_type": "<class 'pycps_sysmlv2.definitions.requirement_definition.SysMLRequirementDefinition'>"
             },
             "requirement_name": "ReqB",
             "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLRequirementReference'>"
@@ -420,7 +420,7 @@
       "source_file": "model.sysml",
       "specializes": "Base",
       "specializes_obj": "__ref__",
-      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
+      "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
     }
   },
   "port_definitions": {
@@ -450,7 +450,7 @@
       "source_file": "model.sysml",
       "specializes": null,
       "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPortDefinition'>"
+      "value_type": "<class 'pycps_sysmlv2.definitions.port_definition.SysMLPortDefinition'>"
     },
     "SignalB": {
       "artifact_kinds": [
@@ -478,7 +478,7 @@
       "source_file": "model.sysml",
       "specializes": null,
       "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPortDefinition'>"
+      "value_type": "<class 'pycps_sysmlv2.definitions.port_definition.SysMLPortDefinition'>"
     }
   },
   "requirement_definitions": {

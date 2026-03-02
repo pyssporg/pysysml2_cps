@@ -44,7 +44,7 @@
       "source_file": "model.sysml",
       "specializes": null,
       "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
+      "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
     },
     "System": {
       "artifact_kinds": [
@@ -97,7 +97,7 @@
       "source_file": "model.sysml",
       "specializes": null,
       "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.definitions.SysMLPartDefinition'>"
+      "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
     }
   },
   "port_definitions": {},

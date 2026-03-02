@@ -4,7 +4,8 @@ from dataclasses import dataclass
 from typing import Optional
 
 from .base import DefinitionBase
-from .definitions import SysMLPartDefinition, SysMLPortDefinition
+from .part_definition import SysMLPartDefinition
+from .port_definition import SysMLPortDefinition
 
 
 @dataclass(kw_only=True)

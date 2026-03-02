@@ -12,6 +12,9 @@ from pycps_sysmlv2 import SysMLParser
   - returns `SysMLArchitecture`
 - `architecture.get_part(system_part)`:
   - convenience helper returning one part definition
+- `architecture.add_part(definition)` / `architecture.remove_part(part_name)`
+- `architecture.add_port(definition)` / `architecture.remove_port(port_name)`
+- `architecture.add_requirement(definition)` / `architecture.remove_requirement(requirement_name)`
 - `architecture.export_flattened()`
 - `architecture.export_declared()`
 
@@ -48,6 +51,14 @@ All definition types support:
 - `SysMLRequirementReference`
 
 References include both textual target names and resolved target objects (for example `port_def`, `part_def`, `requirement_def`).
+
+`SysMLPartDefinition` and `SysMLPortDefinition` also expose reference mutators:
+
+- `part_def.add_part(...)` / `part_def.remove_part(name)`
+- `part_def.add_port(...)` / `part_def.remove_port(name)`
+- `part_def.add_requirement(...)` / `part_def.remove_requirement(name)`
+- `part_def.add_connection(...)` / `part_def.remove_connection(...)`
+- `port_def.add_requirement(...)` / `port_def.remove_requirement(name)`
 
 ## Inheritance Semantics
 

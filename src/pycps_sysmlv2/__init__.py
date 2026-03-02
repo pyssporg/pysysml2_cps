@@ -12,7 +12,6 @@ from .definitions import (
     SysMLPortReference,
     SysMLRequirementDefinition,
     SysMLRequirementReference,
-    SysMLRequirement,
     SysMLType,
 )
 from .exporter import (

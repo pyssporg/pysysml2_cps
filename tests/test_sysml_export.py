@@ -1,10 +1,6 @@
 from pathlib import Path
 
-from pycps_sysmlv2 import (
-    export_architecture,
-    export_architecture_files,
-    load_architecture,
-)
+from pycps_sysmlv2 import SysMLParser
 
 from public_api_test_utils import write_model
 
@@ -36,9 +32,9 @@ def test_export_declared_and_flattened_sysml(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
-    declared = export_architecture(architecture, mode="declared")
-    flattened = export_architecture(architecture, mode="flattened")
+    architecture = SysMLParser(tmp_path).parse()
+    declared = architecture.export_declared()["model.sysml"]
+    flattened = architecture.export_flattened()
 
     assert "part def Derived specializes Base" in declared
     assert "redefines attribute replace_me = 99;" in declared
@@ -50,7 +46,7 @@ def test_export_declared_and_flattened_sysml(tmp_path: Path):
     assert "attribute replace_me = 99;" in flattened
 
 
-def test_export_declared_files_preserves_source_grouping(tmp_path: Path):
+def test_export_declared_preserves_source_grouping(tmp_path: Path):
     write_model(
         tmp_path / "part_definitions.sysml",
         """
@@ -75,15 +71,15 @@ def test_export_declared_files_preserves_source_grouping(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
-    files = export_architecture_files(architecture, mode="declared")
+    architecture = SysMLParser(tmp_path).parse()
+    files = architecture.export_declared()
 
     assert set(files) == {"composition.sysml", "part_definitions.sysml"}
     assert "part def Derived specializes Base" in files["composition.sysml"]
     assert "part def Base {" in files["part_definitions.sysml"]
 
 
-def test_export_declared_files_includes_port_only_source_files(tmp_path: Path):
+def test_export_declared_includes_port_only_source_files(tmp_path: Path):
     write_model(
         tmp_path / "ports.sysml",
         """
@@ -103,8 +99,8 @@ def test_export_declared_files_includes_port_only_source_files(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
-    files = export_architecture_files(architecture, mode="declared")
+    architecture = SysMLParser(tmp_path).parse()
+    files = architecture.export_declared()
 
     assert set(files) == {"parts.sysml", "ports.sysml"}
     assert "port def Signal {" in files["ports.sysml"]

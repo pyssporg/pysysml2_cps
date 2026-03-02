@@ -16,7 +16,7 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
 
 ## High-Level Flow
 
-`load_architecture(path)` drives the full pipeline:
+`SysMLParser(path).parse()` drives the full pipeline:
 
 1. Normalize input path.
 2. Parse either:
@@ -39,12 +39,11 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
 - Public package surface.
 - Re-exports parser entrypoints and model classes.
 
-### `src/pycps_sysmlv2/parsing.py`
+### `src/pycps_sysmlv2/parser/`
 
 - Parse orchestration and link-resolution passes.
-- Main APIs:
-  - `load_architecture(folder_or_file)`
-  - `load_system(folder_or_file, system_part)`
+- Main API:
+  - `SysMLParser(folder_or_file).parse()`
 - Internal responsibilities:
   - package extraction and consistency checks
   - block extraction (`part def`, `port def`, `requirement def`)
@@ -61,9 +60,8 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
 ### `src/pycps_sysmlv2/exporter.py`
 
 - SysML text export.
-- `declared` mode preserves inheritance intent (`specializes`, `redefines`, `remove`).
-- `flattened` mode emits effective merged definitions.
-- Multi-file declared export groups definitions by recorded `source_file` when available.
+- `architecture.export_declared()` preserves inheritance intent (`specializes`, `redefines`, `remove`) and groups definitions by recorded `source_file` when available.
+- `architecture.export_flattened()` emits effective merged definitions.
 
 ### `src/pycps_sysmlv2/definitions/`
 
@@ -118,7 +116,7 @@ The parser validates during load rather than deferring failures:
   - unresolved port/part references
   - unresolved connection endpoints
 - `KeyError`:
-  - requested `load_system(..., system_part)` not found
+  - requested `architecture.get_part(system_part)` not found
 
 ## Supported Syntax (Subset)
 
@@ -147,7 +145,7 @@ Non-goals currently include full SysML v2 language coverage and behavioral seman
 Common places to extend behavior:
 
 - New statement forms:
-  - update `_iter_block_items(...)` and parsing helpers in `parsing.py`.
+  - update parsing helpers in `parser/builders.py` and `parser/elements.py`.
 - Richer type system:
   - extend `PrimitiveType`, `SYSML_TYPE_MAP`, and `SysMLType`.
 - Additional semantic validation:

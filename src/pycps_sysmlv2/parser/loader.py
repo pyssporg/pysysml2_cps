@@ -27,33 +27,25 @@ from .linking import (
 )
 
 
-class SysMLFolderParser:
-    """Parse and merge all `.sysml` files within a directory."""
+#
+class SysMLParser:
+    """Parse `.sysml` file(s)."""
 
-    def __init__(self, folder: Path | str):
-        self.folder = Path(folder)
-        if not self.folder.is_dir():
-            raise FileNotFoundError(f"SysML folder not found: {self.folder}")
+    def __init__(self, path: Path | str):
+        """file or folder"""
+        self.path = Path(path)
 
     def parse(self) -> SysMLArchitecture:
-        files = sorted(self.folder.glob("*.sysml"))
-        if not files:
-            raise FileNotFoundError(f"No .sysml files found under {self.folder}")
-        return _parse_sysml_files(files)
+        if self.path.is_file():
+            return _parse_sysml_files([self.path])
 
-
-def load_architecture(folder: Path | str) -> SysMLArchitecture:
-    path = Path(folder)
-    if path.is_file():
-        return _parse_sysml_files([path])
-    return SysMLFolderParser(path).parse()
-
-
-def load_system(folder: Path | str, system_part: str):
-    architecture = load_architecture(folder)
-    if system_part not in architecture.part_definitions:
-        raise KeyError(f"Part not found: {system_part}")
-    return architecture.part_definitions[system_part]
+        elif self.path.is_dir():
+            files = sorted(self.path.glob("*.sysml"))
+            if not files:
+                raise FileNotFoundError(f"No .sysml files found under {self.path}")
+            return _parse_sysml_files(files)
+        else:
+            raise FileNotFoundError(f"No .sysml file found under {self.path}")
 
 
 def _parse_sysml_files(files: List[Path]) -> SysMLArchitecture:
@@ -107,7 +99,9 @@ def _parse_sysml_files(files: List[Path]) -> SysMLArchitecture:
         parsed_req_defs = parse_requirements(body, source_path=path, package_name=pkg)
         for name, req_def in parsed_req_defs.items():
             if name in requirement_defs:
-                raise ValueError(f"Duplicate requirement definition for {name} in {path}")
+                raise ValueError(
+                    f"Duplicate requirement definition for {name} in {path}"
+                )
             requirement_defs[name] = req_def
 
     resolve_part_inheritance(part_defs)
@@ -118,7 +112,7 @@ def _parse_sysml_files(files: List[Path]) -> SysMLArchitecture:
     attach_part_definitions(part_defs)
     attach_connection_definitions(part_defs)
     attach_requirement_definitions(part_defs, port_defs, requirement_defs)
-    
+
     return SysMLArchitecture(
         name=package_name or "Package",
         package=package_name or "Package",

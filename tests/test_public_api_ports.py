@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pycps_sysmlv2 import load_architecture
+from pycps_sysmlv2 import SysMLParser
 
 from public_api_test_utils import write_model, write_reference
 
@@ -19,7 +19,7 @@ def test_port_reference_links_to_port_definition(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
     node = architecture.part_definitions["Node"]
 
     assert node.ports["input"].port_name == "Signal"
@@ -43,7 +43,7 @@ def test_port_directions_are_preserved(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
     node = architecture.part_definitions["Node"]
 
     assert node.ports["input"].direction == "in"
@@ -75,7 +75,7 @@ def test_connection_links_parts_and_port_definitions(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
     connection = architecture.part_definitions["System"].connections[0]
 
     assert (connection.src_component, connection.src_port) == ("src", "out_signal")
@@ -110,7 +110,7 @@ def test_port_inheritance_adds_attributes_and_requirements(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
     derived = architecture.port_definitions["DerivedPort"]
 
     assert derived.specializes == "BasePort"

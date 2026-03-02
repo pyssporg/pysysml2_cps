@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pycps_sysmlv2 import load_architecture
+from pycps_sysmlv2 import SysMLParser
 
 from public_api_test_utils import write_model, write_reference
 
@@ -31,7 +31,7 @@ def test_requirements_are_collected(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
 
     assert set(architecture.requirement_definitions) == {
         "NormalizeRequirement",
@@ -66,7 +66,7 @@ def test_requirement_definition_inheritance(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
     derived = architecture.requirement_definitions["DerivedReq"]
     req_ref = architecture.part_definitions["System"].items["requirements"]["REQ_1"]
 

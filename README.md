@@ -17,10 +17,10 @@ It is not a full SysML v2 compiler. It intentionally targets a practical subset.
 ## Quickstart
 
 ```python
-from pycps_sysmlv2 import load_architecture
+from pycps_sysmlv2 import SysMLParser
 
-architecture = load_architecture("tests/fixtures/fixture_a")
-system = architecture.part_definitions["FixtureAComposition"]
+architecture = SysMLParser("tests/fixtures/fixture_a").parse()
+system = architecture.get_part("FixtureAComposition")
 
 for connection in system.connections:
     print(connection.src_part_def.name, "->", connection.dst_part_def.name)
@@ -29,14 +29,13 @@ for connection in system.connections:
 ## Public API
 
 ```python
-from pycps_sysmlv2 import load_architecture, load_system
-from pycps_sysmlv2 import export_architecture, export_architecture_files
+from pycps_sysmlv2 import SysMLParser
 ```
 
-- `load_architecture(path)`
-- `load_system(path, system_part)`
-- `export_architecture(architecture, mode="declared" | "flattened")`
-- `export_architecture_files(architecture, mode="declared")`
+- `SysMLParser(path).parse()`
+- `architecture.get_part(system_part)`
+- `architecture.export_flattened()`
+- `architecture.export_declared()`
 
 ## Documentation
 

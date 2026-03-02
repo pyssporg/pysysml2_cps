@@ -2,14 +2,14 @@ from pathlib import Path
 
 import pytest
 
-from pycps_sysmlv2 import load_architecture, load_system
+from pycps_sysmlv2 import SysMLParser
 
 
 def _write(path: Path, content: str) -> None:
     path.write_text(content.strip() + "\n")
 
 
-def test_load_system_raises_key_error_for_missing_part(tmp_path: Path):
+def test_get_part_raises_key_error_for_missing_part(tmp_path: Path):
     _write(
         tmp_path / "model.sysml",
         """
@@ -19,8 +19,9 @@ def test_load_system_raises_key_error_for_missing_part(tmp_path: Path):
         """,
     )
 
+    architecture = SysMLParser(tmp_path).parse()
     with pytest.raises(KeyError, match="Part not found: Missing"):
-        load_system(tmp_path, "Missing")
+        architecture.get_part("Missing")
 
 
 def test_missing_port_definition_fails_with_context(tmp_path: Path):
@@ -36,7 +37,7 @@ def test_missing_port_definition_fails_with_context(tmp_path: Path):
     )
 
     with pytest.raises(ValueError, match="Port definition not found for A.x"):
-        load_architecture(tmp_path)
+        SysMLParser(tmp_path).parse()
 
 
 def test_connection_to_unknown_part_definition_fails_with_context(tmp_path: Path):
@@ -62,7 +63,7 @@ def test_connection_to_unknown_part_definition_fails_with_context(tmp_path: Path
     with pytest.raises(
         ValueError, match="Part definition not found for subpart System.unknown"
     ):
-        load_architecture(tmp_path)
+        SysMLParser(tmp_path).parse()
 
 
 def test_part_inheritance_unknown_base_fails(tmp_path: Path):
@@ -80,7 +81,7 @@ def test_part_inheritance_unknown_base_fails(tmp_path: Path):
     with pytest.raises(
         ValueError, match="Base part definition not found for Derived: MissingBase"
     ):
-        load_architecture(tmp_path)
+        SysMLParser(tmp_path).parse()
 
 
 def test_legacy_colon_inheritance_syntax_is_rejected(tmp_path: Path):
@@ -96,7 +97,7 @@ def test_legacy_colon_inheritance_syntax_is_rejected(tmp_path: Path):
     with pytest.raises(
         ValueError, match="Legacy inheritance syntax ':' is not supported"
     ):
-        load_architecture(tmp_path)
+        SysMLParser(tmp_path).parse()
 
 
 def test_part_inheritance_cycle_fails(tmp_path: Path):
@@ -112,7 +113,7 @@ def test_part_inheritance_cycle_fails(tmp_path: Path):
     )
 
     with pytest.raises(ValueError, match="Inheritance cycle detected"):
-        load_architecture(tmp_path)
+        SysMLParser(tmp_path).parse()
 
 
 def test_redefines_requires_existing_member(tmp_path: Path):
@@ -131,7 +132,7 @@ def test_redefines_requires_existing_member(tmp_path: Path):
     )
 
     with pytest.raises(ValueError, match="Cannot redefine unknown attribute Derived.missing"):
-        load_architecture(tmp_path)
+        SysMLParser(tmp_path).parse()
 
 
 def test_remove_requires_existing_member(tmp_path: Path):
@@ -148,7 +149,7 @@ def test_remove_requires_existing_member(tmp_path: Path):
     )
 
     with pytest.raises(ValueError, match="Cannot remove unknown port Derived.missingPort"):
-        load_architecture(tmp_path)
+        SysMLParser(tmp_path).parse()
 
 
 def test_add_collision_requires_replace(tmp_path: Path):
@@ -170,7 +171,7 @@ def test_add_collision_requires_replace(tmp_path: Path):
         ValueError,
         match="Attribute name collision in Derived: value \\(use redefines attribute\\)",
     ):
-        load_architecture(tmp_path)
+        SysMLParser(tmp_path).parse()
 
 
 def test_replace_syntax_is_rejected(tmp_path: Path):
@@ -194,7 +195,7 @@ def test_replace_syntax_is_rejected(tmp_path: Path):
         ValueError,
         match="Unknown statement while parsing part def Derived in package Example",
     ):
-        load_architecture(tmp_path)
+        SysMLParser(tmp_path).parse()
 
 
 def test_comment_based_requirements_are_rejected(tmp_path: Path):
@@ -211,7 +212,7 @@ def test_comment_based_requirements_are_rejected(tmp_path: Path):
         ValueError,
         match="Comment-based requirements are not supported; use requirement def/requirement syntax",
     ):
-        load_architecture(tmp_path)
+        SysMLParser(tmp_path).parse()
 
 
 def test_requirement_usage_requires_known_definition(tmp_path: Path):
@@ -229,7 +230,7 @@ def test_requirement_usage_requires_known_definition(tmp_path: Path):
     with pytest.raises(
         ValueError, match="Requirement usage references unknown requirement definition"
     ):
-        load_architecture(tmp_path)
+        SysMLParser(tmp_path).parse()
 
 
 def test_top_level_requirement_usage_is_rejected(tmp_path: Path):
@@ -246,7 +247,7 @@ def test_top_level_requirement_usage_is_rejected(tmp_path: Path):
     with pytest.raises(
         ValueError, match="Requirement usage must be declared inside part def or port def blocks"
     ):
-        load_architecture(tmp_path)
+        SysMLParser(tmp_path).parse()
 
 
 def test_unknown_part_statement_fails_with_context(tmp_path: Path):
@@ -265,4 +266,4 @@ def test_unknown_part_statement_fails_with_context(tmp_path: Path):
         ValueError,
         match="Unknown statement while parsing part def Node in package Example",
     ):
-        load_architecture(tmp_path)
+        SysMLParser(tmp_path).parse()

@@ -2,16 +2,16 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, List
+from typing import Dict, List
 
 from .definitions import (
     SysMLArchitecture,
     SysMLAttribute,
     SysMLPartDefinition,
     SysMLPartReference,
+    SysMLPortReference,
     SysMLRequirementDefinition,
     SysMLRequirementReference,
-    SysMLPortReference,
 )
 
 
@@ -19,27 +19,40 @@ class SysMLExporter:
     def __init__(self, indent: str = "  "):
         self.indent = indent
 
-    def export_architecture(self, architecture: SysMLArchitecture, mode: str = "declared") -> str:
+    def export_flattened(self, architecture: SysMLArchitecture) -> str:
         lines = [f"package {architecture.package} {{"]
-        lines.extend(self._emit_requirement_definitions(architecture, level=1))
+        lines.extend(
+            self._emit_requirement_definitions_subset(
+                architecture.requirement_definitions,
+                level=1,
+            )
+        )
         if architecture.requirement_definitions:
             lines.append("")
-        lines.extend(self._emit_port_definitions(architecture, level=1, mode=mode))
+        lines.extend(
+            self._emit_port_definitions_subset(
+                architecture.port_definitions,
+                level=1,
+                mode="flattened",
+            )
+        )
         if architecture.port_definitions:
             lines.append("")
-        lines.extend(self._emit_part_definitions(architecture, level=1, mode=mode))
+        lines.extend(
+            self._emit_part_definitions_subset(
+                architecture.part_definitions,
+                level=1,
+                mode="flattened",
+            )
+        )
         lines.append("}")
         return "\n".join(line for line in lines if line is not None) + "\n"
 
-    def export_architecture_files(
-        self, architecture: SysMLArchitecture, mode: str = "declared"
-    ) -> Dict[str, str]:
-        if mode == "flattened":
-            return {"architecture.sysml": self.export_architecture(architecture, mode=mode)}
-
+    def export_declared(self, architecture: SysMLArchitecture) -> Dict[str, str]:
         grouped_requirements: Dict[str, Dict[str, SysMLRequirementDefinition]] = {}
         grouped_parts: Dict[str, Dict[str, SysMLPartDefinition]] = {}
         grouped_ports: Dict[str, Dict[str, object]] = {}
+
         for name, requirement in architecture.requirement_definitions.items():
             file_name = requirement.source_file or "architecture.sysml"
             grouped_requirements.setdefault(file_name, {})[name] = requirement
@@ -56,27 +69,30 @@ class SysMLExporter:
             file_requirements = grouped_requirements.get(file_name, {})
             file_parts = grouped_parts.get(file_name, {})
             file_ports = grouped_ports.get(file_name, {})
+
             lines = [f"package {architecture.package} {{"]
             lines.extend(self._emit_requirement_definitions_subset(file_requirements, level=1))
             if file_requirements and (file_ports or file_parts):
                 lines.append("")
-            lines.extend(self._emit_port_definitions_subset(file_ports, level=1, mode=mode))
+            lines.extend(
+                self._emit_port_definitions_subset(
+                    file_ports,
+                    level=1,
+                    mode="declared",
+                )
+            )
             if file_ports and file_parts:
                 lines.append("")
-            lines.extend(self._emit_part_definitions_subset(file_parts, level=1, mode=mode))
+            lines.extend(
+                self._emit_part_definitions_subset(
+                    file_parts,
+                    level=1,
+                    mode="declared",
+                )
+            )
             lines.append("}")
             file_texts[file_name] = "\n".join(lines) + "\n"
         return file_texts
-
-    def _emit_port_definitions(
-        self, architecture: SysMLArchitecture, level: int, mode: str
-    ) -> List[str]:
-        return self._emit_port_definitions_subset(architecture.port_definitions, level, mode)
-
-    def _emit_requirement_definitions(self, architecture: SysMLArchitecture, level: int) -> List[str]:
-        return self._emit_requirement_definitions_subset(
-            architecture.requirement_definitions, level
-        )
 
     def _emit_requirement_definitions_subset(
         self, requirement_definitions: Dict[str, SysMLRequirementDefinition], level: int
@@ -121,11 +137,6 @@ class SysMLExporter:
         if lines and lines[-1] == "":
             lines.pop()
         return lines
-
-    def _emit_part_definitions(
-        self, architecture: SysMLArchitecture, level: int, mode: str
-    ) -> List[str]:
-        return self._emit_part_definitions_subset(architecture.part_definitions, level, mode)
 
     def _emit_part_definitions_subset(
         self, part_definitions: Dict[str, SysMLPartDefinition], level: int, mode: str
@@ -246,19 +257,10 @@ class SysMLExporter:
 
     def _format_value(self, value: object) -> str:
         if isinstance(value, str):
-            return f"\"{value}\""
+            return f'"{value}"'
         if isinstance(value, bool):
             return "true" if value else "false"
         if isinstance(value, list):
             return "[" + ", ".join(self._format_value(v) for v in value) + "]"
         return repr(value)
 
-
-def export_architecture(architecture: SysMLArchitecture, mode: str = "declared") -> str:
-    return SysMLExporter().export_architecture(architecture, mode=mode)
-
-
-def export_architecture_files(
-    architecture: SysMLArchitecture, mode: str = "declared"
-) -> Dict[str, str]:
-    return SysMLExporter().export_architecture_files(architecture, mode=mode)

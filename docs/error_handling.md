@@ -9,7 +9,7 @@ The parser raises explicit exceptions for structural issues.
 
 ## `KeyError`
 
-- `load_system(..., system_part)` requested part does not exist
+- `architecture.get_part(system_part)` requested part does not exist
 
 ## `ValueError`
 

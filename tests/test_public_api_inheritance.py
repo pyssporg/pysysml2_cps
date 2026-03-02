@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pycps_sysmlv2 import load_architecture
+from pycps_sysmlv2 import SysMLParser
 
 from public_api_test_utils import write_model, write_reference
 
@@ -59,7 +59,7 @@ def test_part_inheritance_add_replace_remove(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
     derived = architecture.part_definitions["Derived"]
 
     assert derived.specializes == "Base"
@@ -124,7 +124,7 @@ def test_part_inheritance_remove_connection_then_add_new_connection(tmp_path: Pa
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
     derived = architecture.part_definitions["Derived"]
 
     assert len(derived.connections) == 1

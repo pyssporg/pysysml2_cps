@@ -3,18 +3,17 @@
 ## Public API
 
 ```python
-from pycps_sysmlv2 import load_architecture, load_system
-from pycps_sysmlv2 import export_architecture, export_architecture_files
+from pycps_sysmlv2 import SysMLParser
 ```
 
-- `load_architecture(path)`:
+- `SysMLParser(path).parse()`:
   - folder path: parse all `*.sysml` in folder
   - file path: parse only that file
   - returns `SysMLArchitecture`
-- `load_system(path, system_part)`:
+- `architecture.get_part(system_part)`:
   - convenience helper returning one part definition
-- `export_architecture(architecture, mode="declared" | "flattened")`
-- `export_architecture_files(architecture, mode="declared")`
+- `architecture.export_flattened()`
+- `architecture.export_declared()`
 
 ## Top-Level Model
 
@@ -60,11 +59,10 @@ Inheritance for part/port/requirement definitions applies merge order:
 
 Connection collisions require explicit remove first.
 
-## Export Modes
+## Export Functions
 
-- `declared`
+- `architecture.export_declared()`
   - preserves `specializes`, `redefines`, and `remove`
-- `flattened`
+  - groups output by `source_file` when available
+- `architecture.export_flattened()`
   - emits effective merged members
-
-`export_architecture_files(..., mode="declared")` groups output by `source_file` when available.

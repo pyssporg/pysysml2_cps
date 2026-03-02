@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pycps_sysmlv2 import load_architecture
+from pycps_sysmlv2 import SysMLParser
 from pycps_sysmlv2.definitions import PrimitiveType, SysMLType
 
 from public_api_test_utils import write_model, write_reference
@@ -19,7 +19,7 @@ def test_attribute_literals_are_parsed(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
     node = architecture.part_definitions["Node"]
     values = node.attributes["values"]
 
@@ -43,7 +43,7 @@ def test_typed_attributes_without_values_are_parsed(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
     node = architecture.part_definitions["Node"]
 
     assert node.attributes["gain"].value is None
@@ -69,7 +69,7 @@ def test_subpart_reference_links_to_part_definition(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
     system = architecture.part_definitions["System"]
 
     assert system.parts["child"].part_name == "Child"
@@ -100,7 +100,7 @@ def test_doc_comments_are_attached_to_definitions(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
     signal = architecture.port_definitions["Signal"]
     node = architecture.part_definitions["Node"]
 

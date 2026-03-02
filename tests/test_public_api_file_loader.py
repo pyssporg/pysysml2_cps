@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pycps_sysmlv2 import load_architecture, load_system
+from pycps_sysmlv2 import SysMLParser
 
 from public_api_test_utils import write_model, write_reference
 
@@ -18,7 +18,7 @@ def test_load_architecture_from_directory(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
 
     assert architecture.package == "Example"
     assert set(architecture.part_definitions) == {"Child", "System"}
@@ -36,7 +36,7 @@ def test_load_architecture_from_file_path(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(model_path)
+    architecture = SysMLParser(model_path).parse()
 
     assert architecture.package == "Example"
     assert "Child" in architecture.part_definitions
@@ -85,7 +85,7 @@ def test_directory_load_merges_multiple_sysml_files(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
+    architecture = SysMLParser(tmp_path).parse()
 
     assert set(architecture.port_definitions) == {"Signal"}
     assert set(architecture.part_definitions) == {"Consumer", "Producer", "System"}
@@ -95,7 +95,7 @@ def test_directory_load_merges_multiple_sysml_files(tmp_path: Path):
     write_reference("file_loader_directory_load_merges_multiple_sysml_files", architecture, True)
 
 
-def test_load_system_returns_requested_part_definition(tmp_path: Path):
+def test_architecture_get_part_returns_requested_part_definition(tmp_path: Path):
     write_model(
         tmp_path / "model.sysml",
         """
@@ -108,13 +108,13 @@ def test_load_system_returns_requested_part_definition(tmp_path: Path):
         """,
     )
 
-    architecture = load_architecture(tmp_path)
-    system = load_system(tmp_path, "System")
+    architecture = SysMLParser(tmp_path).parse()
+    system = architecture.get_part("System")
 
     assert system.name == "System"
     assert "child" in system.parts
     assert system.parts["child"].part_name == "Child"
-    write_reference("file_loader_load_system_returns_requested_part_definition", architecture, True)
+    write_reference("file_loader_get_part_returns_requested_part_definition", architecture, True)
 
 
 def test_load_architecture_from_file_does_not_parse_sibling_files(tmp_path: Path):
@@ -136,7 +136,7 @@ def test_load_architecture_from_file_does_not_parse_sibling_files(tmp_path: Path
         """,
     )
 
-    architecture = load_architecture(model_path)
+    architecture = SysMLParser(model_path).parse()
 
     assert architecture.package == "Example"
     assert set(architecture.part_definitions) == {"Child"}

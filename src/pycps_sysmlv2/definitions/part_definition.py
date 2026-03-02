@@ -176,6 +176,7 @@ class SysMLPartDefinition(InherenceDefinition):
             raise KeyError(f"Connection not found: {key}")
         return connections.pop(key)  # type: ignore[return-value]
 
+    # TODO: Move to SysMLConnection
     @staticmethod
     def _connection_key(
         src_component: str, src_port: str, dst_component: str, dst_port: str

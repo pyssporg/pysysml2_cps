@@ -27,10 +27,12 @@ class SysMLRequirementReference(DefinitionBase):
     requirement_name: str
     requirement_def: Optional[SysMLRequirementDefinition] = None
 
+    # TODO: Remove, easier to inline
     @property
     def identifier(self) -> str:
         return self.name
 
+    # TODO: Remove, access the requirement_def directly
     @property
     def text(self) -> str:
         if self.requirement_def is None:

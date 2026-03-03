@@ -22,43 +22,17 @@ class SysMLPartDefinition(InherenceDefinition):
     def attributes(self) -> Dict[str, object]:
         return self.items.setdefault("attributes", {})
 
-    @attributes.setter
-    def attributes(self, value: Dict[str, object]) -> None:
-        self.items["attributes"] = value
-
     @property
     def ports(self) -> Dict[str, object]:
         return self.items.setdefault("ports", {})
-
-    @ports.setter
-    def ports(self, value: Dict[str, object]) -> None:
-        self.items["ports"] = value
 
     @property
     def parts(self) -> Dict[str, object]:
         return self.items.setdefault("parts", {})
 
-    @parts.setter
-    def parts(self, value: Dict[str, object]) -> None:
-        self.items["parts"] = value
-
     @property
     def connections(self) -> list[object]:
         return list(self.items.setdefault("connections", {}).values())
-
-    @connections.setter
-    def connections(self, value: Iterable[object] | Dict[str, object]) -> None:
-        if isinstance(value, dict):
-            self.items["connections"] = value
-            return
-        mapped: Dict[str, object] = {}
-        for c in value:
-            key = (
-                f"{getattr(c, 'src_component')}.{getattr(c, 'src_port')}"
-                f"->{getattr(c, 'dst_component')}.{getattr(c, 'dst_port')}"
-            )
-            mapped[key] = c
-        self.items["connections"] = mapped
 
     def add_part(
         self,
@@ -163,22 +137,17 @@ class SysMLPartDefinition(InherenceDefinition):
             dst_port_def=dst_port_def,
             doc=doc,
         )
-        key = self._connection_key(src_component, src_port, dst_component, dst_port)
-        self.items.setdefault("connections", {})[key] = connection
+        self.items.setdefault("connections", {})[connection.key] = connection
         return connection
 
     def remove_connection(
         self, src_component: str, src_port: str, dst_component: str, dst_port: str
     ) -> "SysMLConnection":
-        key = self._connection_key(src_component, src_port, dst_component, dst_port)
+        from .connections import SysMLConnection
+
+        key = SysMLConnection.get_connection_key(src_component, src_port, dst_component, dst_port)
         connections = self.items.setdefault("connections", {})
         if key not in connections:
             raise KeyError(f"Connection not found: {key}")
         return connections.pop(key)  # type: ignore[return-value]
 
-    # TODO: Move to SysMLConnection
-    @staticmethod
-    def _connection_key(
-        src_component: str, src_port: str, dst_component: str, dst_port: str
-    ) -> str:
-        return f"{src_component}.{src_port}->{dst_component}.{dst_port}"

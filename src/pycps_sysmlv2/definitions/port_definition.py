@@ -15,17 +15,9 @@ class SysMLPortDefinition(InherenceDefinition):
     def attributes(self) -> Dict[str, object]:
         return self.items.setdefault("attributes", {})
 
-    @attributes.setter
-    def attributes(self, value: Dict[str, object]) -> None:
-        self.items["attributes"] = value
-
     @property
     def requirements(self) -> Dict[str, object]:
         return self.items.setdefault("requirements", {})
-
-    @requirements.setter
-    def requirements(self, value: Dict[str, object]) -> None:
-        self.items["requirements"] = value
 
     def add_requirement(
         self,

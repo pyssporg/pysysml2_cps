@@ -4,13 +4,6 @@
   "package": "Example",
   "part_definitions": {
     "Node": {
-      "artifact_kinds": [
-        "attributes",
-        "ports",
-        "parts",
-        "connections",
-        "requirements"
-      ],
       "declared_items": {
         "attributes": {
           "count": "__ref__",
@@ -21,20 +14,49 @@
         "ports": {},
         "requirements": {}
       },
+      "definition_kinds": [],
+      "definitions": {},
       "doc": null,
-      "items": {
+      "name": "Node",
+      "redefines_references": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
+      },
+      "reference_kinds": [
+        "attributes",
+        "ports",
+        "parts",
+        "connections",
+        "requirements"
+      ],
+      "references": {
         "attributes": {
           "count": {
             "doc": null,
             "name": "count",
-            "type": "__ref__",
+            "source_file": null,
+            "type": {
+              "doc": null,
+              "name": "",
+              "source_file": null,
+              "string_definition": null,
+              "type": "Integer",
+              "value_type": "<class 'pycps_sysmlv2.definitions.types.SysMLType'>"
+            },
             "value": 3,
             "value_type": "<class 'pycps_sysmlv2.definitions.attributes.SysMLAttribute'>"
           },
           "values": {
             "doc": null,
             "name": "values",
+            "source_file": null,
             "type": {
+              "doc": null,
+              "name": "",
+              "source_file": null,
               "string_definition": null,
               "type": [
                 "Real"
@@ -54,15 +76,7 @@
         "ports": {},
         "requirements": {}
       },
-      "name": "Node",
-      "redefines_items": {
-        "attributes": {},
-        "connections": {},
-        "parts": {},
-        "ports": {},
-        "requirements": {}
-      },
-      "remove_items": {
+      "remove_references": {
         "attributes": [],
         "connections": [],
         "parts": [],
@@ -77,5 +91,6 @@
   },
   "port_definitions": {},
   "requirement_definitions": {},
+  "source_file": null,
   "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
 }

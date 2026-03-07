@@ -3,13 +3,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from .base import DefinitionBase
+from .base import SysMLBase
 from .part_definition import SysMLPartDefinition
 from .port_definition import SysMLPortDefinition
 
 
 @dataclass(kw_only=True)
-class SysMLConnection(DefinitionBase):
+class SysMLConnection(SysMLBase):
     src_component: str
     src_port: str
     dst_component: str

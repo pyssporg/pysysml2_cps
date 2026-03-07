@@ -76,9 +76,9 @@ def test_part_inheritance_add_replace_remove(tmp_path: Path):
 
     assert derived.parts["right"].part_name == "ChildA"
     assert "extra" in derived.parts
-    assert "keep_req" not in derived.items["requirements"]
-    assert derived.items["requirements"]["replace_req"].requirement_name == "ReqB"
-    assert derived.items["requirements"]["add_req"].requirement_name == "ReqA"
+    assert "keep_req" not in derived.references["requirements"]
+    assert derived.references["requirements"]["replace_req"].requirement_name == "ReqB"
+    assert derived.references["requirements"]["add_req"].requirement_name == "ReqA"
     assert len(derived.connections) == 1
     c = derived.connections[0]
     assert (c.src_component, c.src_port, c.dst_component, c.dst_port) == (

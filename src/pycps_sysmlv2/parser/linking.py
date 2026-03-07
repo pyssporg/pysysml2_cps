@@ -8,6 +8,10 @@ from ..definitions import (
     SysMLPartDefinition,
     SysMLPortDefinition,
     SysMLRequirementDefinition,
+    SysMLRequirementReference,
+    SysMLPartReference,
+    SysMLPortReference,
+    SysMLConnection
 )
 
 
@@ -15,7 +19,8 @@ def attach_port_definitions(
     parts: Dict[str, SysMLPartDefinition], port_defs: Dict[str, SysMLPortDefinition]
 ) -> None:
     for part in parts.values():
-        for port in part.items.get("ports", {}).values():
+        for port in part.references.get("ports", {}).values():
+            port: SysMLPortReference
             port.port_def = port_defs.get(port.port_name)
             if port.port_def is None:
                 raise ValueError(
@@ -25,14 +30,16 @@ def attach_port_definitions(
 
 def attach_part_definitions(parts: Dict[str, SysMLPartDefinition]) -> None:
     for part in parts.values():
-        for subpart in part.items.get("parts", {}).values():
+        for subpart in part.references.get("parts", {}).values():
+            subpart: SysMLPartReference
             subpart.part_def = parts.get(subpart.part_name)
 
 
 def attach_connection_definitions(parts: Dict[str, SysMLPartDefinition]) -> None:
     for part in parts.values():
-        part_map = part.items.get("parts", {})
-        for connection in part.items.get("connections", {}).values():
+        part_map = part.references.get("parts", {})
+        for connection in part.references.get("connections", {}).values():
+            connection: SysMLConnection
             if connection.src_component not in part_map:
                 raise ValueError(
                     f"Subpart not found for connection: {part.name}.{connection.src_component}"
@@ -53,8 +60,8 @@ def attach_connection_definitions(parts: Dict[str, SysMLPartDefinition]) -> None
                     f"Part definition not found for subpart {part.name}.{connection.dst_component}"
                 )
 
-            src_ports = connection.src_part_def.items.get("ports", {})
-            dst_ports = connection.dst_part_def.items.get("ports", {})
+            src_ports = connection.src_part_def.references.get("ports", {})
+            dst_ports = connection.dst_part_def.references.get("ports", {})
             if connection.src_port not in src_ports:
                 raise ValueError(
                     f"Port not found for connection: {connection.src_part_def.name}.{connection.src_port}"
@@ -84,7 +91,8 @@ def attach_requirement_definitions(
     requirement_defs: Dict[str, SysMLRequirementDefinition],
 ) -> None:
     for part in parts.values():
-        for requirement in part.items.get("requirements", {}).values():
+        for requirement in part.references.get("requirements", {}).values():
+            requirement: SysMLRequirementReference
             requirement.requirement_def = requirement_defs.get(requirement.requirement_name)
             if requirement.requirement_def is None:
                 raise ValueError(
@@ -93,7 +101,8 @@ def attach_requirement_definitions(
                 )
 
     for port in ports.values():
-        for requirement in port.items.get("requirements", {}).values():
+        for requirement in port.references.get("requirements", {}).values():
+            requirement: SysMLRequirementReference
             requirement.requirement_def = requirement_defs.get(requirement.requirement_name)
             if requirement.requirement_def is None:
                 raise ValueError(

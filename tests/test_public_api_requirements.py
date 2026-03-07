@@ -37,8 +37,8 @@ def test_requirements_are_collected(tmp_path: Path):
         "NormalizeRequirement",
         "ParseRequirement",
     }
-    system_reqs = architecture.part_definitions["System"].items["requirements"]
-    signal_reqs = architecture.port_definitions["Signal"].items["requirements"]
+    system_reqs = architecture.part_definitions["System"].references["requirements"]
+    signal_reqs = architecture.port_definitions["Signal"].references["requirements"]
     assert [req.identifier for req in system_reqs.values()] == ["REQ_1"]
     assert [req.identifier for req in signal_reqs.values()] == ["REQ_2"]
     assert next(iter(system_reqs.values())).text == "The system shall parse requirements."
@@ -68,7 +68,7 @@ def test_requirement_definition_inheritance(tmp_path: Path):
 
     architecture = SysMLParser(tmp_path).parse()
     derived = architecture.requirement_definitions["DerivedReq"]
-    req_ref = architecture.part_definitions["System"].items["requirements"]["REQ_1"]
+    req_ref = architecture.part_definitions["System"].references["requirements"]["REQ_1"]
 
     assert derived.specializes == "BaseReq"
     assert derived.text == "Base requirement text"

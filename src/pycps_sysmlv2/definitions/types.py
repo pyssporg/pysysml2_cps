@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 
 from ..utils import obj_base
-from .base import DefinitionBase
+from .base import SysMLBase
 
 
 class PrimitiveType(str, Enum):
@@ -33,11 +34,10 @@ SYSML_TYPE_MAP = {
     "string": PrimitiveType.String,
 }
 
-
-class SysMLType(DefinitionBase):
-    def __init__(self, type: PrimitiveType, string_definition: Optional[str] = None):
-        self.type = type
-        self.string_definition = string_definition
+@dataclass(kw_only=True)
+class SysMLType(SysMLBase):
+    type : PrimitiveType
+    string_definition : Optional[str] = None
 
     def is_unknown(self):
         return self.type == PrimitiveType.Unknown
@@ -63,7 +63,7 @@ class SysMLType(DefinitionBase):
 
     @staticmethod
     def from_value(value):
-        return SysMLType(SysMLType._from_value(value))
+        return SysMLType(type=SysMLType._from_value(value))
 
     @staticmethod
     def _from_value(value):
@@ -86,5 +86,5 @@ class SysMLType(DefinitionBase):
     def from_string(string: str) -> "SysMLType":
         striped = string.strip().lower()
         if striped in SYSML_TYPE_MAP:
-            return SysMLType(SYSML_TYPE_MAP[striped])
-        return SysMLType(PrimitiveType.Unknown, string)
+            return SysMLType(type=SYSML_TYPE_MAP[striped])
+        return SysMLType(type=PrimitiveType.Unknown, string_definition=string)

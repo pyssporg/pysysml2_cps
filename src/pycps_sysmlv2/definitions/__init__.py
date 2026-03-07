@@ -8,6 +8,7 @@ from .port_definition import SysMLPortDefinition
 from .requirement_definition import SysMLRequirementDefinition
 from .references import SysMLPartReference, SysMLPortReference, SysMLRequirementReference
 from .types import PrimitiveType, SYSML_TYPE_MAP, SysMLType
+from .base import DefinitionBase, InherenceDefinition
 
 __all__ = [
     "PrimitiveType",

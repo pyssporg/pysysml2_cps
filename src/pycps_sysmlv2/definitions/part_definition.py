@@ -10,7 +10,7 @@ from .requirement_definition import SysMLRequirementDefinition
 
 @dataclass
 class SysMLPartDefinition(InherenceDefinition):
-    artifact_kinds: Tuple[str, ...] = (
+    reference_kinds: Tuple[str, ...] = (
         "attributes",
         "ports",
         "parts",
@@ -20,19 +20,19 @@ class SysMLPartDefinition(InherenceDefinition):
 
     @property
     def attributes(self) -> Dict[str, object]:
-        return self.items.setdefault("attributes", {})
+        return self.references.setdefault("attributes", {})
 
     @property
     def ports(self) -> Dict[str, object]:
-        return self.items.setdefault("ports", {})
+        return self.references.setdefault("ports", {})
 
     @property
     def parts(self) -> Dict[str, object]:
-        return self.items.setdefault("parts", {})
+        return self.references.setdefault("parts", {})
 
     @property
     def connections(self) -> list[object]:
-        return list(self.items.setdefault("connections", {}).values())
+        return list(self.references.setdefault("connections", {}).values())
 
     def add_part(
         self,
@@ -100,11 +100,11 @@ class SysMLPartDefinition(InherenceDefinition):
             requirement_def=requirement_def,
             doc=doc,
         )
-        self.items.setdefault("requirements", {})[name] = requirement_ref
+        self.references.setdefault("requirements", {})[name] = requirement_ref
         return requirement_ref
 
     def remove_requirement(self, name: str) -> "SysMLRequirementReference":
-        requirements = self.items.setdefault("requirements", {})
+        requirements = self.references.setdefault("requirements", {})
         if name not in requirements:
             raise KeyError(f"Requirement reference not found: {name}")
         return requirements.pop(name)  # type: ignore[return-value]
@@ -137,7 +137,7 @@ class SysMLPartDefinition(InherenceDefinition):
             dst_port_def=dst_port_def,
             doc=doc,
         )
-        self.items.setdefault("connections", {})[connection.key] = connection
+        self.references.setdefault("connections", {})[connection.key] = connection
         return connection
 
     def remove_connection(
@@ -146,7 +146,7 @@ class SysMLPartDefinition(InherenceDefinition):
         from .connections import SysMLConnection
 
         key = SysMLConnection.get_connection_key(src_component, src_port, dst_component, dst_port)
-        connections = self.items.setdefault("connections", {})
+        connections = self.references.setdefault("connections", {})
         if key not in connections:
             raise KeyError(f"Connection not found: {key}")
         return connections.pop(key)  # type: ignore[return-value]

@@ -1,24 +1,17 @@
 from __future__ import annotations
 
 import ast
+from dataclasses import dataclass
 from typing import Any, Optional
 
-from .base import DefinitionBase
+from .base import SysMLBase
 from .types import SysMLType
 
+@dataclass(kw_only=True)
+class SysMLAttribute(SysMLBase):
 
-class SysMLAttribute(DefinitionBase):
-    def __init__(
-        self,
-        name: str,
-        type: Optional[SysMLType],
-        value: Optional[Any],
-        doc: Optional[str],
-    ):
-        self.name = name
-        self.type = type
-        self.value = value
-        self.doc = doc
+    type: Optional[SysMLType]
+    value: Optional[Any]
 
     def is_list(self):
         return isinstance(self.value, (list, tuple))

@@ -4,13 +4,6 @@
   "package": "Example",
   "part_definitions": {
     "Node": {
-      "artifact_kinds": [
-        "attributes",
-        "ports",
-        "parts",
-        "connections",
-        "requirements"
-      ],
       "declared_items": {
         "attributes": {
           "threshold": "__ref__"
@@ -22,12 +15,30 @@
         },
         "requirements": {}
       },
+      "definition_kinds": [],
+      "definitions": {},
       "doc": "node docs",
-      "items": {
+      "name": "Node",
+      "redefines_references": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
+      },
+      "reference_kinds": [
+        "attributes",
+        "ports",
+        "parts",
+        "connections",
+        "requirements"
+      ],
+      "references": {
         "attributes": {
           "threshold": {
             "doc": "attribute docs",
             "name": "threshold",
+            "source_file": null,
             "type": "__ref__",
             "value": 2,
             "value_type": "<class 'pycps_sysmlv2.definitions.attributes.SysMLAttribute'>"
@@ -42,20 +53,13 @@
             "name": "input",
             "port_def": "__ref__",
             "port_name": "Signal",
+            "source_file": null,
             "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPortReference'>"
           }
         },
         "requirements": {}
       },
-      "name": "Node",
-      "redefines_items": {
-        "attributes": {},
-        "connections": {},
-        "parts": {},
-        "ports": {},
-        "requirements": {}
-      },
-      "remove_items": {
+      "remove_references": {
         "attributes": [],
         "connections": [],
         "parts": [],
@@ -70,23 +74,34 @@
   },
   "port_definitions": {
     "Signal": {
-      "artifact_kinds": [
-        "attributes",
-        "requirements"
-      ],
       "declared_items": {
         "attributes": {
           "p": "__ref__"
         },
         "requirements": {}
       },
+      "definition_kinds": [],
+      "definitions": {},
       "doc": "signal docs",
-      "items": {
+      "name": "Signal",
+      "redefines_references": {
+        "attributes": {},
+        "requirements": {}
+      },
+      "reference_kinds": [
+        "attributes",
+        "requirements"
+      ],
+      "references": {
         "attributes": {
           "p": {
             "doc": "payload docs",
             "name": "p",
+            "source_file": null,
             "type": {
+              "doc": null,
+              "name": "",
+              "source_file": null,
               "string_definition": null,
               "type": "Integer",
               "value_type": "<class 'pycps_sysmlv2.definitions.types.SysMLType'>"
@@ -97,12 +112,7 @@
         },
         "requirements": {}
       },
-      "name": "Signal",
-      "redefines_items": {
-        "attributes": {},
-        "requirements": {}
-      },
-      "remove_items": {
+      "remove_references": {
         "attributes": [],
         "requirements": []
       },
@@ -113,5 +123,6 @@
     }
   },
   "requirement_definitions": {},
+  "source_file": null,
   "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
 }

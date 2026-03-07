@@ -4,13 +4,6 @@
   "package": "Example",
   "part_definitions": {
     "Child": {
-      "artifact_kinds": [
-        "attributes",
-        "ports",
-        "parts",
-        "connections",
-        "requirements"
-      ],
       "declared_items": {
         "attributes": {},
         "connections": {},
@@ -18,23 +11,32 @@
         "ports": {},
         "requirements": {}
       },
+      "definition_kinds": [],
+      "definitions": {},
       "doc": null,
-      "items": {
-        "attributes": {},
-        "connections": {},
-        "parts": {},
-        "ports": {},
-        "requirements": {}
-      },
       "name": "Child",
-      "redefines_items": {
+      "redefines_references": {
         "attributes": {},
         "connections": {},
         "parts": {},
         "ports": {},
         "requirements": {}
       },
-      "remove_items": {
+      "reference_kinds": [
+        "attributes",
+        "ports",
+        "parts",
+        "connections",
+        "requirements"
+      ],
+      "references": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
+      },
+      "remove_references": {
         "attributes": [],
         "connections": [],
         "parts": [],
@@ -49,5 +51,6 @@
   },
   "port_definitions": {},
   "requirement_definitions": {},
+  "source_file": null,
   "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
 }

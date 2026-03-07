@@ -4,14 +4,14 @@ import warnings
 from dataclasses import dataclass, field
 from typing import Dict
 
-from .base import DefinitionBase
+from .base import SysMLBase
 from .part_definition import SysMLPartDefinition
 from .port_definition import SysMLPortDefinition
 from .requirement_definition import SysMLRequirementDefinition
 
 
 @dataclass(kw_only=True)
-class SysMLArchitecture(DefinitionBase):
+class SysMLArchitecture(SysMLBase):
     package: str
     # keep port definitions before part definitions to ensure correct json export order
     port_definitions: Dict[str, SysMLPortDefinition] = field(default_factory=dict)
@@ -25,7 +25,7 @@ class SysMLArchitecture(DefinitionBase):
         self.part_definitions = dict(
             sorted(
                 self.part_definitions.items(),
-                key=lambda item: (len(item[1].items.get("parts", {})), item[0]),
+                key=lambda item: (len(item[1].references.get("parts", {})), item[0]),
                 reverse=False,
             )
         )

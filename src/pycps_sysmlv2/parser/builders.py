@@ -35,18 +35,18 @@ def parse_part_block(
     strict: bool,
 ) -> SysMLPartDefinition:
     items: Dict[str, Dict[str, object]] = {
-        kind: {} for kind in SysMLPartDefinition.artifact_kinds
+        kind: {} for kind in SysMLPartDefinition.reference_kinds
     }
     redefines_items: Dict[str, Dict[str, object]] = {
-        kind: {} for kind in SysMLPartDefinition.artifact_kinds
+        kind: {} for kind in SysMLPartDefinition.reference_kinds
     }
-    remove_items = {kind: set() for kind in SysMLPartDefinition.artifact_kinds}
+    remove_items = {kind: set() for kind in SysMLPartDefinition.reference_kinds}
     pending_doc: Optional[str] = None
     part_doc: Optional[str] = None
 
     for kind, payload in iter_block_items(block):
         if kind == "doc":
-            has_members = any(items[k] for k in SysMLPartDefinition.artifact_kinds)
+            has_members = any(items[k] for k in SysMLPartDefinition.reference_kinds)
             if part_doc is None and not has_members:
                 part_doc = payload
             else:
@@ -97,9 +97,9 @@ def parse_part_block(
         doc=part_doc,
         specializes=base_part_name,
         source_file=source_path.name,
-        items=items,
-        redefines_items=redefines_items,
-        remove_items=remove_items,
+        references=items,
+        redefines_references=redefines_items,
+        remove_references=remove_items,
     )
     part.declared_items = {kind: dict(values) for kind, values in items.items()}
     return part
@@ -114,18 +114,18 @@ def parse_port_block(
     strict: bool,
 ) -> SysMLPortDefinition:
     items: Dict[str, Dict[str, object]] = {
-        kind: {} for kind in SysMLPortDefinition.artifact_kinds
+        kind: {} for kind in SysMLPortDefinition.reference_kinds
     }
     redefines_items: Dict[str, Dict[str, object]] = {
-        kind: {} for kind in SysMLPortDefinition.artifact_kinds
+        kind: {} for kind in SysMLPortDefinition.reference_kinds
     }
-    remove_items = {kind: set() for kind in SysMLPortDefinition.artifact_kinds}
+    remove_items = {kind: set() for kind in SysMLPortDefinition.reference_kinds}
     port_doc: Optional[str] = None
     pending_doc: Optional[str] = None
 
     for kind, payload in iter_block_items(block):
         if kind == "doc":
-            has_members = any(items[k] for k in SysMLPortDefinition.artifact_kinds)
+            has_members = any(items[k] for k in SysMLPortDefinition.reference_kinds)
             if port_doc is None and not has_members:
                 port_doc = payload
             else:
@@ -179,9 +179,9 @@ def parse_port_block(
         doc=port_doc,
         specializes=base_port_name,
         source_file=source_path.name,
-        items=items,
-        redefines_items=redefines_items,
-        remove_items=remove_items,
+        references=items,
+        redefines_references=redefines_items,
+        remove_references=remove_items,
     )
     port.declared_items = {kind: dict(values) for kind, values in items.items()}
     return port
@@ -202,16 +202,16 @@ def parse_requirements(
             if kind == "doc":
                 text = payload
                 break
-        items = {kind: {} for kind in SysMLRequirementDefinition.artifact_kinds}
+        items = {kind: {} for kind in SysMLRequirementDefinition.reference_kinds}
         if text is not None:
             items["text"]["text"] = text
         req_def = SysMLRequirementDefinition(
             name=name,
             specializes=base_name,
             source_file=source_path.name,
-            items=items,
-            redefines_items={kind: {} for kind in SysMLRequirementDefinition.artifact_kinds},
-            remove_items={kind: set() for kind in SysMLRequirementDefinition.artifact_kinds},
+            references=items,
+            redefines_references={kind: {} for kind in SysMLRequirementDefinition.reference_kinds},
+            remove_references={kind: set() for kind in SysMLRequirementDefinition.reference_kinds},
         )
         req_def.declared_items = {kind: dict(values) for kind, values in items.items()}
         req_defs[name] = req_def

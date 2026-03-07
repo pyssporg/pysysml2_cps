@@ -114,6 +114,6 @@ def test_port_inheritance_adds_attributes_and_requirements(tmp_path: Path):
     derived = architecture.port_definitions["DerivedPort"]
 
     assert derived.specializes == "BasePort"
-    assert "width" in derived.items["attributes"]
-    assert "gain" in derived.items["attributes"]
-    assert "reqA" in derived.items["requirements"]
+    assert "width" in derived.references["attributes"]
+    assert "gain" in derived.references["attributes"]
+    assert "reqA" in derived.references["requirements"]

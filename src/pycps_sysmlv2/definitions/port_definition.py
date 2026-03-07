@@ -9,15 +9,15 @@ from .requirement_definition import SysMLRequirementDefinition
 
 @dataclass
 class SysMLPortDefinition(InherenceDefinition):
-    artifact_kinds: Tuple[str, ...] = ("attributes", "requirements")
+    reference_kinds: Tuple[str, ...] = ("attributes", "requirements")
 
     @property
     def attributes(self) -> Dict[str, object]:
-        return self.items.setdefault("attributes", {})
+        return self.references.setdefault("attributes", {})
 
     @property
     def requirements(self) -> Dict[str, object]:
-        return self.items.setdefault("requirements", {})
+        return self.references.setdefault("requirements", {})
 
     def add_requirement(
         self,

@@ -2,6 +2,7 @@
   "doc": null,
   "name": "Example",
   "package": "Example",
+  "parent": null,
   "part_definitions": {
     "System": {
       "declared_items": {
@@ -15,10 +16,16 @@
           "REQ_1": "__ref__"
         }
       },
-      "definition_kinds": [],
-      "definitions": {},
+      "definitions": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
+      },
       "doc": null,
       "name": "System",
+      "parent": null,
       "redefines_references": {
         "attributes": {},
         "connections": {},
@@ -42,6 +49,7 @@
             "direction": "in",
             "doc": null,
             "name": "input",
+            "parent": null,
             "port_def": "__ref__",
             "port_name": "Signal",
             "source_file": null,
@@ -52,16 +60,23 @@
           "REQ_1": {
             "doc": null,
             "name": "REQ_1",
+            "parent": null,
             "requirement_def": {
               "declared_items": {
                 "text": {
                   "text": "The system shall parse requirements."
                 }
               },
-              "definition_kinds": [],
-              "definitions": {},
+              "definitions": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {},
+                "requirements": {}
+              },
               "doc": null,
               "name": "ParseRequirement",
+              "parent": null,
               "redefines_references": {
                 "text": {}
               },
@@ -108,10 +123,16 @@
           "REQ_2": "__ref__"
         }
       },
-      "definition_kinds": [],
-      "definitions": {},
+      "definitions": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
+      },
       "doc": null,
       "name": "Signal",
+      "parent": null,
       "redefines_references": {
         "attributes": {},
         "requirements": {}
@@ -126,16 +147,23 @@
           "REQ_2": {
             "doc": null,
             "name": "REQ_2",
+            "parent": null,
             "requirement_def": {
               "declared_items": {
                 "text": {
                   "text": "Multi-line requirement text should be normalized."
                 }
               },
-              "definition_kinds": [],
-              "definitions": {},
+              "definitions": {
+                "attributes": {},
+                "connections": {},
+                "parts": {},
+                "ports": {},
+                "requirements": {}
+              },
               "doc": null,
               "name": "NormalizeRequirement",
+              "parent": null,
               "redefines_references": {
                 "text": {}
               },

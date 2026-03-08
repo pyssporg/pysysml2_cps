@@ -23,24 +23,24 @@ class SysMLBase:
 
 @dataclass
 class DefinitionBase(SysMLBase):
-    DEFINITION_KINDS: ClassVar[tuple[str, ...]] = (
+    DEF_KINDS: ClassVar[tuple[str, ...]] = (
         "attributes",
         "parts",
         "ports",
         "requirements",
         "connections",
     )
-    REFERENCE_KINDS: ClassVar[tuple[str, ...]] = (
+    REF_KINDS: ClassVar[tuple[str, ...]] = (
         "parts",
         "ports",
         "requirements",
     )
 
-    references: dict[str, dict[str, SysMLBase]] = field(
-        default_factory=lambda: {k: {} for k in DefinitionBase.REFERENCE_KINDS}
+    refs: dict[str, dict[str, SysMLBase]] = field(
+        default_factory=lambda: {k: {} for k in DefinitionBase.REF_KINDS}
     )
-    definitions: dict[str, dict[str, SysMLBase]] = field(
-        default_factory=lambda: {k: {} for k in DefinitionBase.DEFINITION_KINDS}
+    defs: dict[str, dict[str, SysMLBase]] = field(
+        default_factory=lambda: {k: {} for k in DefinitionBase.DEF_KINDS}
     )
 
     def _bucket(self, store: dict[str, dict[str, SysMLBase]], kind: str) -> dict[str, SysMLBase]:
@@ -52,7 +52,7 @@ class DefinitionBase(SysMLBase):
     def add_ref(
         self, kind: str, name: str, obj: SysMLBase, overwrite_warning: bool = True
     ) -> None:
-        bucket = self._bucket(self.references, kind)
+        bucket = self._bucket(self.refs, kind)
         if name in bucket and overwrite_warning:
             warnings.warn(
                 f"Overwriting existing {kind} reference: {name}", stacklevel=2
@@ -60,12 +60,12 @@ class DefinitionBase(SysMLBase):
         bucket[name] = obj
 
     def remove_ref(self, kind: str, name: str) -> SysMLBase:
-        return self._bucket(self.references, kind).pop(name)
+        return self._bucket(self.refs, kind).pop(name)
 
     def add_def(
         self, kind: str, name: str, obj: SysMLBase, overwrite_warning: bool = True
     ) -> None:
-        bucket = self._bucket(self.definitions, kind)
+        bucket = self._bucket(self.defs, kind)
         if name in bucket and overwrite_warning:
             warnings.warn(
                 f"Overwriting existing {kind} definition: {name}", stacklevel=2
@@ -73,12 +73,12 @@ class DefinitionBase(SysMLBase):
         bucket[name] = obj
 
     def remove_def(self, kind: str, name: str) -> SysMLBase:
-        return self._bucket(self.definitions, kind).pop(name)
+        return self._bucket(self.defs, kind).pop(name)
 
     def find_definition(self, kind: str, name: str):
         namespace = self
         while namespace is not None:
-            for n, item in self._bucket(namespace.definitions, kind).items():
+            for n, item in self._bucket(namespace.defs, kind).items():
                 if item.name == name:
                     return item
             namespace = namespace.parent
@@ -92,8 +92,8 @@ class InherenceDefinition(DefinitionBase):
     specializes_obj: Optional[object] = None
 
     redefines_references: Dict[str, Dict[str, object]] = field(
-        default_factory=lambda: {k: {} for k in DefinitionBase.REFERENCE_KINDS}
+        default_factory=lambda: {k: {} for k in DefinitionBase.REF_KINDS}
     )
     remove_references: Dict[str, Set[str]] = field(
-        default_factory=lambda: {set() for k in DefinitionBase.REFERENCE_KINDS}
+        default_factory=lambda: {set() for k in DefinitionBase.REF_KINDS}
     )

@@ -2,6 +2,7 @@
   "doc": null,
   "name": "Example",
   "package": "Example",
+  "parent": null,
   "part_definitions": {
     "Child": {
       "declared_items": {
@@ -11,10 +12,16 @@
         "ports": {},
         "requirements": {}
       },
-      "definition_kinds": [],
-      "definitions": {},
+      "definitions": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
+      },
       "doc": null,
       "name": "Child",
+      "parent": null,
       "redefines_references": {
         "attributes": {},
         "connections": {},
@@ -58,10 +65,16 @@
         "ports": {},
         "requirements": {}
       },
-      "definition_kinds": [],
-      "definitions": {},
+      "definitions": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
+      },
       "doc": null,
       "name": "System",
+      "parent": null,
       "redefines_references": {
         "attributes": {},
         "connections": {},
@@ -83,6 +96,7 @@
           "child": {
             "doc": null,
             "name": "child",
+            "parent": null,
             "part_def": "__ref__",
             "part_name": "Child",
             "source_file": null,

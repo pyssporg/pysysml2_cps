@@ -39,7 +39,7 @@ def test_part_definition_add_remove_references_and_connections():
 
     assert system_def.parts["child"] is part_ref
     assert system_def.ports["input"] is port_ref
-    assert system_def.references["requirements"]["reqA"] is req_ref
+    assert system_def.refs["requirements"]["reqA"] is req_ref
     assert system_def.connections[0] is connection
 
     assert system_def.remove_part("child") is part_ref

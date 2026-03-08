@@ -13,11 +13,11 @@ class SysMLPortDefinition(InherenceDefinition):
 
     @property
     def attributes(self) -> Dict[str, object]:
-        return self.references.setdefault("attributes", {})
+        return self.refs.setdefault("attributes", {})
 
     @property
     def requirements(self) -> Dict[str, object]:
-        return self.references.setdefault("requirements", {})
+        return self.refs.setdefault("requirements", {})
 
     def add_requirement(
         self,

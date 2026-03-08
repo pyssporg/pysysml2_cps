@@ -25,7 +25,7 @@ class SysMLArchitecture(SysMLBase):
         self.part_definitions = dict(
             sorted(
                 self.part_definitions.items(),
-                key=lambda item: (len(item[1].references.get("parts", {})), item[0]),
+                key=lambda item: (len(item[1].refs.get("parts", {})), item[0]),
                 reverse=False,
             )
         )

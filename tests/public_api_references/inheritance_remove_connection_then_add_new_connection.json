@@ -2,6 +2,7 @@
   "doc": null,
   "name": "Example",
   "package": "Example",
+  "parent": null,
   "part_definitions": {
     "A": {
       "declared_items": {
@@ -13,10 +14,16 @@
         },
         "requirements": {}
       },
-      "definition_kinds": [],
-      "definitions": {},
+      "definitions": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
+      },
       "doc": null,
       "name": "A",
+      "parent": null,
       "redefines_references": {
         "attributes": {},
         "connections": {},
@@ -40,6 +47,7 @@
             "direction": "out",
             "doc": null,
             "name": "out_signal",
+            "parent": null,
             "port_def": "__ref__",
             "port_name": "Signal",
             "source_file": null,
@@ -70,10 +78,16 @@
         },
         "requirements": {}
       },
-      "definition_kinds": [],
-      "definitions": {},
+      "definitions": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
+      },
       "doc": null,
       "name": "B",
+      "parent": null,
       "redefines_references": {
         "attributes": {},
         "connections": {},
@@ -97,6 +111,7 @@
             "direction": "in",
             "doc": null,
             "name": "in_signal",
+            "parent": null,
             "port_def": "__ref__",
             "port_name": "Signal",
             "source_file": null,
@@ -131,10 +146,16 @@
         "ports": {},
         "requirements": {}
       },
-      "definition_kinds": [],
-      "definitions": {},
+      "definitions": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
+      },
       "doc": null,
       "name": "Base",
+      "parent": null,
       "redefines_references": {
         "attributes": {},
         "connections": {},
@@ -159,6 +180,7 @@
             "dst_port": "in_signal",
             "dst_port_def": "__ref__",
             "name": "a.out_signal_to_b.in_signal",
+            "parent": null,
             "source_file": null,
             "src_component": "a",
             "src_part_def": "__ref__",
@@ -171,6 +193,7 @@
           "a": {
             "doc": null,
             "name": "a",
+            "parent": null,
             "part_def": "__ref__",
             "part_name": "A",
             "source_file": null,
@@ -179,6 +202,7 @@
           "b": {
             "doc": null,
             "name": "b",
+            "parent": null,
             "part_def": "__ref__",
             "part_name": "B",
             "source_file": null,
@@ -187,6 +211,7 @@
           "c": {
             "doc": null,
             "name": "c",
+            "parent": null,
             "part_def": "__ref__",
             "part_name": "C",
             "source_file": null,
@@ -218,10 +243,16 @@
         },
         "requirements": {}
       },
-      "definition_kinds": [],
-      "definitions": {},
+      "definitions": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
+      },
       "doc": null,
       "name": "C",
+      "parent": null,
       "redefines_references": {
         "attributes": {},
         "connections": {},
@@ -267,10 +298,16 @@
         "ports": {},
         "requirements": {}
       },
-      "definition_kinds": [],
-      "definitions": {},
+      "definitions": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
+      },
       "doc": null,
       "name": "Derived",
+      "parent": null,
       "redefines_references": {
         "attributes": {},
         "connections": {},
@@ -295,6 +332,7 @@
             "dst_port": "in_signal",
             "dst_port_def": "__ref__",
             "name": "a.out_signal_to_c.in_signal",
+            "parent": null,
             "source_file": null,
             "src_component": "a",
             "src_part_def": "__ref__",
@@ -332,10 +370,16 @@
         "attributes": {},
         "requirements": {}
       },
-      "definition_kinds": [],
-      "definitions": {},
+      "definitions": {
+        "attributes": {},
+        "connections": {},
+        "parts": {},
+        "ports": {},
+        "requirements": {}
+      },
       "doc": null,
       "name": "Signal",
+      "parent": null,
       "redefines_references": {
         "attributes": {},
         "requirements": {}

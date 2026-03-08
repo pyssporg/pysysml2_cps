@@ -12,9 +12,9 @@ class SysMLRequirementDefinition(InherenceDefinition):
 
     @property
     def text(self) -> str:
-        payload = self.references.setdefault("text", {}).setdefault("text", "")
+        payload = self.refs.setdefault("text", {}).setdefault("text", "")
         return str(payload)
 
     @text.setter
     def text(self, value: str) -> None:
-        self.references.setdefault("text", {})["text"] = value
+        self.refs.setdefault("text", {})["text"] = value

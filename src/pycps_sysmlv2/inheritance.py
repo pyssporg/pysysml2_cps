@@ -66,13 +66,13 @@ def _resolve_definition_inheritance(definitions: Dict[str, InherenceDefinition],
 
 
 def _merge_with_base(definition: InherenceDefinition, base: InherenceDefinition) -> None:
-    declared_items = getattr(definition, "declared_items", definition.references)
+    declared_items = getattr(definition, "declared_items", definition.refs)
     merged_by_kind = {
-        kind: copy.deepcopy(base.references.get(kind, {}))
+        kind: copy.deepcopy(base.refs.get(kind, {}))
         for kind in definition.reference_kinds
         if kind != "connections"
     }
-    merged_connections = copy.deepcopy(base.references.get("connections", {}))
+    merged_connections = copy.deepcopy(base.refs.get("connections", {}))
 
     for kind, merged in merged_by_kind.items():
         _apply_generic_remove(definition=definition, kind=kind, merged=merged)
@@ -104,9 +104,9 @@ def _merge_with_base(definition: InherenceDefinition, base: InherenceDefinition)
         merged_connections[key] = connection
 
     for kind, merged in merged_by_kind.items():
-        definition.references[kind] = merged
+        definition.refs[kind] = merged
     if "connections" in definition.reference_kinds:
-        definition.references["connections"] = merged_connections
+        definition.refs["connections"] = merged_connections
 
 
 def _apply_generic_remove(

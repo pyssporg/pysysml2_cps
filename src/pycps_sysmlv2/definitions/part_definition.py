@@ -19,18 +19,6 @@ class SysMLPartDefinition(InherenceDefinition):
     )
 
     @property
-    def attributes(self) -> Dict[str, object]:
-        return self.references.setdefault("attributes", {})
-
-    @property
-    def ports(self) -> Dict[str, object]:
-        return self.references.setdefault("ports", {})
-
-    @property
-    def parts(self) -> Dict[str, object]:
-        return self.references.setdefault("parts", {})
-
-    @property
     def connections(self) -> list[object]:
         return list(self.references.setdefault("connections", {}).values())
 

@@ -20,7 +20,7 @@ class SysMLPartDefinition(InherenceDefinition):
 
     @property
     def connections(self) -> list[object]:
-        return list(self.refs.setdefault("connections", {}).values())
+        return list(self.refs["connections"].values())
 
     def add_part(
         self,
@@ -33,8 +33,8 @@ class SysMLPartDefinition(InherenceDefinition):
 
         part_ref = SysMLPartReference(
             name=name,
-            part_name=part_name,
-            part_def=part_def,
+            type=part_name,
+            ref_node=part_def,
             doc=doc,
         )
         self.parts[name] = part_ref
@@ -58,8 +58,8 @@ class SysMLPartDefinition(InherenceDefinition):
         port_ref = SysMLPortReference(
             name=name,
             direction=direction,
-            port_name=port_name,
-            port_def=port_def,
+            type=port_name,
+            ref_node=port_def,
             doc=doc,
         )
         self.ports[name] = port_ref
@@ -84,8 +84,8 @@ class SysMLPartDefinition(InherenceDefinition):
         )
         requirement_ref = SysMLRequirementReference(
             name=name,
-            requirement_name=resolved_name,
-            requirement_def=requirement_def,
+            type=resolved_name,
+            ref_node=requirement_def,
             doc=doc,
         )
         self.refs.setdefault("requirements", {})[name] = requirement_ref
@@ -130,12 +130,10 @@ class SysMLPartDefinition(InherenceDefinition):
 
     def remove_connection(
         self, src_component: str, src_port: str, dst_component: str, dst_port: str
-    ) -> "SysMLConnection":
+    ):
         from .connections import SysMLConnection
 
-        key = SysMLConnection.get_connection_key(src_component, src_port, dst_component, dst_port)
-        connections = self.refs.setdefault("connections", {})
-        if key not in connections:
-            raise KeyError(f"Connection not found: {key}")
-        return connections.pop(key)  # type: ignore[return-value]
-
+        key = SysMLConnection.get_connection_key(
+            src_component, src_port, dst_component, dst_port
+        )
+        self.remove_def("connection", key)

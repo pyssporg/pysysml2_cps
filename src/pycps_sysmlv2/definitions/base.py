@@ -11,26 +11,27 @@ from typing import Dict, Tuple, Optional, Set, ClassVar, Any
 class SysMLBase:
     """Shared base for model objects with JSON debug rendering."""
 
-    name: str = ""
+    name: Optional[str] = ""
+    type: str = ""
     doc: Optional[str] = field(default=None, kw_only=True)
     parent: SysMLBase = None
-    
+
     source_file: Optional[str] = None
 
     def __str__(self) -> str:
         return json_dumps(self)
-    
+
 
 @dataclass
 class DefinitionBase(SysMLBase):
-    DEF_KINDS: ClassVar[tuple[str, ...]] = (
+    DEF_KINDS: tuple[str, ...] = (
         "attributes",
         "parts",
         "ports",
         "requirements",
         "connections",
     )
-    REF_KINDS: ClassVar[tuple[str, ...]] = (
+    REF_KINDS: tuple[str, ...] = (
         "parts",
         "ports",
         "requirements",
@@ -43,45 +44,59 @@ class DefinitionBase(SysMLBase):
         default_factory=lambda: {k: {} for k in DefinitionBase.DEF_KINDS}
     )
 
-    def _bucket(self, store: dict[str, dict[str, SysMLBase]], kind: str) -> dict[str, SysMLBase]:
+    def _bucket(
+        self, store: dict[str, dict[str, SysMLBase]], kind: str
+    ) -> dict[str, SysMLBase]:
         try:
             return store[kind]
         except KeyError as e:
             raise KeyError(f"Unknown kind: {kind}") from e
 
     def add_ref(
-        self, kind: str, name: str, obj: SysMLBase, overwrite_warning: bool = True
+        self, kind: str, key: str, obj: SysMLBase, overwrite_warning: bool = True
     ) -> None:
         bucket = self._bucket(self.refs, kind)
-        if name in bucket and overwrite_warning:
+        if key in bucket and overwrite_warning:
             warnings.warn(
-                f"Overwriting existing {kind} reference: {name}", stacklevel=2
+                f"Overwriting existing {kind} reference: {key}", stacklevel=2
             )
-        bucket[name] = obj
+        bucket[key] = obj
 
-    def remove_ref(self, kind: str, name: str) -> SysMLBase:
-        return self._bucket(self.refs, kind).pop(name)
+    def remove_ref(self, kind: str, key: str) -> SysMLBase:
+        return self._bucket(self.refs, kind).pop(key)
+
+    def get_ref(self, kind: str, key: str) -> None:
+        bucket = self._bucket(self.refs, kind)
+        if key in bucket:
+            raise KeyError(f"{kind} not found: {key}")
+        return bucket[key]
 
     def add_def(
-        self, kind: str, name: str, obj: SysMLBase, overwrite_warning: bool = True
+        self, kind: str, key: str, obj: SysMLBase, overwrite_warning: bool = True
     ) -> None:
         bucket = self._bucket(self.defs, kind)
-        if name in bucket and overwrite_warning:
+        if key in bucket and overwrite_warning:
             warnings.warn(
-                f"Overwriting existing {kind} definition: {name}", stacklevel=2
+                f"Overwriting existing {kind} definition: {key}", stacklevel=2
             )
-        bucket[name] = obj
+        bucket[key] = obj
 
-    def remove_def(self, kind: str, name: str) -> SysMLBase:
-        return self._bucket(self.defs, kind).pop(name)
+    def remove_def(self, kind: str, key: str) -> SysMLBase:
+        return self._bucket(self.defs, kind).pop(key)
 
-    def find_definition(self, kind: str, name: str):
+    def get_def(self, kind: str, key: str):
         namespace = self
         while namespace is not None:
             for n, item in self._bucket(namespace.defs, kind).items():
-                if item.name == name:
+                if item.name == key:
                     return item
             namespace = namespace.parent
+        raise KeyError(f"{kind} not found: {key}")
+
+
+@dataclass
+class ReferenceBase(SysMLBase):
+    ref_node: DefinitionBase # Link to reference node
 
 
 @dataclass

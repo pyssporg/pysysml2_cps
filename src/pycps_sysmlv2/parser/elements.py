@@ -58,7 +58,7 @@ def parse_port_endpoint(direction: str, line: str, doc: Optional[str]) -> SysMLP
     return SysMLPortReference(
         direction=direction,
         name=_normalize_port_name(name),
-        port_name=payload.strip(),
+        type=payload.strip(),
         doc=doc,
     )
 
@@ -70,7 +70,7 @@ def parse_part_reference(line: str, doc: Optional[str]) -> SysMLPartReference:
     if ":" not in content:
         raise ValueError(f"Malformed part reference: {line}")
     name, target = content.split(":", 1)
-    return SysMLPartReference(name=name.strip(), part_name=target.strip(), doc=doc)
+    return SysMLPartReference(name=name.strip(), type=target.strip(), doc=doc)
 
 
 def parse_requirement_reference(line: str, doc: Optional[str]) -> SysMLRequirementReference:
@@ -88,7 +88,7 @@ def parse_requirement_reference(line: str, doc: Optional[str]) -> SysMLRequireme
         raise ValueError(f"Malformed requirement usage: {line}")
     return SysMLRequirementReference(
         name=req_name,
-        requirement_name=req_def_name,
+        type=req_def_name,
         doc=doc,
     )
 

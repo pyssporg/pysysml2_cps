@@ -21,10 +21,10 @@ def attach_port_definitions(
     for part in parts.values():
         for port in part.refs.get("ports", {}).values():
             port: SysMLPortReference
-            port.port_def = port_defs.get(port.port_name)
-            if port.port_def is None:
+            port.ref_node = port_defs.get(port.type)
+            if port.ref_node is None:
                 raise ValueError(
-                    f"Port definition not found for {part.name}.{port.name}: {port.port_name}"
+                    f"Port definition not found for {part.name}.{port.name}: {port.type}"
                 )
 
 
@@ -32,7 +32,7 @@ def attach_part_definitions(parts: Dict[str, SysMLPartDefinition]) -> None:
     for part in parts.values():
         for subpart in part.refs.get("parts", {}).values():
             subpart: SysMLPartReference
-            subpart.part_def = parts.get(subpart.part_name)
+            subpart.ref_node = parts.get(subpart.type)
 
 
 def attach_connection_definitions(parts: Dict[str, SysMLPartDefinition]) -> None:
@@ -93,19 +93,19 @@ def attach_requirement_definitions(
     for part in parts.values():
         for requirement in part.refs.get("requirements", {}).values():
             requirement: SysMLRequirementReference
-            requirement.requirement_def = requirement_defs.get(requirement.requirement_name)
-            if requirement.requirement_def is None:
+            requirement.ref_node = requirement_defs.get(requirement.type)
+            if requirement.ref_node is None:
                 raise ValueError(
                     "Requirement usage references unknown requirement definition "
-                    f"{requirement.requirement_name} in part {part.name}"
+                    f"{requirement.type} in part {part.name}"
                 )
 
     for port in ports.values():
         for requirement in port.refs.get("requirements", {}).values():
             requirement: SysMLRequirementReference
-            requirement.requirement_def = requirement_defs.get(requirement.requirement_name)
-            if requirement.requirement_def is None:
+            requirement.ref_node = requirement_defs.get(requirement.type)
+            if requirement.ref_node is None:
                 raise ValueError(
                     "Requirement usage references unknown requirement definition "
-                    f"{requirement.requirement_name} in port {port.name}"
+                    f"{requirement.type} in port {port.name}"
                 )

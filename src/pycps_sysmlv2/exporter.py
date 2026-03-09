@@ -215,10 +215,10 @@ class SysMLExporter:
         return f"attribute {attr.name};"
 
     def _format_port_ref(self, port: SysMLPortReference) -> str:
-        return f"{port.direction} port {port.name} : {port.port_name};"
+        return f"{port.direction} port {port.name} : {port.type};"
 
     def _format_part_ref(self, part: SysMLPartReference) -> str:
-        return f"part {part.name} : {part.part_name};"
+        return f"part {part.name} : {part.type};"
 
     def _format_member(self, kind: str, value: object) -> str:
         if kind == "attributes":
@@ -232,9 +232,9 @@ class SysMLExporter:
         raise ValueError(f"Unsupported member kind for export: {kind}")
 
     def _format_requirement_ref(self, requirement: SysMLRequirementReference) -> str:
-        if requirement.requirement_name == requirement.name:
+        if requirement.type == requirement.name:
             return f"requirement {requirement.name};"
-        return f"requirement {requirement.name} : {requirement.requirement_name};"
+        return f"requirement {requirement.name} : {requirement.type};"
 
     def _format_connection(self, connection: SysMLConnection) -> str:
         return (

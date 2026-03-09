@@ -19,7 +19,6 @@ class SysMLConnection(SysMLBase):
     src_port_def: Optional[SysMLPortDefinition] = None
     dst_port_def: Optional[SysMLPortDefinition] = None
 
-
     @property
     def key(self):
         return self.get_connection_key(self.src_component, self.src_port, self.dst_component, self.dst_port,)

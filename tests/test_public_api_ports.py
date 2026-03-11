@@ -133,3 +133,73 @@ def test_port_inheritance_adds_attributes_and_requirements(tmp_path: Path):
           attr text:String='Requirement A'
         """,
     )
+
+
+def test_port_inheritance_removes_requirements(tmp_path: Path):
+    """Verify port inheritance removes inherited requirement usages."""
+    write_package(
+        tmp_path / "model.sysml",
+        """
+        requirement def ReqA { doc /* Requirement A */ }
+
+        port def BasePort {
+          requirement reqA : ReqA;
+        }
+
+        port def DerivedPort specializes BasePort {
+          remove requirement reqA;
+        }
+        """,
+    )
+
+    architecture = SysMLParser(tmp_path).parse()
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        port BasePort
+          req reqA:ReqA -> ReqA
+        port DerivedPort specializes BasePort
+        requirement ReqA
+          attr text:String='Requirement A'
+        """,
+    )
+
+
+def test_port_inheritance_redefines_attributes_and_requirements(tmp_path: Path):
+    """Verify port inheritance redefines inherited members in the resolved view."""
+    write_package(
+        tmp_path / "model.sysml",
+        """
+        requirement def ReqA { doc /* Requirement A */ }
+        requirement def ReqB { doc /* Requirement B */ }
+
+        port def BasePort {
+          attribute width = 8;
+          requirement reqA : ReqA;
+        }
+
+        port def DerivedPort specializes BasePort {
+          redefines attribute width = 16;
+          redefines requirement reqA : ReqB;
+        }
+        """,
+    )
+
+    architecture = SysMLParser(tmp_path).parse()
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        port BasePort
+          attr width:Integer=8
+          req reqA:ReqA -> ReqA
+        port DerivedPort specializes BasePort
+          attr width:Integer=16
+          req reqA:ReqB -> ReqB
+        requirement ReqA
+          attr text:String='Requirement A'
+        requirement ReqB
+          attr text:String='Requirement B'
+        """,
+    )

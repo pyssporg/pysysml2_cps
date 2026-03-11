@@ -1,3 +1,5 @@
+import pytest
+
 from pycps_sysmlv2 import (
     NodeType,
     SysMLConnection,
@@ -85,3 +87,39 @@ def test_port_definition_add_remove_requirement_references():
     assert port_def.refs(NodeType.Requirement)["reqA"] is req_ref
     port_def.remove_ref(NodeType.Requirement, "reqA")
     assert port_def.refs(NodeType.Requirement) == {}
+
+
+def test_get_def_traverses_parent_namespaces():
+    """Verify definition lookup walks parent namespaces when a child lacks the key."""
+    architecture = SysMLPackage(name="Example", package="Example")
+    system_def = SysMLPartDefinition(name="System", parent=architecture)
+    signal_def = SysMLPortDefinition(name="Signal")
+    architecture.add_def(NodeType.Port, signal_def.name, signal_def)
+
+    assert system_def.get_def(NodeType.Port, "Signal") is signal_def
+
+
+def test_container_access_rejects_unsupported_node_types():
+    """Verify defs/refs reject node kinds unsupported by the receiving container."""
+    architecture = SysMLPackage(name="Example", package="Example")
+    system_def = SysMLPartDefinition(name="System")
+
+    with pytest.raises(KeyError, match="Unsupported ref type"):
+        architecture.refs(NodeType.Part)
+    with pytest.raises(KeyError, match="Unsupported def type"):
+        architecture.defs(NodeType.Connection)
+
+
+def test_add_def_and_add_ref_warn_on_overwrite():
+    """Verify duplicate inserts emit overwrite warnings on mutable containers."""
+    system_def = SysMLPartDefinition(name="System")
+    first_ref = SysMLPartReference(name="child", type="Child")
+    second_ref = SysMLPartReference(name="child", type="OtherChild")
+
+    with pytest.warns(UserWarning, match="Overwriting existing definition: child"):
+        system_def.add_def(NodeType.Connection, "child", SysMLConnection(name="a", src_part="x", src_port="y", dst_part="z", dst_port="w"))
+        system_def.add_def(NodeType.Connection, "child", SysMLConnection(name="b", src_part="x", src_port="y", dst_part="z", dst_port="w"))
+
+    with pytest.warns(UserWarning, match="Overwriting existing reference: child"):
+        system_def.add_ref(NodeType.Part, "child", first_ref)
+        system_def.add_ref(NodeType.Part, "child", second_ref)

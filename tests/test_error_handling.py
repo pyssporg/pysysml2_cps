@@ -238,3 +238,102 @@ def test_unknown_part_statement_fails_with_context(tmp_path: Path):
         match="Unknown statement while parsing part def Node in package Example",
     ):
         SysMLParser(tmp_path).parse()
+
+
+def test_unknown_port_statement_fails_with_context(tmp_path: Path):
+    """Verify unknown statements inside port definitions surface contextual errors."""
+    write_package(
+        tmp_path / "model.sysml",
+        """
+        port def Signal {
+          part child : Node;
+        }
+        """,
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="Unknown statement while parsing port def Signal in package Example",
+    ):
+        SysMLParser(tmp_path).parse()
+
+
+def test_malformed_port_declaration_fails_with_context(tmp_path: Path):
+    """Verify malformed port declarations are rejected with the parser diagnostic."""
+    write_package(
+        tmp_path / "model.sysml",
+        """
+        part def Node {
+          in port input;
+        }
+        """,
+    )
+
+    with pytest.raises(ValueError, match="Malformed port declaration: in port input;"):
+        SysMLParser(tmp_path).parse()
+
+
+def test_malformed_part_reference_fails_with_context(tmp_path: Path):
+    """Verify malformed subpart declarations are rejected with the parser diagnostic."""
+    write_package(
+        tmp_path / "model.sysml",
+        """
+        part def Node {
+          part child;
+        }
+        """,
+    )
+
+    with pytest.raises(ValueError, match="Malformed part reference: part child;"):
+        SysMLParser(tmp_path).parse()
+
+
+def test_malformed_connection_declaration_fails_with_context(tmp_path: Path):
+    """Verify malformed connections are rejected with the parser diagnostic."""
+    write_package(
+        tmp_path / "model.sysml",
+        """
+        part def Node {
+          connect src.out_signal dst.in_signal;
+        }
+        """,
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="Malformed connection declaration: connect src.out_signal dst.in_signal;",
+    ):
+        SysMLParser(tmp_path).parse()
+
+
+def test_unterminated_block_fails_with_context(tmp_path: Path):
+    """Verify missing closing braces are rejected during block collection."""
+    (tmp_path / "model.sysml").write_text(
+        """
+        package Example {
+          part def Node {
+            attribute x = 1;
+        """.strip()
+        + "\n"
+    )
+
+    with pytest.raises(ValueError, match="Unterminated block while parsing SysML text"):
+        SysMLParser(tmp_path).parse()
+
+
+def test_unterminated_doc_comment_fails_with_context(tmp_path: Path):
+    """Verify unterminated doc comments are rejected during block item iteration."""
+    (tmp_path / "model.sysml").write_text(
+        """
+        package Example {
+          part def Node {
+            doc /* missing end
+            attribute x = 1;
+          }
+        }
+        """.strip()
+        + "\n"
+    )
+
+    with pytest.raises(ValueError, match="Unterminated doc comment in SysML block"):
+        SysMLParser(tmp_path).parse()

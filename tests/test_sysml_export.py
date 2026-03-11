@@ -94,3 +94,38 @@ def test_export_declared_includes_port_only_source_files(tmp_path: Path):
     assert set(files) == {"parts.sysml", "ports.sysml"}
     assert "port def Signal {" in files["ports.sysml"]
     assert "part def Node {" in files["parts.sysml"]
+
+
+def test_export_declared_and_flattened_port_inheritance(tmp_path: Path):
+    """Verify port export preserves declared inheritance edits and flattens resolved members."""
+    write_package(
+        tmp_path / "model.sysml",
+        """
+        requirement def ReqA { doc /* Requirement A */ }
+        requirement def ReqB { doc /* Requirement B */ }
+
+        port def BasePort {
+          attribute width = 8;
+          requirement reqA : ReqA;
+        }
+
+        port def DerivedPort specializes BasePort {
+          remove requirement reqA;
+          redefines attribute width = 16;
+          requirement reqB : ReqB;
+        }
+        """,
+    )
+
+    architecture = SysMLParser(tmp_path).parse()
+    declared = architecture.export_declared()["model.sysml"]
+    flattened = architecture.export_flattened()
+
+    assert "port def DerivedPort specializes BasePort" in declared
+    assert "remove requirement reqA;" in declared
+    assert "redefines attribute width = 16;" in declared
+    derived_block = flattened.split("port def DerivedPort {", 1)[1].split("}", 1)[0]
+    assert "specializes BasePort" not in flattened
+    assert "attribute width = 16;" in derived_block
+    assert "requirement reqB : ReqB;" in derived_block
+    assert "requirement reqA : ReqA;" not in derived_block

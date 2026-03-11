@@ -1,5 +1,5 @@
 from pycps_sysmlv2 import (
-    SysMLArchitecture,
+    SysMLPackage,
     SysMLPartDefinition,
     SysMLPortDefinition,
     SysMLRequirementDefinition,
@@ -7,7 +7,7 @@ from pycps_sysmlv2 import (
 
 
 def test_architecture_add_remove_definitions():
-    architecture = SysMLArchitecture(name="Example", package="Example")
+    architecture = SysMLPackage(name="Example", package="Example")
     part_def = SysMLPartDefinition(name="System")
     port_def = SysMLPortDefinition(name="Signal")
     req_def = SysMLRequirementDefinition(name="ReqA")

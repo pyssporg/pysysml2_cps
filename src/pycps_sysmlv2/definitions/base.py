@@ -57,19 +57,8 @@ class DefinitionBase(SysMLBase):
     ) -> None:
         bucket = self._bucket(self.refs, kind)
         if key in bucket and overwrite_warning:
-            warnings.warn(
-                f"Overwriting existing {kind} reference: {key}", stacklevel=2
-            )
+            warnings.warn(f"Overwriting existing {kind} reference: {key}", stacklevel=2)
         bucket[key] = obj
-
-    def remove_ref(self, kind: str, key: str) -> SysMLBase:
-        return self._bucket(self.refs, kind).pop(key)
-
-    def get_ref(self, kind: str, key: str) -> None:
-        bucket = self._bucket(self.refs, kind)
-        if key in bucket:
-            raise KeyError(f"{kind} not found: {key}")
-        return bucket[key]
 
     def add_def(
         self, kind: str, key: str, obj: SysMLBase, overwrite_warning: bool = True
@@ -81,10 +70,20 @@ class DefinitionBase(SysMLBase):
             )
         bucket[key] = obj
 
+    def remove_ref(self, kind: str, key: str) -> SysMLBase:
+        return self._bucket(self.refs, kind).pop(key)
+
     def remove_def(self, kind: str, key: str) -> SysMLBase:
         return self._bucket(self.defs, kind).pop(key)
 
+    def get_ref(self, kind: str, key: str) -> SysMLBase:
+        bucket = self._bucket(self.refs, kind)
+        if key not in bucket:
+            raise KeyError(f"{kind} not found: {key}")
+        return bucket[key]
+
     def get_def(self, kind: str, key: str):
+        """Should fetch all namespaces for definitions above as well"""
         namespace = self
         while namespace is not None:
             for n, item in self._bucket(namespace.defs, kind).items():
@@ -96,7 +95,7 @@ class DefinitionBase(SysMLBase):
 
 @dataclass
 class ReferenceBase(SysMLBase):
-    ref_node: DefinitionBase # Link to reference node
+    ref_node: DefinitionBase = None # Link to reference node
 
 
 @dataclass
@@ -109,6 +108,7 @@ class InherenceDefinition(DefinitionBase):
     redefines_references: Dict[str, Dict[str, object]] = field(
         default_factory=lambda: {k: {} for k in DefinitionBase.REF_KINDS}
     )
+    # SHoud be a set, removing something does not necessitate an object
     remove_references: Dict[str, Set[str]] = field(
         default_factory=lambda: {set() for k in DefinitionBase.REF_KINDS}
     )

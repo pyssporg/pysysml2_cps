@@ -1,6 +1,6 @@
 """Data model definitions for lightweight SysML parsing."""
 
-from .architecture import SysMLArchitecture
+from .architecture import SysMLPackage
 from .attributes import SysMLAttribute
 from .connections import SysMLConnection
 from .part_definition import SysMLPartDefinition
@@ -22,5 +22,5 @@ __all__ = [
     "SysMLPartReference",
     "SysMLPortReference",
     "SysMLRequirementReference",
-    "SysMLArchitecture",
+    "SysMLPackage",
 ]

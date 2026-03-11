@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Dict, List
 
 from .definitions import (
-    SysMLArchitecture,
+    SysMLPackage,
     SysMLAttribute,
     SysMLPartDefinition,
     SysMLPortDefinition,
@@ -21,7 +21,7 @@ class SysMLExporter:
     def __init__(self, indent: str = "  "):
         self.indent = indent
 
-    def export_flattened(self, architecture: SysMLArchitecture) -> str:
+    def export_flattened(self, architecture: SysMLPackage) -> str:
         lines = [f"package {architecture.package} {{"]
         lines.extend(
             self._emit_requirement_definitions_subset(
@@ -50,7 +50,7 @@ class SysMLExporter:
         lines.append("}")
         return "\n".join(line for line in lines if line is not None) + "\n"
 
-    def export_declared(self, architecture: SysMLArchitecture) -> Dict[str, str]:
+    def export_declared(self, architecture: SysMLPackage) -> Dict[str, str]:
         grouped_requirements: Dict[str, Dict[str, SysMLRequirementDefinition]] = {}
         grouped_parts: Dict[str, Dict[str, SysMLPartDefinition]] = {}
         grouped_ports: Dict[str, Dict[str, object]] = {}

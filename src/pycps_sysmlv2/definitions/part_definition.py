@@ -6,134 +6,108 @@ from typing import Dict, Iterable, Optional, Tuple
 from .base import InherenceDefinition
 from .port_definition import SysMLPortDefinition
 from .requirement_definition import SysMLRequirementDefinition
+from .attributes import SysMLAttribute
+from .connections import SysMLConnection
+from .references import (
+    SysMLPartReference,
+    SysMLPortReference,
+    SysMLRequirementReference,
+)
 
 
 @dataclass
 class SysMLPartDefinition(InherenceDefinition):
-    reference_kinds: Tuple[str, ...] = (
+    DEF_KINDS: tuple[str, ...] = (
         "attributes",
-        "ports",
         "parts",
+        "ports",
+        "requirements",
         "connections",
+    )
+    REF_KINDS: tuple[str, ...] = (
+        "parts",
+        "ports",
         "requirements",
     )
+
+    # Add ref
+    def add_part_ref(self, key: str, reference: SysMLPartReference):
+        self.add_ref(kind="parts", key=key, obj=reference)
+
+    def add_port_ref(self, key: str, reference: SysMLPortReference):
+        self.add_ref(kind="ports", key=key, obj=reference)
+
+    def add_requirement_ref(self, key: str, reference: SysMLRequirementReference):
+        self.add_ref(kind="requirements", key=key, obj=reference)
+
+    # Remove ref
+    def remove_part_ref(self, key: str):
+        self.remove_ref(kind="parts", key=key)
+
+    def remove_port_ref(self, key: str):
+        self.remove_ref(kind="ports", key=key)
+
+    def remove_requirement_ref(self, key: str):
+        self.remove_ref(kind="requirements", key=key)
+
+    # Get ref
+    def get_part_ref(self, key: str):
+        return self.get_ref(kind="parts", key=key)
+
+    def get_port_ref(self, key: str):
+        return self.get_ref(kind="ports", key=key)
+
+    def get_requirement_ref(self, key: str):
+        return self.get_ref(kind="requirements", key=key)
+
+    # Add def
+    def add_part_def(self, key: str, reference: SysMLPartDefinition):
+        self.add_def(kind="parts", key=key, obj=reference)
+
+    def add_port_def(self, key: str, reference: SysMLPortDefinition):
+        self.add_def(kind="ports", key=key, obj=reference)
+
+    def add_requirement_def(self, key: str, reference: SysMLPortDefinition):
+        self.add_def(kind="requirements", key=key, obj=reference)
+
+    def add_attributes_def(self, key: str, reference: SysMLAttribute):
+        self.add_def(kind="attributes", key=key, obj=reference)
+
+    def add_connections_def(self, reference: SysMLConnection):
+        self.add_def(kind="connections", key=reference.key, obj=reference)
+
+    # Remove def
+    def remove_part_def(self, key: str):
+        self.remove_def(kind="parts", key=key)
+
+    def remove_port_def(self, key: str):
+        self.remove_def(kind="ports", key=key)
+
+    def remove_requirement_def(self, key: str):
+        self.remove_def(kind="requirements", key=key)
+
+    def remove_attributes_def(self, key: str):
+        self.remove_def(kind="attributes", key=key)
+
+    def remove_connections_def(self, key: str):
+        self.remove_def(kind="connections", key=key)
+
+    # Get def
+    def get_part_def(self, key: str):
+        return self.get_def(kind="parts", key=key)
+
+    def get_port_def(self, key: str):
+        return self.get_def(kind="ports", key=key)
+
+    def get_requirement_def(self, key: str):
+        return self.get_def(kind="requirements", key=key)
+
+    def get_attributes_def(self, key: str):
+        return self.get_def(kind="attributes", key=key)
+
+    def get_connections_def(self, key: str):
+        return self.get_def(kind="connections", key=key)
 
     @property
     def connections(self) -> list[object]:
         return list(self.refs["connections"].values())
-
-    def add_part(
-        self,
-        name: str,
-        part_name: str,
-        part_def: Optional["SysMLPartDefinition"] = None,
-        doc: Optional[str] = None,
-    ) -> "SysMLPartReference":
-        from .references import SysMLPartReference
-
-        part_ref = SysMLPartReference(
-            name=name,
-            type=part_name,
-            ref_node=part_def,
-            doc=doc,
-        )
-        self.parts[name] = part_ref
-        return part_ref
-
-    def remove_part(self, name: str) -> "SysMLPartReference":
-        if name not in self.parts:
-            raise KeyError(f"Part reference not found: {name}")
-        return self.parts.pop(name)  # type: ignore[return-value]
-
-    def add_port(
-        self,
-        name: str,
-        direction: str,
-        port_name: str,
-        port_def: Optional[SysMLPortDefinition] = None,
-        doc: Optional[str] = None,
-    ) -> "SysMLPortReference":
-        from .references import SysMLPortReference
-
-        port_ref = SysMLPortReference(
-            name=name,
-            direction=direction,
-            type=port_name,
-            ref_node=port_def,
-            doc=doc,
-        )
-        self.ports[name] = port_ref
-        return port_ref
-
-    def remove_port(self, name: str) -> "SysMLPortReference":
-        if name not in self.ports:
-            raise KeyError(f"Port reference not found: {name}")
-        return self.ports.pop(name)  # type: ignore[return-value]
-
-    def add_requirement(
-        self,
-        name: str,
-        requirement_name: Optional[str] = None,
-        requirement_def: Optional[SysMLRequirementDefinition] = None,
-        doc: Optional[str] = None,
-    ) -> "SysMLRequirementReference":
-        from .references import SysMLRequirementReference
-
-        resolved_name = requirement_name or (
-            requirement_def.name if requirement_def is not None else name
-        )
-        requirement_ref = SysMLRequirementReference(
-            name=name,
-            type=resolved_name,
-            ref_node=requirement_def,
-            doc=doc,
-        )
-        self.refs.setdefault("requirements", {})[name] = requirement_ref
-        return requirement_ref
-
-    def remove_requirement(self, name: str) -> "SysMLRequirementReference":
-        requirements = self.refs.setdefault("requirements", {})
-        if name not in requirements:
-            raise KeyError(f"Requirement reference not found: {name}")
-        return requirements.pop(name)  # type: ignore[return-value]
-
-    def add_connection(
-        self,
-        src_component: str,
-        src_port: str,
-        dst_component: str,
-        dst_port: str,
-        *,
-        src_part_def: Optional["SysMLPartDefinition"] = None,
-        dst_part_def: Optional["SysMLPartDefinition"] = None,
-        src_port_def: Optional[SysMLPortDefinition] = None,
-        dst_port_def: Optional[SysMLPortDefinition] = None,
-        name: str = "",
-        doc: Optional[str] = None,
-    ) -> "SysMLConnection":
-        from .connections import SysMLConnection
-
-        connection = SysMLConnection(
-            name=name,
-            src_component=src_component,
-            src_port=src_port,
-            dst_component=dst_component,
-            dst_port=dst_port,
-            src_part_def=src_part_def,
-            dst_part_def=dst_part_def,
-            src_port_def=src_port_def,
-            dst_port_def=dst_port_def,
-            doc=doc,
-        )
-        self.refs.setdefault("connections", {})[connection.key] = connection
-        return connection
-
-    def remove_connection(
-        self, src_component: str, src_port: str, dst_component: str, dst_port: str
-    ):
-        from .connections import SysMLConnection
-
-        key = SysMLConnection.get_connection_key(
-            src_component, src_port, dst_component, dst_port
-        )
-        self.remove_def("connection", key)

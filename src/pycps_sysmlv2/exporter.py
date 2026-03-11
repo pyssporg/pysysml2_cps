@@ -128,10 +128,10 @@ class SysMLExporter:
                 header += f" specializes {port.specializes}"
             header += " {"
             lines.append(header)
-            attrs = port.refs.get("attributes", {})
+            attrs = port._refs.get("attributes", {})
             for attr in sorted(attrs.values(), key=lambda a: a.name):
                 lines.append(f"{pad}{self.indent}{self._format_attribute(attr)}")
-            reqs = port.refs.get("requirements", {})
+            reqs = port._refs.get("requirements", {})
             for req_name in sorted(reqs):
                 lines.append(f"{pad}{self.indent}{self._format_requirement_ref(reqs[req_name])}")
             lines.append(f"{pad}}}")
@@ -169,7 +169,7 @@ class SysMLExporter:
     def _emit_declared_members(self, part: SysMLPartDefinition, level: int) -> List[str]:
         pad = self.indent * level
         lines: List[str] = []
-        declared_items = getattr(part, "declared_items", part.refs)
+        declared_items = getattr(part, "declared_items", part._refs)
         for kind in ("attributes", "ports", "parts", "requirements"):
             singular = kind[:-1]
             for name in sorted(part.remove_references.get(kind, set())):
@@ -193,17 +193,17 @@ class SysMLExporter:
     def _emit_flattened_members(self, part: SysMLPartDefinition, level: int) -> List[str]:
         pad = self.indent * level
         lines: List[str] = []
-        for attr in sorted(part.refs.get("attributes", {}).values(), key=lambda a: a.name):
+        for attr in sorted(part._refs.get("attributes", {}).values(), key=lambda a: a.name):
             lines.append(f"{pad}{self._format_attribute(attr)}")
-        for port in sorted(part.refs.get("ports", {}).values(), key=lambda p: p.name):
+        for port in sorted(part._refs.get("ports", {}).values(), key=lambda p: p.name):
             lines.append(f"{pad}{self._format_port_ref(port)}")
-        for subpart in sorted(part.refs.get("parts", {}).values(), key=lambda p: p.name):
+        for subpart in sorted(part._refs.get("parts", {}).values(), key=lambda p: p.name):
             lines.append(f"{pad}{self._format_part_ref(subpart)}")
         for requirement in sorted(
-            part.refs.get("requirements", {}).values(), key=lambda r: r.name
+            part._refs.get("requirements", {}).values(), key=lambda r: r.name
         ):
             lines.append(f"{pad}{self._format_requirement_ref(requirement)}")
-        for connection in part.refs.get("connections", {}).values():
+        for connection in part._refs.get("connections", {}).values():
             lines.append(f"{pad}{self._format_connection(connection)}")
         return lines
 

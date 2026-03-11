@@ -97,7 +97,7 @@ def parse_part_block(
         doc=part_doc,
         specializes=base_part_name,
         source_file=source_path.name,
-        refs=items,
+        _refs=items,
         redefines_references=redefines_items,
         remove_references=remove_items,
     )
@@ -179,7 +179,7 @@ def parse_port_block(
         doc=port_doc,
         specializes=base_port_name,
         source_file=source_path.name,
-        refs=items,
+        _refs=items,
         redefines_references=redefines_items,
         remove_references=remove_items,
     )
@@ -209,7 +209,7 @@ def parse_requirements(
             name=name,
             specializes=base_name,
             source_file=source_path.name,
-            refs=items,
+            _refs=items,
             redefines_references={kind: {} for kind in SysMLRequirementDefinition.reference_kinds},
             remove_references={kind: set() for kind in SysMLRequirementDefinition.reference_kinds},
         )

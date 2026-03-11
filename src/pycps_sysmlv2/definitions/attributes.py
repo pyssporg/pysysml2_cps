@@ -23,7 +23,7 @@ class SysMLAttribute(SysMLBase):
         return enumerate(v, start=start)
 
     @staticmethod
-    def from_literal(name, value: Optional[str], doc: Optional[str]):
+    def from_literal(name, value: Optional[str], doc: Optional[str] = None):
         value = SysMLAttribute._parse_literal(value)
         type = SysMLType.from_value(value)
         return SysMLAttribute(name=name, type=type, value=value, doc=doc)

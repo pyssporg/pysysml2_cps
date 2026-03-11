@@ -14,9 +14,24 @@ from .definitions import (
     SysMLRequirementReference,
     SysMLType,
 )
-from .exporter import (
-    SysMLExporter,
-)
+
 from .parser import SysMLParser
 
 from .parser_utils import json_dumps
+
+__all__ = [
+    "PrimitiveType",
+    "NodeType",
+    "SYSML_TYPE_MAP",
+    "SysMLType",
+    "SysMLAttribute",
+    "SysMLConnection",
+    "SysMLRequirementDefinition",
+    "SysMLPortDefinition",
+    "SysMLPartDefinition",
+    "SysMLPartReference",
+    "SysMLPortReference",
+    "SysMLRequirementReference",
+    "SysMLPackage",
+    "SysMLParser",
+]

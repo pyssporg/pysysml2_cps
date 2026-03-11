@@ -19,7 +19,7 @@ def attach_port_definitions(
     parts: Dict[str, SysMLPartDefinition], port_defs: Dict[str, SysMLPortDefinition]
 ) -> None:
     for part in parts.values():
-        for port in part.refs.get("ports", {}).values():
+        for port in part._refs.get("ports", {}).values():
             port: SysMLPortReference
             port.ref_node = port_defs.get(port.type)
             if port.ref_node is None:
@@ -30,15 +30,15 @@ def attach_port_definitions(
 
 def attach_part_definitions(parts: Dict[str, SysMLPartDefinition]) -> None:
     for part in parts.values():
-        for subpart in part.refs.get("parts", {}).values():
+        for subpart in part._refs.get("parts", {}).values():
             subpart: SysMLPartReference
             subpart.ref_node = parts.get(subpart.type)
 
 
 def attach_connection_definitions(parts: Dict[str, SysMLPartDefinition]) -> None:
     for part in parts.values():
-        part_map = part.refs.get("parts", {})
-        for connection in part.refs.get("connections", {}).values():
+        part_map = part._refs.get("parts", {})
+        for connection in part._refs.get("connections", {}).values():
             connection: SysMLConnection
             if connection.src_component not in part_map:
                 raise ValueError(
@@ -91,7 +91,7 @@ def attach_requirement_definitions(
     requirement_defs: Dict[str, SysMLRequirementDefinition],
 ) -> None:
     for part in parts.values():
-        for requirement in part.refs.get("requirements", {}).values():
+        for requirement in part._refs.get("requirements", {}).values():
             requirement: SysMLRequirementReference
             requirement.ref_node = requirement_defs.get(requirement.type)
             if requirement.ref_node is None:
@@ -101,7 +101,7 @@ def attach_requirement_definitions(
                 )
 
     for port in ports.values():
-        for requirement in port.refs.get("requirements", {}).values():
+        for requirement in port._refs.get("requirements", {}).values():
             requirement: SysMLRequirementReference
             requirement.ref_node = requirement_defs.get(requirement.type)
             if requirement.ref_node is None:

@@ -8,7 +8,7 @@ from .port_definition import SysMLPortDefinition
 from .requirement_definition import SysMLRequirementDefinition
 from .references import SysMLPartReference, SysMLPortReference, SysMLRequirementReference
 from .types import PrimitiveType, SYSML_TYPE_MAP, SysMLType
-from .base import DefinitionBase, InherenceDefinition
+from .base import NodeType
 
 __all__ = [
     "PrimitiveType",
@@ -23,4 +23,5 @@ __all__ = [
     "SysMLPortReference",
     "SysMLRequirementReference",
     "SysMLPackage",
+    "NodeType"
 ]

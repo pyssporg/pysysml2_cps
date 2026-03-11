@@ -17,6 +17,18 @@ class SysMLPackage(DefinitionBase):
     )
     REF_KINDS: tuple[NodeType, ...] = tuple()
 
+    @property
+    def part_definitions(self):
+        return self.defs(NodeType.Part)
+
+    @property
+    def port_definitions(self):
+        return self.defs(NodeType.Port)
+
+    @property
+    def requirement_definitions(self):
+        return self.defs(NodeType.Requirement)
+
     # Export
     def export_flattened(self) -> str:
         from ..exporter import SysMLExporter

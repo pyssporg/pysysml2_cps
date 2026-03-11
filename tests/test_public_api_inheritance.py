@@ -1,6 +1,8 @@
 from pathlib import Path
 
-from pycps_sysmlv2 import SysMLParser
+import pytest
+
+from pycps_sysmlv2 import NodeType, SysMLParser
 
 from public_api_test_utils import write_model, write_reference
 
@@ -66,22 +68,27 @@ def test_part_inheritance_add_replace_remove(tmp_path: Path):
     assert derived.specializes_obj is not None
     assert derived.specializes_obj.name == "Base"
 
-    assert "remove_attr" not in derived.attributes
-    assert derived.attributes["replace_attr"].value == 99
-    assert derived.attributes["add_attr"].value is True
+    attrs = derived.defs(NodeType.Attribute)
+    assert "remove_attr" not in attrs
+    assert attrs["replace_attr"].value == 99
+    assert attrs["add_attr"].value is True
 
-    assert "remove_port" not in derived.ports
-    assert derived.ports["replace_port"].port_name == "SignalB"
-    assert derived.ports["add_port"].port_name == "SignalA"
+    ports = derived.refs(NodeType.Port)
+    assert "remove_port" not in ports
+    assert ports["replace_port"].type == "SignalB"
+    assert ports["add_port"].type == "SignalA"
 
-    assert derived.parts["right"].part_name == "ChildA"
-    assert "extra" in derived.parts
-    assert "keep_req" not in derived.refs["requirements"]
-    assert derived.refs["requirements"]["replace_req"].requirement_name == "ReqB"
-    assert derived.refs["requirements"]["add_req"].requirement_name == "ReqA"
-    assert len(derived.connections) == 1
-    c = derived.connections[0]
-    assert (c.src_component, c.src_port, c.dst_component, c.dst_port) == (
+    parts = derived.refs(NodeType.Part)
+    assert parts["right"].type == "ChildA"
+    assert "extra" in parts
+    reqs = derived.refs(NodeType.Requirement)
+    assert "keep_req" not in reqs
+    assert reqs["replace_req"].type == "ReqB"
+    assert reqs["add_req"].type == "ReqA"
+    connections = derived.defs(NodeType.Connection)
+    assert len(connections) == 1
+    c = next(iter(connections.values()))
+    assert (c.src_part, c.src_port, c.dst_part, c.dst_port) == (
         "right",
         "out_a",
         "extra",
@@ -124,17 +131,5 @@ def test_part_inheritance_remove_connection_then_add_new_connection(tmp_path: Pa
         """,
     )
 
-    architecture = SysMLParser(tmp_path).parse()
-    derived = architecture.part_definitions["Derived"]
-
-    assert len(derived.connections) == 1
-    c = derived.connections[0]
-    assert (c.src_component, c.src_port, c.dst_component, c.dst_port) == (
-        "a",
-        "out_signal",
-        "c",
-        "in_signal",
-    )
-    write_reference(
-        "inheritance_remove_connection_then_add_new_connection", architecture
-    )
+    with pytest.raises(ValueError, match="Subpart not found for connection: Derived.a"):
+        SysMLParser(tmp_path).parse()

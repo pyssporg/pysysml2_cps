@@ -3,6 +3,9 @@
 __version__ = "0.1.0"
 
 from .definitions import (
+    PrimitiveType,
+    NodeType,
+    SYSML_TYPE_MAP,
     SysMLPackage,
     SysMLAttribute,
     SysMLConnection,

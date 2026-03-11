@@ -13,7 +13,8 @@ from .definitions import (
     SysMLPortReference,
     SysMLRequirementDefinition,
     SysMLRequirementReference,
-    SysMLConnection
+    SysMLConnection,
+    NodeType,
 )
 
 
@@ -23,26 +24,29 @@ class SysMLExporter:
 
     def export_flattened(self, architecture: SysMLPackage) -> str:
         lines = [f"package {architecture.package} {{"]
+        requirement_definitions = architecture.defs(NodeType.Requirement)
+        port_definitions = architecture.defs(NodeType.Port)
+        part_definitions = architecture.defs(NodeType.Part)
         lines.extend(
             self._emit_requirement_definitions_subset(
-                architecture.requirement_definitions,
+                requirement_definitions,
                 level=1,
             )
         )
-        if architecture.requirement_definitions:
+        if requirement_definitions:
             lines.append("")
         lines.extend(
             self._emit_port_definitions_subset(
-                architecture.port_definitions,
+                port_definitions,
                 level=1,
                 mode="flattened",
             )
         )
-        if architecture.port_definitions:
+        if port_definitions:
             lines.append("")
         lines.extend(
             self._emit_part_definitions_subset(
-                architecture.part_definitions,
+                part_definitions,
                 level=1,
                 mode="flattened",
             )
@@ -55,13 +59,17 @@ class SysMLExporter:
         grouped_parts: Dict[str, Dict[str, SysMLPartDefinition]] = {}
         grouped_ports: Dict[str, Dict[str, object]] = {}
 
-        for name, requirement in architecture.requirement_definitions.items():
+        requirement_definitions = architecture.defs(NodeType.Requirement)
+        part_definitions = architecture.defs(NodeType.Part)
+        port_definitions = architecture.defs(NodeType.Port)
+
+        for name, requirement in requirement_definitions.items():
             file_name = requirement.source_file or "architecture.sysml"
             grouped_requirements.setdefault(file_name, {})[name] = requirement
-        for name, part in architecture.part_definitions.items():
+        for name, part in part_definitions.items():
             file_name = part.source_file or "architecture.sysml"
             grouped_parts.setdefault(file_name, {})[name] = part
-        for name, port in architecture.port_definitions.items():
+        for name, port in port_definitions.items():
             file_name = port.source_file or "architecture.sysml"
             grouped_ports.setdefault(file_name, {})[name] = port
 
@@ -104,12 +112,14 @@ class SysMLExporter:
         for name in sorted(requirement_definitions):
             requirement = requirement_definitions[name]
             header = f"{pad}requirement def {requirement.name}"
-            if requirement.specializes is not None:
-                header += f" specializes {requirement.specializes}"
+            base_name = self._specializes_name(requirement)
+            if base_name is not None:
+                header += f" specializes {base_name}"
             header += " {"
             lines.append(header)
-            if requirement.text:
-                lines.append(f"{pad}{self.indent}doc /* {requirement.text} */")
+            req_text = self._requirement_text(requirement)
+            if req_text:
+                lines.append(f"{pad}{self.indent}doc /* {req_text} */")
             lines.append(f"{pad}}}")
             lines.append("")
         if lines and lines[-1] == "":
@@ -124,16 +134,22 @@ class SysMLExporter:
         for name in sorted(port_definitions):
             port = port_definitions[name]
             header = f"{pad}port def {port.name}"
-            if mode != "flattened" and port.specializes is not None:
-                header += f" specializes {port.specializes}"
+            base_name = self._specializes_name(port)
+            if mode != "flattened" and base_name is not None:
+                header += f" specializes {base_name}"
             header += " {"
             lines.append(header)
-            attrs = port._refs.get("attributes", {})
-            for attr in sorted(attrs.values(), key=lambda a: a.name):
-                lines.append(f"{pad}{self.indent}{self._format_attribute(attr)}")
-            reqs = port._refs.get("requirements", {})
-            for req_name in sorted(reqs):
-                lines.append(f"{pad}{self.indent}{self._format_requirement_ref(reqs[req_name])}")
+            if mode == "flattened":
+                attrs = port.defs(NodeType.Attribute)
+                for attr in sorted(attrs.values(), key=lambda a: a.name):
+                    lines.append(f"{pad}{self.indent}{self._format_attribute(attr)}")
+                reqs = port.refs(NodeType.Requirement)
+                for req_name in sorted(reqs):
+                    lines.append(
+                        f"{pad}{self.indent}{self._format_requirement_ref(reqs[req_name])}"
+                    )
+            else:
+                lines.extend(self._emit_declared_port_members(port, level + 1))
             lines.append(f"{pad}}}")
             lines.append("")
         if lines and lines[-1] == "":
@@ -151,7 +167,7 @@ class SysMLExporter:
                 header = f"{pad}part def {part.name} {{"
             else:
                 header = f"{pad}part def {part.name}"
-                base_name = part.specializes
+                base_name = self._specializes_name(part)
                 if base_name is not None:
                     header += f" specializes {base_name}"
                 header += " {"
@@ -169,41 +185,81 @@ class SysMLExporter:
     def _emit_declared_members(self, part: SysMLPartDefinition, level: int) -> List[str]:
         pad = self.indent * level
         lines: List[str] = []
-        declared_items = getattr(part, "declared_items", part._refs)
-        for kind in ("attributes", "ports", "parts", "requirements"):
-            singular = kind[:-1]
-            for name in sorted(part.remove_references.get(kind, set())):
+        declared_defs = {kind: dict(part._defs.get(kind, {})) for kind in part.DEF_KINDS}
+        declared_refs = {kind: dict(part._refs.get(kind, {})) for kind in part.REF_KINDS}
+
+        for kind in (NodeType.Attribute, NodeType.Port, NodeType.Part, NodeType.Requirement):
+            singular = self._kind_singular(kind)
+            remove_values = (
+                part.remove_refs(kind) if kind in part.REF_KINDS else part.remove_defs(kind)
+            )
+            for name in sorted(remove_values):
                 lines.append(f"{pad}remove {singular} {name};")
-        for key in sorted(part.remove_references.get("connections", set())):
+        for key in sorted(part.remove_defs(NodeType.Connection)):
             lines.append(f"{pad}{self._format_remove_connection_key(key)}")
 
-        for kind in ("attributes", "ports", "parts", "requirements"):
-            values = part.redefines_references.get(kind, {})
+        for kind in (NodeType.Attribute, NodeType.Port, NodeType.Part, NodeType.Requirement):
+            values = (
+                part.redefine_refs(kind)
+                if kind in part.REF_KINDS
+                else part.redefine_defs(kind)
+            )
             for name in sorted(values):
                 lines.append(f"{pad}redefines {self._format_member(kind, values[name])}")
 
-        for kind in ("attributes", "ports", "parts", "requirements"):
-            values = declared_items.get(kind, {})
+        for kind, values in (
+            (NodeType.Attribute, declared_defs.get(NodeType.Attribute, {})),
+            (NodeType.Port, declared_refs.get(NodeType.Port, {})),
+            (NodeType.Part, declared_refs.get(NodeType.Part, {})),
+            (NodeType.Requirement, declared_refs.get(NodeType.Requirement, {})),
+        ):
             for name in sorted(values):
                 lines.append(f"{pad}{self._format_member(kind, values[name])}")
-        for connection in declared_items.get("connections", {}).values():
+        for connection in declared_defs.get(NodeType.Connection, {}).values():
             lines.append(f"{pad}{self._format_connection(connection)}")
+        return lines
+
+    def _emit_declared_port_members(self, port: SysMLPortDefinition, level: int) -> List[str]:
+        pad = self.indent * level
+        lines: List[str] = []
+
+        for name in sorted(port.remove_defs(NodeType.Attribute)):
+            lines.append(f"{pad}remove attribute {name};")
+        for name in sorted(port.remove_refs(NodeType.Requirement)):
+            lines.append(f"{pad}remove requirement {name};")
+
+        for name in sorted(port.redefine_defs(NodeType.Attribute)):
+            lines.append(
+                f"{pad}redefines {self._format_attribute(port.redefine_defs(NodeType.Attribute)[name])}"
+            )
+        for name in sorted(port.redefine_refs(NodeType.Requirement)):
+            lines.append(
+                f"{pad}redefines {self._format_requirement_ref(port.redefine_refs(NodeType.Requirement)[name])}"
+            )
+
+        for attr in sorted(port._defs.get(NodeType.Attribute, {}).values(), key=lambda a: a.name):
+            lines.append(f"{pad}{self._format_attribute(attr)}")
+        for req_name in sorted(port._refs.get(NodeType.Requirement, {})):
+            lines.append(
+                f"{pad}{self._format_requirement_ref(port._refs[NodeType.Requirement][req_name])}"
+            )
+
         return lines
 
     def _emit_flattened_members(self, part: SysMLPartDefinition, level: int) -> List[str]:
         pad = self.indent * level
         lines: List[str] = []
-        for attr in sorted(part._refs.get("attributes", {}).values(), key=lambda a: a.name):
+        for attr in sorted(part.defs(NodeType.Attribute).values(), key=lambda a: a.name):
             lines.append(f"{pad}{self._format_attribute(attr)}")
-        for port in sorted(part._refs.get("ports", {}).values(), key=lambda p: p.name):
+        for port in sorted(part.refs(NodeType.Port).values(), key=lambda p: p.name):
             lines.append(f"{pad}{self._format_port_ref(port)}")
-        for subpart in sorted(part._refs.get("parts", {}).values(), key=lambda p: p.name):
+        for subpart in sorted(part.refs(NodeType.Part).values(), key=lambda p: p.name):
             lines.append(f"{pad}{self._format_part_ref(subpart)}")
         for requirement in sorted(
-            part._refs.get("requirements", {}).values(), key=lambda r: r.name
+            part.refs(NodeType.Requirement).values(), key=lambda r: r.name
         ):
             lines.append(f"{pad}{self._format_requirement_ref(requirement)}")
-        for connection in part._refs.get("connections", {}).values():
+        for connection in part.defs(NodeType.Connection).values():
             lines.append(f"{pad}{self._format_connection(connection)}")
         return lines
 
@@ -220,14 +276,14 @@ class SysMLExporter:
     def _format_part_ref(self, part: SysMLPartReference) -> str:
         return f"part {part.name} : {part.type};"
 
-    def _format_member(self, kind: str, value: object) -> str:
-        if kind == "attributes":
+    def _format_member(self, kind: NodeType, value: object) -> str:
+        if kind == NodeType.Attribute:
             return self._format_attribute(value)  # type: ignore[arg-type]
-        if kind == "ports":
+        if kind == NodeType.Port:
             return self._format_port_ref(value)  # type: ignore[arg-type]
-        if kind == "parts":
+        if kind == NodeType.Part:
             return self._format_part_ref(value)  # type: ignore[arg-type]
-        if kind == "requirements":
+        if kind == NodeType.Requirement:
             return self._format_requirement_ref(value)  # type: ignore[arg-type]
         raise ValueError(f"Unsupported member kind for export: {kind}")
 
@@ -238,14 +294,14 @@ class SysMLExporter:
 
     def _format_connection(self, connection: SysMLConnection) -> str:
         return (
-            f"connect {connection.src_component}.{connection.src_port} "
-            f"to {connection.dst_component}.{connection.dst_port};"
+            f"connect {connection.src_part}.{connection.src_port} "
+            f"to {connection.dst_part}.{connection.dst_port};"
         )
 
     def _format_remove_connection(self, connection: SysMLConnection) -> str:
         return (
-            f"remove connect {connection.src_component}.{connection.src_port} "
-            f"to {connection.dst_component}.{connection.dst_port};"
+            f"remove connect {connection.src_part}.{connection.src_port} "
+            f"to {connection.dst_part}.{connection.dst_port};"
         )
 
     def _format_remove_connection_key(self, key: str) -> str:
@@ -266,3 +322,23 @@ class SysMLExporter:
             return "[" + ", ".join(self._format_value(v) for v in value) + "]"
         return repr(value)
 
+    def _specializes_name(self, definition: object) -> str | None:
+        value = getattr(definition, "specializes", None)
+        if value is None:
+            return None
+        return getattr(value, "name", value)
+
+    def _kind_singular(self, kind: NodeType) -> str:
+        return {
+            NodeType.Attribute: "attribute",
+            NodeType.Port: "port",
+            NodeType.Part: "part",
+            NodeType.Requirement: "requirement",
+            NodeType.Connection: "connection",
+        }.get(kind, str(kind))
+
+    def _requirement_text(self, requirement: SysMLRequirementDefinition) -> str:
+        try:
+            return requirement.text
+        except KeyError:
+            return ""

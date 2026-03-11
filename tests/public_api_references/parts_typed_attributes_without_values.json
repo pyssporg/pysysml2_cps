@@ -1,90 +1,104 @@
 {
+  "DEF_KINDS": [
+    "Part",
+    "Port",
+    "Requirement"
+  ],
+  "REF_KINDS": [],
+  "_defs": {
+    "NodeType.Part": {
+      "Node": {
+        "DEF_KINDS": [
+          "Attribute",
+          "Part",
+          "Port",
+          "Requirement",
+          "Connection"
+        ],
+        "REF_KINDS": [
+          "Part",
+          "Port",
+          "Requirement"
+        ],
+        "_defs": {
+          "NodeType.Attribute": {
+            "enabled": {
+              "doc": null,
+              "name": "enabled",
+              "parent": null,
+              "source_file": null,
+              "type": {
+                "doc": null,
+                "name": "",
+                "parent": null,
+                "source_file": null,
+                "string_definition": null,
+                "type": "Boolean",
+                "value_type": "<class 'pycps_sysmlv2.definitions.types.SysMLType'>"
+              },
+              "value": null,
+              "value_type": "<class 'pycps_sysmlv2.definitions.attributes.SysMLAttribute'>"
+            },
+            "gain": {
+              "doc": null,
+              "name": "gain",
+              "parent": null,
+              "source_file": null,
+              "type": {
+                "doc": null,
+                "name": "",
+                "parent": null,
+                "source_file": null,
+                "string_definition": null,
+                "type": "Real",
+                "value_type": "<class 'pycps_sysmlv2.definitions.types.SysMLType'>"
+              },
+              "value": null,
+              "value_type": "<class 'pycps_sysmlv2.definitions.attributes.SysMLAttribute'>"
+            }
+          },
+          "NodeType.Connection": {}
+        },
+        "_redefine_defs": {
+          "NodeType.Attribute": {},
+          "NodeType.Connection": {}
+        },
+        "_redefine_refs": {
+          "NodeType.Part": {},
+          "NodeType.Port": {},
+          "NodeType.Requirement": {}
+        },
+        "_refs": {
+          "NodeType.Part": {},
+          "NodeType.Port": {},
+          "NodeType.Requirement": {}
+        },
+        "_remove_defs": {
+          "NodeType.Attribute": [],
+          "NodeType.Connection": []
+        },
+        "_remove_refs": {
+          "NodeType.Part": [],
+          "NodeType.Port": [],
+          "NodeType.Requirement": []
+        },
+        "doc": null,
+        "name": "Node",
+        "parent": null,
+        "source_file": "model.sysml",
+        "specializes": null,
+        "specializes_obj": null,
+        "type": "",
+        "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
+      }
+    }
+  },
+  "_refs": {},
   "doc": null,
   "name": "Example",
   "package": "Example",
-  "part_definitions": {
-    "Node": {
-      "declared_items": {
-        "attributes": {
-          "enabled": "__ref__",
-          "gain": "__ref__"
-        },
-        "connections": {},
-        "parts": {},
-        "ports": {},
-        "requirements": {}
-      },
-      "definition_kinds": [],
-      "definitions": {},
-      "doc": null,
-      "name": "Node",
-      "redefines_references": {
-        "attributes": {},
-        "connections": {},
-        "parts": {},
-        "ports": {},
-        "requirements": {}
-      },
-      "reference_kinds": [
-        "attributes",
-        "ports",
-        "parts",
-        "connections",
-        "requirements"
-      ],
-      "references": {
-        "attributes": {
-          "enabled": {
-            "doc": null,
-            "name": "enabled",
-            "source_file": null,
-            "type": {
-              "doc": null,
-              "name": "",
-              "source_file": null,
-              "string_definition": null,
-              "type": "Boolean",
-              "value_type": "<class 'pycps_sysmlv2.definitions.types.SysMLType'>"
-            },
-            "value": null,
-            "value_type": "<class 'pycps_sysmlv2.definitions.attributes.SysMLAttribute'>"
-          },
-          "gain": {
-            "doc": null,
-            "name": "gain",
-            "source_file": null,
-            "type": {
-              "doc": null,
-              "name": "",
-              "source_file": null,
-              "string_definition": null,
-              "type": "Real",
-              "value_type": "<class 'pycps_sysmlv2.definitions.types.SysMLType'>"
-            },
-            "value": null,
-            "value_type": "<class 'pycps_sysmlv2.definitions.attributes.SysMLAttribute'>"
-          }
-        },
-        "connections": {},
-        "parts": {},
-        "ports": {},
-        "requirements": {}
-      },
-      "remove_references": {
-        "attributes": [],
-        "connections": [],
-        "parts": [],
-        "ports": [],
-        "requirements": []
-      },
-      "source_file": "model.sysml",
-      "specializes": null,
-      "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
-    }
-  },
-  "port_definitions": {},
-  "requirement_definitions": {},
+  "parent": null,
   "source_file": null,
-  "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
+  "type": "",
+  "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLPackage'>"
 }

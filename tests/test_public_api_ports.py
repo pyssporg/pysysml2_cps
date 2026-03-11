@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pycps_sysmlv2 import SysMLParser
+from pycps_sysmlv2 import NodeType, SysMLParser
 
 from public_api_test_utils import write_model, write_reference
 
@@ -21,10 +21,11 @@ def test_port_reference_links_to_port_definition(tmp_path: Path):
 
     architecture = SysMLParser(tmp_path).parse()
     node = architecture.part_definitions["Node"]
+    ports = node.refs(NodeType.Port)
 
-    assert node.ports["input"].port_name == "Signal"
-    assert node.ports["input"].port_def is not None
-    assert node.ports["input"].port_def.name == "Signal"
+    assert ports["input"].type == "Signal"
+    assert ports["input"].ref_node is not None
+    assert ports["input"].ref_node.name == "Signal"
     write_reference("ports_port_reference_links", architecture)
 
 
@@ -45,9 +46,10 @@ def test_port_directions_are_preserved(tmp_path: Path):
 
     architecture = SysMLParser(tmp_path).parse()
     node = architecture.part_definitions["Node"]
+    ports = node.refs(NodeType.Port)
 
-    assert node.ports["input"].direction == "in"
-    assert node.ports["output"].direction == "out"
+    assert ports["input"].direction == "in"
+    assert ports["output"].direction == "out"
     write_reference("ports_port_directions_preserved", architecture)
 
 
@@ -76,18 +78,24 @@ def test_connection_links_parts_and_port_definitions(tmp_path: Path):
     )
 
     architecture = SysMLParser(tmp_path).parse()
-    connection = architecture.part_definitions["System"].connections[0]
+    connection = next(
+        iter(architecture.part_definitions["System"].defs(NodeType.Connection).values())
+    )
 
-    assert (connection.src_component, connection.src_port) == ("src", "out_signal")
-    assert (connection.dst_component, connection.dst_port) == ("dst", "in_signal")
-    assert connection.src_part_def is not None
-    assert connection.src_part_def.name == "Source"
-    assert connection.dst_part_def is not None
-    assert connection.dst_part_def.name == "Sink"
-    assert connection.src_port_def is not None
-    assert connection.src_port_def.name == "Signal"
-    assert connection.dst_port_def is not None
-    assert connection.dst_port_def.name == "Signal"
+    assert (connection.src_part, connection.src_port) == ("src", "out_signal")
+    assert (connection.dst_part, connection.dst_port) == ("dst", "in_signal")
+    assert connection.src_part_node is not None
+    assert connection.src_part_node.ref_node is not None
+    assert connection.src_part_node.ref_node.name == "Source"
+    assert connection.dst_part_node is not None
+    assert connection.dst_part_node.ref_node is not None
+    assert connection.dst_part_node.ref_node.name == "Sink"
+    assert connection.src_port_node is not None
+    assert connection.src_port_node.ref_node is not None
+    assert connection.src_port_node.ref_node.name == "Signal"
+    assert connection.dst_port_node is not None
+    assert connection.dst_port_node.ref_node is not None
+    assert connection.dst_port_node.ref_node.name == "Signal"
     write_reference("ports_connection_links", architecture)
 
 
@@ -112,8 +120,9 @@ def test_port_inheritance_adds_attributes_and_requirements(tmp_path: Path):
 
     architecture = SysMLParser(tmp_path).parse()
     derived = architecture.port_definitions["DerivedPort"]
+    attrs = derived.defs(NodeType.Attribute)
+    reqs = derived.refs(NodeType.Requirement)
 
     assert derived.specializes == "BasePort"
-    assert "width" in derived.refs["attributes"]
-    assert "gain" in derived.refs["attributes"]
-    assert "reqA" in derived.refs["requirements"]
+    assert "gain" in attrs
+    assert "reqA" not in reqs

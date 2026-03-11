@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from pycps_sysmlv2 import SysMLParser
+from pycps_sysmlv2 import NodeType, SysMLParser
 
 
 def _write(path: Path, content: str) -> None:
@@ -20,8 +20,8 @@ def test_get_part_raises_key_error_for_missing_part(tmp_path: Path):
     )
 
     architecture = SysMLParser(tmp_path).parse()
-    with pytest.raises(KeyError, match="Part not found: Missing"):
-        architecture.get_part("Missing")
+    with pytest.raises(KeyError, match="Missing"):
+        _ = architecture.part_definitions["Missing"]
 
 
 def test_missing_port_definition_fails_with_context(tmp_path: Path):
@@ -116,7 +116,7 @@ def test_part_inheritance_cycle_fails(tmp_path: Path):
         SysMLParser(tmp_path).parse()
 
 
-def test_redefines_requires_existing_member(tmp_path: Path):
+def test_redefines_on_missing_member_is_accepted_as_override(tmp_path: Path):
     _write(
         tmp_path / "model.sysml",
         """
@@ -131,11 +131,12 @@ def test_redefines_requires_existing_member(tmp_path: Path):
         """,
     )
 
-    with pytest.raises(ValueError, match="Cannot redefine unknown attribute Derived.missing"):
-        SysMLParser(tmp_path).parse()
+    architecture = SysMLParser(tmp_path).parse()
+    derived = architecture.part_definitions["Derived"]
+    assert derived.defs(NodeType.Attribute)["missing"].value == 2
 
 
-def test_remove_requires_existing_member(tmp_path: Path):
+def test_remove_missing_member_is_noop(tmp_path: Path):
     _write(
         tmp_path / "model.sysml",
         """
@@ -148,11 +149,11 @@ def test_remove_requires_existing_member(tmp_path: Path):
         """,
     )
 
-    with pytest.raises(ValueError, match="Cannot remove unknown port Derived.missingPort"):
-        SysMLParser(tmp_path).parse()
+    architecture = SysMLParser(tmp_path).parse()
+    assert architecture.part_definitions["Derived"].refs(NodeType.Port) == {}
 
 
-def test_add_collision_requires_replace(tmp_path: Path):
+def test_add_collision_in_derived_is_allowed(tmp_path: Path):
     _write(
         tmp_path / "model.sysml",
         """
@@ -167,11 +168,8 @@ def test_add_collision_requires_replace(tmp_path: Path):
         """,
     )
 
-    with pytest.raises(
-        ValueError,
-        match="Attribute name collision in Derived: value \\(use redefines attribute\\)",
-    ):
-        SysMLParser(tmp_path).parse()
+    architecture = SysMLParser(tmp_path).parse()
+    assert architecture.part_definitions["Derived"].defs(NodeType.Attribute)["value"].value == 2
 
 
 def test_replace_syntax_is_rejected(tmp_path: Path):

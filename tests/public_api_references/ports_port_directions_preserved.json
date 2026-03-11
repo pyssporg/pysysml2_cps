@@ -1,109 +1,118 @@
 {
+  "DEF_KINDS": [
+    "Part",
+    "Port",
+    "Requirement"
+  ],
+  "REF_KINDS": [],
+  "_defs": {
+    "NodeType.Part": {
+      "Node": {
+        "DEF_KINDS": [
+          "Attribute",
+          "Part",
+          "Port",
+          "Requirement",
+          "Connection"
+        ],
+        "REF_KINDS": [
+          "Part",
+          "Port",
+          "Requirement"
+        ],
+        "_defs": {
+          "NodeType.Connection": {}
+        },
+        "_redefine_defs": {
+          "NodeType.Connection": {}
+        },
+        "_redefine_refs": {
+          "NodeType.Part": {},
+          "NodeType.Port": {},
+          "NodeType.Requirement": {}
+        },
+        "_refs": {
+          "NodeType.Part": {},
+          "NodeType.Port": {
+            "input": {
+              "direction": "in",
+              "doc": null,
+              "name": "input",
+              "parent": null,
+              "ref_node": {
+                "DEF_KINDS": [
+                  "Attribute",
+                  "Requirement"
+                ],
+                "REF_KINDS": [
+                  "Requirement"
+                ],
+                "_defs": {},
+                "_redefine_defs": {},
+                "_redefine_refs": {
+                  "NodeType.Requirement": {}
+                },
+                "_refs": {
+                  "NodeType.Requirement": {}
+                },
+                "_remove_defs": {},
+                "_remove_refs": {
+                  "NodeType.Requirement": []
+                },
+                "doc": null,
+                "name": "Signal",
+                "parent": null,
+                "source_file": "model.sysml",
+                "specializes": null,
+                "specializes_obj": null,
+                "type": "",
+                "value_type": "<class 'pycps_sysmlv2.definitions.port_definition.SysMLPortDefinition'>"
+              },
+              "source_file": null,
+              "type": "Signal",
+              "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPortReference'>"
+            },
+            "output": {
+              "direction": "out",
+              "doc": null,
+              "name": "output",
+              "parent": null,
+              "ref_node": "__ref__",
+              "source_file": null,
+              "type": "Signal",
+              "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPortReference'>"
+            }
+          },
+          "NodeType.Requirement": {}
+        },
+        "_remove_defs": {
+          "NodeType.Connection": []
+        },
+        "_remove_refs": {
+          "NodeType.Part": [],
+          "NodeType.Port": [],
+          "NodeType.Requirement": []
+        },
+        "doc": null,
+        "name": "Node",
+        "parent": null,
+        "source_file": "model.sysml",
+        "specializes": null,
+        "specializes_obj": null,
+        "type": "",
+        "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
+      }
+    },
+    "NodeType.Port": {
+      "Signal": "__ref__"
+    }
+  },
+  "_refs": {},
   "doc": null,
   "name": "Example",
   "package": "Example",
-  "part_definitions": {
-    "Node": {
-      "declared_items": {
-        "attributes": {},
-        "connections": {},
-        "parts": {},
-        "ports": {
-          "input": "__ref__",
-          "output": "__ref__"
-        },
-        "requirements": {}
-      },
-      "definition_kinds": [],
-      "definitions": {},
-      "doc": null,
-      "name": "Node",
-      "redefines_references": {
-        "attributes": {},
-        "connections": {},
-        "parts": {},
-        "ports": {},
-        "requirements": {}
-      },
-      "reference_kinds": [
-        "attributes",
-        "ports",
-        "parts",
-        "connections",
-        "requirements"
-      ],
-      "references": {
-        "attributes": {},
-        "connections": {},
-        "parts": {},
-        "ports": {
-          "input": {
-            "direction": "in",
-            "doc": null,
-            "name": "input",
-            "port_def": "__ref__",
-            "port_name": "Signal",
-            "source_file": null,
-            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPortReference'>"
-          },
-          "output": {
-            "direction": "out",
-            "doc": null,
-            "name": "output",
-            "port_def": "__ref__",
-            "port_name": "Signal",
-            "source_file": null,
-            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPortReference'>"
-          }
-        },
-        "requirements": {}
-      },
-      "remove_references": {
-        "attributes": [],
-        "connections": [],
-        "parts": [],
-        "ports": [],
-        "requirements": []
-      },
-      "source_file": "model.sysml",
-      "specializes": null,
-      "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
-    }
-  },
-  "port_definitions": {
-    "Signal": {
-      "declared_items": {
-        "attributes": {},
-        "requirements": {}
-      },
-      "definition_kinds": [],
-      "definitions": {},
-      "doc": null,
-      "name": "Signal",
-      "redefines_references": {
-        "attributes": {},
-        "requirements": {}
-      },
-      "reference_kinds": [
-        "attributes",
-        "requirements"
-      ],
-      "references": {
-        "attributes": {},
-        "requirements": {}
-      },
-      "remove_references": {
-        "attributes": [],
-        "requirements": []
-      },
-      "source_file": "model.sysml",
-      "specializes": null,
-      "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.port_definition.SysMLPortDefinition'>"
-    }
-  },
-  "requirement_definitions": {},
+  "parent": null,
   "source_file": null,
-  "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
+  "type": "",
+  "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLPackage'>"
 }

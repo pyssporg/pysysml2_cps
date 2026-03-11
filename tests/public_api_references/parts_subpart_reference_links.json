@@ -1,112 +1,122 @@
 {
+  "DEF_KINDS": [
+    "Part",
+    "Port",
+    "Requirement"
+  ],
+  "REF_KINDS": [],
+  "_defs": {
+    "NodeType.Part": {
+      "Child": {
+        "DEF_KINDS": [
+          "Attribute",
+          "Part",
+          "Port",
+          "Requirement",
+          "Connection"
+        ],
+        "REF_KINDS": [
+          "Part",
+          "Port",
+          "Requirement"
+        ],
+        "_defs": {
+          "NodeType.Connection": {}
+        },
+        "_redefine_defs": {
+          "NodeType.Connection": {}
+        },
+        "_redefine_refs": {
+          "NodeType.Part": {},
+          "NodeType.Port": {},
+          "NodeType.Requirement": {}
+        },
+        "_refs": {
+          "NodeType.Part": {},
+          "NodeType.Port": {},
+          "NodeType.Requirement": {}
+        },
+        "_remove_defs": {
+          "NodeType.Connection": []
+        },
+        "_remove_refs": {
+          "NodeType.Part": [],
+          "NodeType.Port": [],
+          "NodeType.Requirement": []
+        },
+        "doc": null,
+        "name": "Child",
+        "parent": null,
+        "source_file": "model.sysml",
+        "specializes": null,
+        "specializes_obj": null,
+        "type": "",
+        "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
+      },
+      "System": {
+        "DEF_KINDS": [
+          "Attribute",
+          "Part",
+          "Port",
+          "Requirement",
+          "Connection"
+        ],
+        "REF_KINDS": [
+          "Part",
+          "Port",
+          "Requirement"
+        ],
+        "_defs": {
+          "NodeType.Connection": {}
+        },
+        "_redefine_defs": {
+          "NodeType.Connection": {}
+        },
+        "_redefine_refs": {
+          "NodeType.Part": {},
+          "NodeType.Port": {},
+          "NodeType.Requirement": {}
+        },
+        "_refs": {
+          "NodeType.Part": {
+            "child": {
+              "doc": null,
+              "name": "child",
+              "parent": null,
+              "ref_node": "__ref__",
+              "source_file": null,
+              "type": "Child",
+              "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPartReference'>"
+            }
+          },
+          "NodeType.Port": {},
+          "NodeType.Requirement": {}
+        },
+        "_remove_defs": {
+          "NodeType.Connection": []
+        },
+        "_remove_refs": {
+          "NodeType.Part": [],
+          "NodeType.Port": [],
+          "NodeType.Requirement": []
+        },
+        "doc": null,
+        "name": "System",
+        "parent": null,
+        "source_file": "model.sysml",
+        "specializes": null,
+        "specializes_obj": null,
+        "type": "",
+        "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
+      }
+    }
+  },
+  "_refs": {},
   "doc": null,
   "name": "Example",
   "package": "Example",
-  "part_definitions": {
-    "Child": {
-      "declared_items": {
-        "attributes": {},
-        "connections": {},
-        "parts": {},
-        "ports": {},
-        "requirements": {}
-      },
-      "definition_kinds": [],
-      "definitions": {},
-      "doc": null,
-      "name": "Child",
-      "redefines_references": {
-        "attributes": {},
-        "connections": {},
-        "parts": {},
-        "ports": {},
-        "requirements": {}
-      },
-      "reference_kinds": [
-        "attributes",
-        "ports",
-        "parts",
-        "connections",
-        "requirements"
-      ],
-      "references": {
-        "attributes": {},
-        "connections": {},
-        "parts": {},
-        "ports": {},
-        "requirements": {}
-      },
-      "remove_references": {
-        "attributes": [],
-        "connections": [],
-        "parts": [],
-        "ports": [],
-        "requirements": []
-      },
-      "source_file": "model.sysml",
-      "specializes": null,
-      "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
-    },
-    "System": {
-      "declared_items": {
-        "attributes": {},
-        "connections": {},
-        "parts": {
-          "child": "__ref__"
-        },
-        "ports": {},
-        "requirements": {}
-      },
-      "definition_kinds": [],
-      "definitions": {},
-      "doc": null,
-      "name": "System",
-      "redefines_references": {
-        "attributes": {},
-        "connections": {},
-        "parts": {},
-        "ports": {},
-        "requirements": {}
-      },
-      "reference_kinds": [
-        "attributes",
-        "ports",
-        "parts",
-        "connections",
-        "requirements"
-      ],
-      "references": {
-        "attributes": {},
-        "connections": {},
-        "parts": {
-          "child": {
-            "doc": null,
-            "name": "child",
-            "part_def": "__ref__",
-            "part_name": "Child",
-            "source_file": null,
-            "value_type": "<class 'pycps_sysmlv2.definitions.references.SysMLPartReference'>"
-          }
-        },
-        "ports": {},
-        "requirements": {}
-      },
-      "remove_references": {
-        "attributes": [],
-        "connections": [],
-        "parts": [],
-        "ports": [],
-        "requirements": []
-      },
-      "source_file": "model.sysml",
-      "specializes": null,
-      "specializes_obj": null,
-      "value_type": "<class 'pycps_sysmlv2.definitions.part_definition.SysMLPartDefinition'>"
-    }
-  },
-  "port_definitions": {},
-  "requirement_definitions": {},
+  "parent": null,
   "source_file": null,
-  "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLArchitecture'>"
+  "type": "",
+  "value_type": "<class 'pycps_sysmlv2.definitions.architecture.SysMLPackage'>"
 }

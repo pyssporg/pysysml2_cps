@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pycps_sysmlv2 import SysMLParser
+from pycps_sysmlv2 import NodeType, SysMLParser
 from pycps_sysmlv2.definitions import PrimitiveType, SysMLType
 
 from public_api_test_utils import write_model, write_reference
@@ -21,12 +21,13 @@ def test_attribute_literals_are_parsed(tmp_path: Path):
 
     architecture = SysMLParser(tmp_path).parse()
     node = architecture.part_definitions["Node"]
-    values = node.attributes["values"]
+    attrs = node.defs(NodeType.Attribute)
+    values = attrs["values"]
 
     assert values.value == [1.0, 2.0, 3.0]
     assert isinstance(values.type, SysMLType)
     assert values.type.primitive_type() == PrimitiveType.Real
-    assert node.attributes["count"].value == 3
+    assert attrs["count"].value == 3
     write_reference("parts_attribute_literals_parsed", architecture)
 
 
@@ -45,13 +46,14 @@ def test_typed_attributes_without_values_are_parsed(tmp_path: Path):
 
     architecture = SysMLParser(tmp_path).parse()
     node = architecture.part_definitions["Node"]
+    attrs = node.defs(NodeType.Attribute)
 
-    assert node.attributes["gain"].value is None
-    assert isinstance(node.attributes["gain"].type, SysMLType)
-    assert node.attributes["gain"].type.primitive_type() == PrimitiveType.Real
-    assert node.attributes["enabled"].value is None
-    assert isinstance(node.attributes["enabled"].type, SysMLType)
-    assert node.attributes["enabled"].type.primitive_type() == PrimitiveType.Boolean
+    assert attrs["gain"].value is None
+    assert isinstance(attrs["gain"].type, SysMLType)
+    assert attrs["gain"].type.primitive_type() == PrimitiveType.Real
+    assert attrs["enabled"].value is None
+    assert isinstance(attrs["enabled"].type, SysMLType)
+    assert attrs["enabled"].type.primitive_type() == PrimitiveType.Boolean
     write_reference("parts_typed_attributes_without_values", architecture)
 
 
@@ -71,10 +73,11 @@ def test_subpart_reference_links_to_part_definition(tmp_path: Path):
 
     architecture = SysMLParser(tmp_path).parse()
     system = architecture.part_definitions["System"]
+    parts = system.refs(NodeType.Part)
 
-    assert system.parts["child"].part_name == "Child"
-    assert system.parts["child"].part_def is not None
-    assert system.parts["child"].part_def.name == "Child"
+    assert parts["child"].type == "Child"
+    assert parts["child"].ref_node is not None
+    assert parts["child"].ref_node.name == "Child"
     write_reference("parts_subpart_reference_links", architecture)
 
 
@@ -103,10 +106,13 @@ def test_doc_comments_are_attached_to_definitions(tmp_path: Path):
     architecture = SysMLParser(tmp_path).parse()
     signal = architecture.port_definitions["Signal"]
     node = architecture.part_definitions["Node"]
+    signal_attrs = signal.defs(NodeType.Attribute)
+    node_attrs = node.defs(NodeType.Attribute)
+    node_ports = node.refs(NodeType.Port)
 
     assert signal.doc == "signal docs"
-    assert signal.attributes["p"].doc == "payload docs"
+    assert signal_attrs["p"].doc == "payload docs"
     assert node.doc == "node docs"
-    assert node.attributes["threshold"].doc == "attribute docs"
-    assert node.ports["input"].doc == "input docs"
+    assert node_attrs["threshold"].doc == "attribute docs"
+    assert node_ports["input"].doc == "input docs"
     write_reference("parts_doc_comments_attached_to_definitions", architecture)

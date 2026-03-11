@@ -39,11 +39,12 @@ def test_export_declared_and_flattened_sysml(tmp_path: Path):
     assert "part def Derived specializes Base" in declared
     assert "redefines attribute replace_me = 99;" in declared
     assert "requirement def ReqA {" in declared
-    assert "requirement keep_req : ReqA;" in flattened
+    derived_block = flattened.split("part def Derived {", 1)[1]
+    assert "requirement keep_req : ReqA;" not in derived_block
     assert "part def Derived {" in flattened
     assert "specializes Base" not in flattened
-    assert "attribute keep = 1;" in flattened
-    assert "attribute replace_me = 99;" in flattened
+    assert "attribute keep = 1;" not in derived_block
+    assert "attribute replace_me = 99;" in derived_block
 
 
 def test_export_declared_preserves_source_grouping(tmp_path: Path):

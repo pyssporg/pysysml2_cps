@@ -42,3 +42,7 @@ class SysMLPackage(DefinitionBase):
         from ..exporter import SysMLExporter
 
         return SysMLExporter().export_declared(self)
+    
+    def __str__(self):
+        from ..testing import architecture_structure
+        return architecture_structure(self)

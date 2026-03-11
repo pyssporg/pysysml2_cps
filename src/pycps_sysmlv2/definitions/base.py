@@ -27,8 +27,11 @@ class SysMLBase:
 
     source_file: Optional[str] = None
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return json_dumps(self)
+    
+    def __str__(self)->str:
+        return f"{self.name}:{self.type}"
 
 
 @dataclass

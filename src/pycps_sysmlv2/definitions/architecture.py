@@ -4,6 +4,9 @@ from dataclasses import dataclass
 from typing import Dict
 
 from .base import DefinitionBase, NodeType
+from .requirement_definition import SysMLRequirementDefinition
+from .part_definition import SysMLPartDefinition
+from .port_definition import SysMLPortDefinition
 
 
 @dataclass(kw_only=True)
@@ -18,15 +21,15 @@ class SysMLPackage(DefinitionBase):
     REF_KINDS: tuple[NodeType, ...] = tuple()
 
     @property
-    def part_definitions(self):
+    def part_definitions(self) -> SysMLPartDefinition:
         return self.defs(NodeType.Part)
 
     @property
-    def port_definitions(self):
+    def port_definitions(self) -> SysMLPortDefinition:
         return self.defs(NodeType.Port)
 
     @property
-    def requirement_definitions(self):
+    def requirement_definitions(self) -> SysMLRequirementDefinition:
         return self.defs(NodeType.Requirement)
 
     # Export

@@ -38,8 +38,8 @@ class DefinitionBase(SysMLBase):
     REF_KINDS: tuple[NodeType, ...] = tuple()
 
     # Only internal, remove legacy references elsewhere
-    _refs: dict[NodeType, dict[str, SysMLBase]] = field(default_factory=dict)
-    _defs: dict[NodeType, dict[str, SysMLBase]] = field(default_factory=dict)
+    _refs: dict[NodeType, dict[str, ReferenceBase]] = field(default_factory=dict)
+    _defs: dict[NodeType, dict[str, DefinitionBase]] = field(default_factory=dict)
 
     def defs(self, type: NodeType):
         if type in self.DEF_KINDS:
@@ -108,10 +108,10 @@ class InherenceDefinition(DefinitionBase):
     specializes: Optional[str] = None
     specializes_obj: Optional[DefinitionBase] = None
 
-    _redefine_refs: Dict[NodeType, Dict[str, object]] = field(default_factory=dict)
+    _redefine_refs: Dict[NodeType, Dict[str, ReferenceBase]] = field(default_factory=dict)
     _remove_refs: Dict[NodeType, Set[str]] = field(default_factory=dict)
 
-    _redefine_defs: Dict[NodeType, Dict[str, object]] = field(default_factory=dict)
+    _redefine_defs: Dict[NodeType, Dict[str, DefinitionBase]] = field(default_factory=dict)
     _remove_defs: Dict[NodeType, Set[str]] = field(default_factory=dict)
 
     def redefine_refs(self, type: NodeType):

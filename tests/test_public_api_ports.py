@@ -2,19 +2,17 @@ from pathlib import Path
 
 from pycps_sysmlv2 import NodeType, SysMLParser
 
-from public_api_test_utils import write_model, write_reference
+from public_api_test_utils import write_package, write_reference
 
 
 def test_port_reference_links_to_port_definition(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          port def Signal {}
+        port def Signal {}
 
-          part def Node {
-            in port input : Signal;
-          }
+        part def Node {
+          in port input : Signal;
         }
         """,
     )
@@ -30,16 +28,14 @@ def test_port_reference_links_to_port_definition(tmp_path: Path):
 
 
 def test_port_directions_are_preserved(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          port def Signal {}
+        port def Signal {}
 
-          part def Node {
-            in port input : Signal;
-            out port output : Signal;
-          }
+        part def Node {
+          in port input : Signal;
+          out port output : Signal;
         }
         """,
     )
@@ -54,25 +50,23 @@ def test_port_directions_are_preserved(tmp_path: Path):
 
 
 def test_connection_links_parts_and_port_definitions(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          port def Signal {}
+        port def Signal {}
 
-          part def Source {
-            out port out_signal : Signal;
-          }
+        part def Source {
+          out port out_signal : Signal;
+        }
 
-          part def Sink {
-            in port in_signal : Signal;
-          }
+        part def Sink {
+          in port in_signal : Signal;
+        }
 
-          part def System {
-            part src : Source;
-            part dst : Sink;
-            connect src.out_signal to dst.in_signal;
-          }
+        part def System {
+          part src : Source;
+          part dst : Sink;
+          connect src.out_signal to dst.in_signal;
         }
         """,
     )
@@ -100,20 +94,18 @@ def test_connection_links_parts_and_port_definitions(tmp_path: Path):
 
 
 def test_port_inheritance_adds_attributes_and_requirements(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          requirement def ReqA { doc /* Requirement A */ }
+        requirement def ReqA { doc /* Requirement A */ }
 
-          port def BasePort {
-            attribute width = 8;
-            requirement reqA : ReqA;
-          }
+        port def BasePort {
+          attribute width = 8;
+          requirement reqA : ReqA;
+        }
 
-          port def DerivedPort specializes BasePort {
-            attribute gain = 2.0;
-          }
+        port def DerivedPort specializes BasePort {
+          attribute gain = 2.0;
         }
         """,
     )

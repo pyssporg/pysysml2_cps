@@ -3,18 +3,16 @@ from pathlib import Path
 from pycps_sysmlv2 import NodeType, SysMLParser
 from pycps_sysmlv2.definitions import PrimitiveType, SysMLType
 
-from public_api_test_utils import write_model, write_reference
+from public_api_test_utils import write_package, write_reference
 
 
 def test_attribute_literals_are_parsed(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def Node {
-            attribute values = [1.0, 2.0, 3.0];
-            attribute count = 3;
-          }
+        part def Node {
+          attribute values = [1.0, 2.0, 3.0];
+          attribute count = 3;
         }
         """,
     )
@@ -32,14 +30,12 @@ def test_attribute_literals_are_parsed(tmp_path: Path):
 
 
 def test_typed_attributes_without_values_are_parsed(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def Node {
-            attribute gain : float64;
-            attribute enabled : boolean;
-          }
+        part def Node {
+          attribute gain : float64;
+          attribute enabled : boolean;
         }
         """,
     )
@@ -58,15 +54,13 @@ def test_typed_attributes_without_values_are_parsed(tmp_path: Path):
 
 
 def test_subpart_reference_links_to_part_definition(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def Child {}
+        part def Child {}
 
-          part def System {
-            part child : Child;
-          }
+        part def System {
+          part child : Child;
         }
         """,
     )
@@ -82,23 +76,21 @@ def test_subpart_reference_links_to_part_definition(tmp_path: Path):
 
 
 def test_doc_comments_are_attached_to_definitions(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          port def Signal {
-            doc /* signal docs */
-            doc /* payload docs */
-            attribute p = 1;
-          }
+        port def Signal {
+          doc /* signal docs */
+          doc /* payload docs */
+          attribute p = 1;
+        }
 
-          part def Node {
-            doc /* node docs */
-            doc /* attribute docs */
-            attribute threshold = 2;
-            doc /* input docs */
-            in port input : Signal;
-          }
+        part def Node {
+          doc /* node docs */
+          doc /* attribute docs */
+          attribute threshold = 2;
+          doc /* input docs */
+          in port input : Signal;
         }
         """,
     )

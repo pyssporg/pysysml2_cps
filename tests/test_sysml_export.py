@@ -2,32 +2,30 @@ from pathlib import Path
 
 from pycps_sysmlv2 import SysMLParser
 
-from public_api_test_utils import write_model
+from public_api_test_utils import write_package
 
 
 def test_export_declared_and_flattened_sysml(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          requirement def ReqA {
-            doc /* Requirement A */
-          }
+        requirement def ReqA {
+          doc /* Requirement A */
+        }
 
-          port def SignalA {}
-          port def SignalB {}
+        port def SignalA {}
+        port def SignalB {}
 
-          part def Base {
-            attribute keep = 1;
-            attribute replace_me = 2;
-            out port out_a : SignalA;
-            requirement keep_req : ReqA;
-          }
+        part def Base {
+          attribute keep = 1;
+          attribute replace_me = 2;
+          out port out_a : SignalA;
+          requirement keep_req : ReqA;
+        }
 
-          part def Derived specializes Base {
-            redefines attribute replace_me = 99;
-            out port out_b : SignalB;
-          }
+        part def Derived specializes Base {
+          redefines attribute replace_me = 99;
+          out port out_b : SignalB;
         }
         """,
     )
@@ -48,26 +46,22 @@ def test_export_declared_and_flattened_sysml(tmp_path: Path):
 
 
 def test_export_declared_preserves_source_grouping(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "part_definitions.sysml",
         """
-        package Example {
-          port def Signal {}
+        port def Signal {}
 
-          part def Base {
-            attribute a = 1;
-            out port out_a : Signal;
-          }
+        part def Base {
+          attribute a = 1;
+          out port out_a : Signal;
         }
         """,
     )
-    write_model(
+    write_package(
         tmp_path / "composition.sysml",
         """
-        package Example {
-          part def Derived specializes Base {
-            redefines attribute a = 2;
-          }
+        part def Derived specializes Base {
+          redefines attribute a = 2;
         }
         """,
     )
@@ -81,21 +75,17 @@ def test_export_declared_preserves_source_grouping(tmp_path: Path):
 
 
 def test_export_declared_includes_port_only_source_files(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "ports.sysml",
         """
-        package Example {
-          port def Signal {}
-        }
+        port def Signal {}
         """,
     )
-    write_model(
+    write_package(
         tmp_path / "parts.sysml",
         """
-        package Example {
-          part def Node {
-            in port input : Signal;
-          }
+        part def Node {
+          in port input : Signal;
         }
         """,
     )

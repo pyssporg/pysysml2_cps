@@ -2,18 +2,16 @@ from pathlib import Path
 
 from pycps_sysmlv2 import NodeType, SysMLParser
 
-from public_api_test_utils import write_model, write_reference
+from public_api_test_utils import write_model, write_package, write_reference
 
 
 def test_load_architecture_from_directory(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "main.sysml",
         """
-        package Example {
-          part def Child {}
-          part def System {
-            part child : Child;
-          }
+        part def Child {}
+        part def System {
+          part child : Child;
         }
         """,
     )
@@ -27,12 +25,10 @@ def test_load_architecture_from_directory(tmp_path: Path):
 
 def test_load_architecture_from_file_path(tmp_path: Path):
     model_path = tmp_path / "model.sysml"
-    write_model(
+    write_package(
         model_path,
         """
-        package Example {
-          part def Child {}
-        }
+        part def Child {}
         """,
     )
 
@@ -44,43 +40,35 @@ def test_load_architecture_from_file_path(tmp_path: Path):
 
 
 def test_directory_load_merges_multiple_sysml_files(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "ports.sysml",
         """
-        package Example {
-          port def Signal {}
-        }
+        port def Signal {}
         """,
     )
-    write_model(
+    write_package(
         tmp_path / "part1.sysml",
         """
-        package Example {
-          part def Consumer {
-            in port in_signal : Signal;
-          }
+        part def Consumer {
+          in port in_signal : Signal;
         }
         """,
     )
-    write_model(
+    write_package(
         tmp_path / "part2.sysml",
         """
-        package Example {
-          part def Producer {
-            out port out_signal : Signal;
-          }
+        part def Producer {
+          out port out_signal : Signal;
         }
         """,
     )
-    write_model(
+    write_package(
         tmp_path / "composition.sysml",
         """
-        package Example {
-          part def System {
-            part src : Producer;
-            part dst : Consumer;
-            connect src.out_signal to dst.in_signal;
-          }
+        part def System {
+          part src : Producer;
+          part dst : Consumer;
+          connect src.out_signal to dst.in_signal;
         }
         """,
     )
@@ -99,14 +87,12 @@ def test_directory_load_merges_multiple_sysml_files(tmp_path: Path):
 
 
 def test_architecture_get_part_returns_requested_part_definition(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def Child {}
-          part def System {
-            part child : Child;
-          }
+        part def Child {}
+        part def System {
+          part child : Child;
         }
         """,
     )
@@ -123,12 +109,10 @@ def test_architecture_get_part_returns_requested_part_definition(tmp_path: Path)
 
 def test_load_architecture_from_file_does_not_parse_sibling_files(tmp_path: Path):
     model_path = tmp_path / "model.sysml"
-    write_model(
+    write_package(
         model_path,
         """
-        package Example {
-          part def Child {}
-        }
+        part def Child {}
         """,
     )
     write_model(

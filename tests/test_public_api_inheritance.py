@@ -4,59 +4,57 @@ import pytest
 
 from pycps_sysmlv2 import NodeType, SysMLParser
 
-from public_api_test_utils import write_model, write_reference
+from public_api_test_utils import write_package, write_reference
 
 
 def test_part_inheritance_add_replace_remove(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          requirement def ReqA { doc /* Base req */ }
-          requirement def ReqB { doc /* Alt req */ }
+        requirement def ReqA { doc /* Base req */ }
+        requirement def ReqB { doc /* Alt req */ }
 
-          port def SignalA {}
-          port def SignalB {}
+        port def SignalA {}
+        port def SignalB {}
 
-          part def ChildA {
-            out port out_a : SignalA;
-          }
+        part def ChildA {
+          out port out_a : SignalA;
+        }
 
-          part def ChildB {
-            in port in_b : SignalA;
-          }
+        part def ChildB {
+          in port in_b : SignalA;
+        }
 
-          part def Base {
-            attribute remove_attr = 1;
-            attribute replace_attr = 2;
+        part def Base {
+          attribute remove_attr = 1;
+          attribute replace_attr = 2;
 
-            out port remove_port : SignalA;
-            out port replace_port : SignalA;
+          out port remove_port : SignalA;
+          out port replace_port : SignalA;
 
-            part left : ChildA;
-            part right : ChildB;
+          part left : ChildA;
+          part right : ChildB;
 
-            requirement keep_req : ReqA;
-            requirement replace_req : ReqA;
-          }
+          requirement keep_req : ReqA;
+          requirement replace_req : ReqA;
+        }
 
-          part def Derived specializes Base {
-            remove attribute remove_attr;
-            redefines attribute replace_attr = 99;
-            attribute add_attr = true;
+        part def Derived specializes Base {
+          remove attribute remove_attr;
+          redefines attribute replace_attr = 99;
+          attribute add_attr = true;
 
-            remove port remove_port;
-            redefines out port replace_port : SignalB;
-            out port add_port : SignalA;
+          remove port remove_port;
+          redefines out port replace_port : SignalB;
+          out port add_port : SignalA;
 
-            redefines part right : ChildA;
-            part extra : ChildB;
-            connect right.out_a to extra.in_b;
+          redefines part right : ChildA;
+          part extra : ChildB;
+          connect right.out_a to extra.in_b;
 
-            remove requirement keep_req;
-            redefines requirement replace_req : ReqB;
-            requirement add_req : ReqA;
-          }
+          remove requirement keep_req;
+          redefines requirement replace_req : ReqB;
+          requirement add_req : ReqA;
         }
         """,
     )
@@ -98,35 +96,33 @@ def test_part_inheritance_add_replace_remove(tmp_path: Path):
 
 
 def test_part_inheritance_remove_connection_then_add_new_connection(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          port def Signal {}
+        port def Signal {}
 
-          part def A {
-            out port out_signal : Signal;
-          }
+        part def A {
+          out port out_signal : Signal;
+        }
 
-          part def B {
-            in port in_signal : Signal;
-          }
+        part def B {
+          in port in_signal : Signal;
+        }
 
-          part def C {
-            in port in_signal : Signal;
-          }
+        part def C {
+          in port in_signal : Signal;
+        }
 
-          part def Base {
-            part a : A;
-            part b : B;
-            part c : C;
-            connect a.out_signal to b.in_signal;
-          }
+        part def Base {
+          part a : A;
+          part b : B;
+          part c : C;
+          connect a.out_signal to b.in_signal;
+        }
 
-          part def Derived specializes Base {
-            remove connect a.out_signal to b.in_signal;
-            connect a.out_signal to c.in_signal;
-          }
+        part def Derived specializes Base {
+          remove connect a.out_signal to b.in_signal;
+          connect a.out_signal to c.in_signal;
         }
         """,
     )

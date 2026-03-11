@@ -2,31 +2,29 @@ from pathlib import Path
 
 from pycps_sysmlv2 import NodeType, SysMLParser
 
-from public_api_test_utils import write_model, write_reference
+from public_api_test_utils import write_package, write_reference
 
 
 def test_requirements_are_collected(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "requirements.sysml",
         """
-        package Example {
-          requirement def ParseRequirement {
-            doc /* The system shall parse requirements. */
-          }
-          requirement def NormalizeRequirement {
-            doc /*
-              Multi-line requirement text should be normalized.
-            */
-          }
+        requirement def ParseRequirement {
+          doc /* The system shall parse requirements. */
+        }
+        requirement def NormalizeRequirement {
+          doc /*
+            Multi-line requirement text should be normalized.
+          */
+        }
 
-          port def Signal {
-            requirement REQ_2 : NormalizeRequirement;
-          }
+        port def Signal {
+          requirement REQ_2 : NormalizeRequirement;
+        }
 
-          part def System {
-            requirement REQ_1 : ParseRequirement;
-            in port input : Signal;
-          }
+        part def System {
+          requirement REQ_1 : ParseRequirement;
+          in port input : Signal;
         }
         """,
     )
@@ -49,19 +47,17 @@ def test_requirements_are_collected(tmp_path: Path):
 
 
 def test_requirement_definition_inheritance(tmp_path: Path):
-    write_model(
+    write_package(
         tmp_path / "requirements.sysml",
         """
-        package Example {
-          requirement def BaseReq {
-            doc /* Base requirement text */
-          }
+        requirement def BaseReq {
+          doc /* Base requirement text */
+        }
 
-          requirement def DerivedReq specializes BaseReq {}
+        requirement def DerivedReq specializes BaseReq {}
 
-          part def System {
-            requirement REQ_1 : DerivedReq;
-          }
+        part def System {
+          requirement REQ_1 : DerivedReq;
         }
         """,
     )

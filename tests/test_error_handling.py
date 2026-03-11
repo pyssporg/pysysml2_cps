@@ -6,13 +6,9 @@ from pycps_sysmlv2 import NodeType, SysMLParser
 from public_api_test_utils import write_package
 
 
-def _write_example(path: Path, body: str) -> None:
-    write_package(path, body, package_name="Example")
-
-
 def test_get_part_raises_key_error_for_missing_part(tmp_path: Path):
     """Verify missing part lookups raise KeyError from the part registry."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
 
@@ -26,7 +22,7 @@ def test_get_part_raises_key_error_for_missing_part(tmp_path: Path):
 
 def test_missing_port_definition_fails_with_context(tmp_path: Path):
     """Verify unresolved port types produce contextual validation errors."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
         part def A {
@@ -41,7 +37,7 @@ def test_missing_port_definition_fails_with_context(tmp_path: Path):
 
 def test_connection_to_unknown_part_definition_fails_with_context(tmp_path: Path):
     """Verify connections fail when a referenced subpart type cannot be resolved."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
         part def KnownPart {}
@@ -62,7 +58,7 @@ def test_connection_to_unknown_part_definition_fails_with_context(tmp_path: Path
 
 def test_part_inheritance_unknown_base_fails(tmp_path: Path):
     """Verify specialization fails when a base part definition is missing."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
         part def Derived specializes MissingBase {
@@ -79,7 +75,7 @@ def test_part_inheritance_unknown_base_fails(tmp_path: Path):
 
 def test_legacy_colon_inheritance_syntax_is_rejected(tmp_path: Path):
     """Verify deprecated colon-based inheritance syntax is rejected."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
         part def Derived : Base {}
@@ -94,7 +90,7 @@ def test_legacy_colon_inheritance_syntax_is_rejected(tmp_path: Path):
 
 def test_part_inheritance_cycle_fails(tmp_path: Path):
     """Verify cyclic part specialization graphs are rejected."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
         part def A specializes B {}
@@ -109,7 +105,7 @@ def test_part_inheritance_cycle_fails(tmp_path: Path):
 
 def test_redefines_on_missing_member_is_accepted_as_override(tmp_path: Path):
     """Verify redefining a non-existent inherited member acts as an effective override."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
         part def Base {}
@@ -126,7 +122,7 @@ def test_redefines_on_missing_member_is_accepted_as_override(tmp_path: Path):
 
 def test_remove_missing_member_is_noop(tmp_path: Path):
     """Verify removing a missing member is treated as a no-op."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
         part def Base {}
@@ -142,7 +138,7 @@ def test_remove_missing_member_is_noop(tmp_path: Path):
 
 def test_add_collision_in_derived_is_allowed(tmp_path: Path):
     """Verify derived declarations can shadow base members under current semantics."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
         part def Base {
@@ -160,7 +156,7 @@ def test_add_collision_in_derived_is_allowed(tmp_path: Path):
 
 def test_replace_syntax_is_rejected(tmp_path: Path):
     """Verify unsupported replace statements are reported as unknown syntax."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
         part def Base {}
@@ -179,7 +175,7 @@ def test_replace_syntax_is_rejected(tmp_path: Path):
 
 def test_comment_based_requirements_are_rejected(tmp_path: Path):
     """Verify legacy comment-style requirement declarations are rejected."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
         comment REQ_1 /* legacy style requirement */
@@ -195,7 +191,7 @@ def test_comment_based_requirements_are_rejected(tmp_path: Path):
 
 def test_requirement_usage_requires_known_definition(tmp_path: Path):
     """Verify requirement usages must reference an existing requirement definition."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
         part def System {
@@ -212,7 +208,7 @@ def test_requirement_usage_requires_known_definition(tmp_path: Path):
 
 def test_top_level_requirement_usage_is_rejected(tmp_path: Path):
     """Verify requirement usages are only allowed inside part/port definition blocks."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
         requirement def ReqA { doc /* req */ }
@@ -228,7 +224,7 @@ def test_top_level_requirement_usage_is_rejected(tmp_path: Path):
 
 def test_unknown_part_statement_fails_with_context(tmp_path: Path):
     """Verify unknown statements inside part definitions surface contextual errors."""
-    _write_example(
+    write_package(
         tmp_path / "model.sysml",
         """
         part def Node {

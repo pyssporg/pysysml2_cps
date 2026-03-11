@@ -157,6 +157,9 @@ Common places to extend behavior:
 
 ## Testing Strategy
 
+- Prefer small standalone tests with readable input and expected output.
+- Keep test data in the test itself or in a nearby specialized fixture when possible.
+- Avoid large shared fixtures when they force readers to scroll or inspect other files to understand one test.
 - `tests/test_public_api_*.py`: split public API behavior by concern.
 - `tests/test_type_utils.py`: typing/literal inference behavior.
 - `tests/test_error_handling.py`: failure mode and error-message regression coverage.

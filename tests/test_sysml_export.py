@@ -2,32 +2,31 @@ from pathlib import Path
 
 from pycps_sysmlv2 import SysMLParser
 
-from public_api_test_utils import write_model
+from public_api_test_utils import write_package
 
 
 def test_export_declared_and_flattened_sysml(tmp_path: Path):
-    write_model(
+    """Verify declared export preserves redefines while flattened export omits specialization syntax."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          requirement def ReqA {
-            doc /* Requirement A */
-          }
+        requirement def ReqA {
+          doc /* Requirement A */
+        }
 
-          port def SignalA {}
-          port def SignalB {}
+        port def SignalA {}
+        port def SignalB {}
 
-          part def Base {
-            attribute keep = 1;
-            attribute replace_me = 2;
-            out port out_a : SignalA;
-            requirement keep_req : ReqA;
-          }
+        part def Base {
+          attribute keep = 1;
+          attribute replace_me = 2;
+          out port out_a : SignalA;
+          requirement keep_req : ReqA;
+        }
 
-          part def Derived specializes Base {
-            redefines attribute replace_me = 99;
-            out port out_b : SignalB;
-          }
+        part def Derived specializes Base {
+          redefines attribute replace_me = 99;
+          out port out_b : SignalB;
         }
         """,
     )
@@ -39,34 +38,27 @@ def test_export_declared_and_flattened_sysml(tmp_path: Path):
     assert "part def Derived specializes Base" in declared
     assert "redefines attribute replace_me = 99;" in declared
     assert "requirement def ReqA {" in declared
-    assert "requirement keep_req : ReqA;" in flattened
+    derived_block = flattened.split("part def Derived {", 1)[1]
+    assert "requirement keep_req : ReqA;" not in derived_block
     assert "part def Derived {" in flattened
     assert "specializes Base" not in flattened
-    assert "attribute keep = 1;" in flattened
-    assert "attribute replace_me = 99;" in flattened
+    assert "attribute keep = 1;" not in derived_block
+    assert "attribute replace_me = 99;" in derived_block
 
 
 def test_export_declared_preserves_source_grouping(tmp_path: Path):
-    write_model(
+    """Verify declared export groups definitions by original source file."""
+    write_package(
         tmp_path / "part_definitions.sysml",
         """
-        package Example {
-          port def Signal {}
-
-          part def Base {
-            attribute a = 1;
-            out port out_a : Signal;
-          }
-        }
+        part def Base {}
         """,
     )
-    write_model(
+    write_package(
         tmp_path / "composition.sysml",
         """
-        package Example {
-          part def Derived specializes Base {
-            redefines attribute a = 2;
-          }
+        part def Derived specializes Base {
+          redefines attribute a = 2;
         }
         """,
     )
@@ -80,21 +72,18 @@ def test_export_declared_preserves_source_grouping(tmp_path: Path):
 
 
 def test_export_declared_includes_port_only_source_files(tmp_path: Path):
-    write_model(
+    """Verify declared export includes files that contain only port definitions."""
+    write_package(
         tmp_path / "ports.sysml",
         """
-        package Example {
-          port def Signal {}
-        }
+        port def Signal {}
         """,
     )
-    write_model(
+    write_package(
         tmp_path / "parts.sysml",
         """
-        package Example {
-          part def Node {
-            in port input : Signal;
-          }
+        part def Node {
+          in port input : Signal;
         }
         """,
     )
@@ -105,3 +94,38 @@ def test_export_declared_includes_port_only_source_files(tmp_path: Path):
     assert set(files) == {"parts.sysml", "ports.sysml"}
     assert "port def Signal {" in files["ports.sysml"]
     assert "part def Node {" in files["parts.sysml"]
+
+
+def test_export_declared_and_flattened_port_inheritance(tmp_path: Path):
+    """Verify port export preserves declared inheritance edits and flattens resolved members."""
+    write_package(
+        tmp_path / "model.sysml",
+        """
+        requirement def ReqA { doc /* Requirement A */ }
+        requirement def ReqB { doc /* Requirement B */ }
+
+        port def BasePort {
+          attribute width = 8;
+          requirement reqA : ReqA;
+        }
+
+        port def DerivedPort specializes BasePort {
+          remove requirement reqA;
+          redefines attribute width = 16;
+          requirement reqB : ReqB;
+        }
+        """,
+    )
+
+    architecture = SysMLParser(tmp_path).parse()
+    declared = architecture.export_declared()["model.sysml"]
+    flattened = architecture.export_flattened()
+
+    assert "port def DerivedPort specializes BasePort" in declared
+    assert "remove requirement reqA;" in declared
+    assert "redefines attribute width = 16;" in declared
+    derived_block = flattened.split("port def DerivedPort {", 1)[1].split("}", 1)[0]
+    assert "specializes BasePort" not in flattened
+    assert "attribute width = 16;" in derived_block
+    assert "requirement reqB : ReqB;" in derived_block
+    assert "requirement reqA : ReqA;" not in derived_block

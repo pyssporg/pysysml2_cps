@@ -9,7 +9,7 @@ The parser raises explicit exceptions for structural issues.
 
 ## `KeyError`
 
-- `architecture.get_part(system_part)` requested part does not exist
+- requested definition/reference lookup does not exist when using `get_def(...)`, `get_ref(...)`, or direct dictionary access
 
 ## `ValueError`
 

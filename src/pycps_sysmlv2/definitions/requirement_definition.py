@@ -1,20 +1,22 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Tuple
 
-from .base import InherenceDefinition
+from .base import InherenceDefinition, NodeType
+from .attributes import SysMLAttribute
 
 
 @dataclass
 class SysMLRequirementDefinition(InherenceDefinition):
-    reference_kinds: Tuple[str, ...] = ("text",)
+    DEF_KINDS: tuple[NodeType, ...] = (NodeType.Attribute,)
+    REF_KINDS: tuple[NodeType, ...] = tuple()
 
     @property
     def text(self) -> str:
-        payload = self.references.setdefault("text", {}).setdefault("text", "")
-        return str(payload)
+        value = self.get_def(NodeType.Attribute, "text").value
+        return str(value)
 
     @text.setter
-    def text(self, value: str) -> None:
-        self.references.setdefault("text", {})["text"] = value
+    def text(self, value) -> str:
+        attrib = SysMLAttribute.from_literal(name="text", value=value, doc=None )
+        self.add_def(NodeType.Attribute, "text", attrib)

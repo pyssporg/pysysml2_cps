@@ -2,129 +2,144 @@ from pathlib import Path
 
 from pycps_sysmlv2 import SysMLParser
 
-from public_api_test_utils import write_model, write_reference
+from public_api_test_utils import (
+    assert_architecture_structure,
+    write_model,
+    write_package,
+)
 
 
 def test_load_architecture_from_directory(tmp_path: Path):
-    write_model(
+    """Verify parsing a directory loads and merges all .sysml files in that directory."""
+    write_package(
         tmp_path / "main.sysml",
         """
-        package Example {
-          part def Child {}
-          part def System {
-            part child : Child;
-          }
+        part def Child {}
+        part def System {
+          part child : Child;
         }
         """,
     )
 
     architecture = SysMLParser(tmp_path).parse()
 
-    assert architecture.package == "Example"
-    assert set(architecture.part_definitions) == {"Child", "System"}
-    write_reference("file_loader_load_architecture_from_directory", architecture, True)
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Child
+        part System
+          part child:Child -> Child
+        """,
+    )
 
 
 def test_load_architecture_from_file_path(tmp_path: Path):
+    """Verify parsing a single file path loads only that file."""
     model_path = tmp_path / "model.sysml"
-    write_model(
+    write_package(
         model_path,
         """
-        package Example {
-          part def Child {}
-        }
+        part def Child {}
         """,
     )
 
     architecture = SysMLParser(model_path).parse()
 
-    assert architecture.package == "Example"
-    assert "Child" in architecture.part_definitions
-    write_reference("file_loader_load_architecture_from_file_path", architecture, True)
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Child
+        """,
+    )
 
 
 def test_directory_load_merges_multiple_sysml_files(tmp_path: Path):
-    write_model(
+    """Verify multi-file models resolve cross-file references and connections."""
+    write_package(
         tmp_path / "ports.sysml",
         """
-        package Example {
-          port def Signal {}
-        }
+        port def Signal {}
         """,
     )
-    write_model(
+    write_package(
         tmp_path / "part1.sysml",
         """
-        package Example {
-          part def Consumer {
-            in port in_signal : Signal;
-          }
+        part def Consumer {
+          in port in_signal : Signal;
         }
         """,
     )
-    write_model(
+    write_package(
         tmp_path / "part2.sysml",
         """
-        package Example {
-          part def Producer {
-            out port out_signal : Signal;
-          }
+        part def Producer {
+          out port out_signal : Signal;
         }
         """,
     )
-    write_model(
+    write_package(
         tmp_path / "composition.sysml",
         """
-        package Example {
-          part def System {
-            part src : Producer;
-            part dst : Consumer;
-            connect src.out_signal to dst.in_signal;
-          }
+        part def System {
+          part src : Producer;
+          part dst : Consumer;
+          connect src.out_signal to dst.in_signal;
         }
         """,
     )
 
     architecture = SysMLParser(tmp_path).parse()
 
-    assert set(architecture.port_definitions) == {"Signal"}
-    assert set(architecture.part_definitions) == {"Consumer", "Producer", "System"}
-    connection = architecture.part_definitions["System"].connections[0]
-    assert connection.src_port_def is not None
-    assert connection.src_port_def.name == "Signal"
-    write_reference("file_loader_directory_load_merges_multiple_sysml_files", architecture, True)
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Consumer
+          port in in_signal:Signal -> Signal
+        part Producer
+          port out out_signal:Signal -> Signal
+        part System
+          part dst:Consumer -> Consumer
+          part src:Producer -> Producer
+          connect src.out_signal -> dst.in_signal
+        port Signal
+        """,
+    )
 
 
 def test_architecture_get_part_returns_requested_part_definition(tmp_path: Path):
-    write_model(
+    """Verify named part definitions are retrievable from the parsed package registry."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def Child {}
-          part def System {
-            part child : Child;
-          }
+        part def Child {}
+        part def System {
+          part child : Child;
         }
         """,
     )
 
     architecture = SysMLParser(tmp_path).parse()
-    system = architecture.get_part("System")
-
-    assert system.name == "System"
-    assert "child" in system.parts
-    assert system.parts["child"].part_name == "Child"
-    write_reference("file_loader_get_part_returns_requested_part_definition", architecture, True)
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Child
+        part System
+          part child:Child -> Child
+        """,
+    )
 
 
 def test_load_architecture_from_file_does_not_parse_sibling_files(tmp_path: Path):
+    """Verify parsing one file ignores sibling files in the same directory."""
     model_path = tmp_path / "model.sysml"
-    write_model(
+    write_package(
         model_path,
         """
-        package Example {
-          part def Child {}
-        }
+        part def Child {}
         """,
     )
     write_model(
@@ -138,6 +153,10 @@ def test_load_architecture_from_file_does_not_parse_sibling_files(tmp_path: Path
 
     architecture = SysMLParser(model_path).parse()
 
-    assert architecture.package == "Example"
-    assert set(architecture.part_definitions) == {"Child"}
-    write_reference("file_loader_file_does_not_parse_siblings", architecture)
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Child
+        """,
+    )

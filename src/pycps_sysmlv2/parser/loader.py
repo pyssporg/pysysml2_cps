@@ -7,10 +7,11 @@ import re
 from typing import Dict, List, Optional
 
 from ..definitions import (
-    SysMLArchitecture,
+    SysMLPackage,
     SysMLPartDefinition,
     SysMLPortDefinition,
     SysMLRequirementDefinition,
+    NodeType,
 )
 from ..inheritance import (
     resolve_part_inheritance,
@@ -35,7 +36,7 @@ class SysMLParser:
         """file or folder"""
         self.path = Path(path)
 
-    def parse(self) -> SysMLArchitecture:
+    def parse(self) -> SysMLPackage:
         if self.path.is_file():
             return _parse_sysml_files([self.path])
 
@@ -48,7 +49,7 @@ class SysMLParser:
             raise FileNotFoundError(f"No .sysml file found under {self.path}")
 
 
-def _parse_sysml_files(files: List[Path]) -> SysMLArchitecture:
+def _parse_sysml_files(files: List[Path]) -> SysMLPackage:
     part_defs: Dict[str, SysMLPartDefinition] = {}
     port_defs: Dict[str, SysMLPortDefinition] = {}
     requirement_defs: Dict[str, SysMLRequirementDefinition] = {}
@@ -113,10 +114,16 @@ def _parse_sysml_files(files: List[Path]) -> SysMLArchitecture:
     attach_connection_definitions(part_defs)
     attach_requirement_definitions(part_defs, port_defs, requirement_defs)
 
-    return SysMLArchitecture(
+    architecture = SysMLPackage(
         name=package_name or "Package",
         package=package_name or "Package",
-        part_definitions=part_defs,
-        port_definitions=port_defs,
-        requirement_definitions=requirement_defs,
     )
+    for name, part in part_defs.items():
+        architecture.add_def(NodeType.Part, name, part, overwrite_warning=False)
+    for name, port in port_defs.items():
+        architecture.add_def(NodeType.Port, name, port, overwrite_warning=False)
+    for name, requirement in requirement_defs.items():
+        architecture.add_def(
+            NodeType.Requirement, name, requirement, overwrite_warning=False
+        )
+    return architecture

@@ -22,8 +22,8 @@ CONNECTION_RE = re.compile(
 
 def connection_key(connection: SysMLConnection) -> str:
     return (
-        f"{connection.src_component}.{connection.src_port}->"
-        f"{connection.dst_component}.{connection.dst_port}"
+        f"{connection.src_part}.{connection.src_port}->"
+        f"{connection.dst_part}.{connection.dst_port}"
     )
 
 
@@ -58,7 +58,7 @@ def parse_port_endpoint(direction: str, line: str, doc: Optional[str]) -> SysMLP
     return SysMLPortReference(
         direction=direction,
         name=_normalize_port_name(name),
-        port_name=payload.strip(),
+        type=payload.strip(),
         doc=doc,
     )
 
@@ -70,7 +70,7 @@ def parse_part_reference(line: str, doc: Optional[str]) -> SysMLPartReference:
     if ":" not in content:
         raise ValueError(f"Malformed part reference: {line}")
     name, target = content.split(":", 1)
-    return SysMLPartReference(name=name.strip(), part_name=target.strip(), doc=doc)
+    return SysMLPartReference(name=name.strip(), type=target.strip(), doc=doc)
 
 
 def parse_requirement_reference(line: str, doc: Optional[str]) -> SysMLRequirementReference:
@@ -88,7 +88,7 @@ def parse_requirement_reference(line: str, doc: Optional[str]) -> SysMLRequireme
         raise ValueError(f"Malformed requirement usage: {line}")
     return SysMLRequirementReference(
         name=req_name,
-        requirement_name=req_def_name,
+        type=req_def_name,
         doc=doc,
     )
 
@@ -97,15 +97,15 @@ def parse_connection(line: str) -> SysMLConnection:
     match = CONNECTION_RE.fullmatch(line.strip())
     if match is None:
         raise ValueError(f"Malformed connection declaration: {line}")
-    src_component = match.group(1)
+    src_part = match.group(1)
     src_port = match.group(2)
-    dst_component = match.group(3)
+    dst_part = match.group(3)
     dst_port = match.group(4)
     return SysMLConnection(
-        name=f"{src_component}.{src_port}_to_{dst_component}.{dst_port}",
-        src_component=src_component,
+        name=f"{src_part}.{src_port}_to_{dst_part}.{dst_port}",
+        src_part=src_part,
         src_port=src_port,
-        dst_component=dst_component,
+        dst_part=dst_part,
         dst_port=dst_port,
     )
 

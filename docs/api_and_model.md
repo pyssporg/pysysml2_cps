@@ -1,79 +1,138 @@
 # API and Data Model
 
-## Public API
+## Package Surface
 
-```python
-from pycps_sysmlv2 import SysMLParser
-```
+Import public classes from the package root:
 
-- `SysMLParser(path).parse()`:
-  - folder path: parse all `*.sysml` in folder
-  - file path: parse only that file
-  - returns `SysMLArchitecture`
-- `architecture.get_part(system_part)`:
-  - convenience helper returning one part definition
-- `architecture.add_part(definition)` / `architecture.remove_part(part_name)`
-- `architecture.add_port(definition)` / `architecture.remove_port(port_name)`
-- `architecture.add_requirement(definition)` / `architecture.remove_requirement(requirement_name)`
-- `architecture.export_flattened()`
-- `architecture.export_declared()`
+See [`examples/api_and_model_package_surface.py`](../examples/api_and_model_package_surface.py).
 
-## Top-Level Model
+## Main Entry Point
 
-`SysMLArchitecture` contains:
+See [`examples/api_and_model_parsed_model.py`](../examples/api_and_model_parsed_model.py).
 
-- `package`
-- `part_definitions`
-- `port_definitions`
-- `requirement_definitions`
+- `path` may be a single `.sysml` file or a directory
+- the return type is `SysMLPackage`
+
+## Top-Level Package Model
+
+`SysMLPackage` exposes the parsed package through typed registries:
+
+- `architecture.package`
+- `architecture.part_definitions`
+- `architecture.port_definitions`
+- `architecture.requirement_definitions`
+
+These properties are dictionary views over the generic definition container API:
+
+See [`examples/api_and_model_parsed_model.py`](../examples/api_and_model_parsed_model.py).
+
+## Definition Containers
+
+Definition containers use:
+
+- `defs(NodeType. ...)` for contained definitions
+- `refs(NodeType. ...)` for contained references
+- `add_def(type, key, obj)` / `remove_def(type, key)`
+- `add_ref(type, key, obj)` / `remove_ref(type, key)`
+- `get_def(type, key)`
+- `get_ref(type, key)`
+
+Supported container kinds:
+
+- `SysMLPackage`
+  - definitions: part, port, requirement
+- `SysMLPartDefinition`
+  - definitions: attribute, connection
+  - references: part, port, requirement
+- `SysMLPortDefinition`
+  - definitions: attribute
+  - references: requirement
+- `SysMLRequirementDefinition`
+  - definitions: attribute
+
+Note:
+- `SysMLPartDefinition.defs(NodeType.Part)` and `defs(NodeType.Port)` return effective inherited views because inheritance merges references into the resolved definition namespace.
+- In practice, part subcomponents and ports should usually be accessed through `refs(...)`.
 
 ## Core Definition Types
 
 - `SysMLPartDefinition`
-  - artifacts: attributes, ports, parts, connections, requirements
+  - `specializes`
+  - `specializes_obj`
 - `SysMLPortDefinition`
-  - artifacts: attributes, requirements
+  - `specializes`
+  - `specializes_obj`
 - `SysMLRequirementDefinition`
-  - artifacts: text
+  - `specializes`
+  - `specializes_obj`
+  - `text`
 
-All definition types support:
+Requirement text is stored as the `text` attribute definition and exposed as a convenience property:
 
-- `specializes`
-- `specializes_obj` (resolved base definition)
-- `items`
-- `redefines_items`
-- `remove_items`
+See [`examples/api_and_model_requirement_text.py`](../examples/api_and_model_requirement_text.py).
 
 ## Reference Types
 
+Reference objects keep both the declared target name and the resolved target object:
+
 - `SysMLPartReference`
+  - `name`
+  - `type`
+  - `ref_node`
 - `SysMLPortReference`
+  - `name`
+  - `direction`
+  - `type`
+  - `ref_node`
 - `SysMLRequirementReference`
+  - `name`
+  - `type`
+  - `ref_node`
 
-References include both textual target names and resolved target objects (for example `port_def`, `part_def`, `requirement_def`).
+## Connections
 
-`SysMLPartDefinition` and `SysMLPortDefinition` also expose reference mutators:
+`SysMLConnection` stores both endpoint names and resolved endpoint nodes:
 
-- `part_def.add_part(...)` / `part_def.remove_part(name)`
-- `part_def.add_port(...)` / `part_def.remove_port(name)`
-- `part_def.add_requirement(...)` / `part_def.remove_requirement(name)`
-- `part_def.add_connection(...)` / `part_def.remove_connection(...)`
-- `port_def.add_requirement(...)` / `port_def.remove_requirement(name)`
+- `src_part`
+- `src_port`
+- `dst_part`
+- `dst_port`
+- `src_part_node`
+- `dst_part_node`
+- `src_port_node`
+- `dst_port_node`
+- `key`
+
+Access connections from part definitions:
+
+See [`examples/api_and_model_connection.py`](../examples/api_and_model_connection.py).
 
 ## Inheritance Semantics
 
-Inheritance for part/port/requirement definitions applies merge order:
+Definition inheritance is resolved during parsing.
+
+Merge order:
 
 1. `remove`
 2. `redefines`
-3. add declared items
+3. declared additions
 
-Connection collisions require explicit remove first.
+The resolved view is what `defs(...)` and `refs(...)` return on inherited definitions.
 
-## Export Functions
+## Export
 
 - `architecture.export_declared()`
+  - returns `dict[str, str]`
+  - groups output by source file
   - preserves `specializes`, `redefines`, and `remove`
-  - groups output by `source_file` when available
 - `architecture.export_flattened()`
-  - emits effective merged members
+  - returns `str`
+  - emits the effective merged model
+
+See [`examples/api_and_model_export.py`](../examples/api_and_model_export.py).
+
+## Public vs Internal API
+
+Members prefixed with `_` are internal implementation details.
+
+External code, including tests, should use the documented public surface above rather than private storage like `_defs` or `_refs`.

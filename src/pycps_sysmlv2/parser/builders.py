@@ -10,6 +10,8 @@ from ..definitions import (
     SysMLPartDefinition,
     SysMLPortDefinition,
     SysMLRequirementDefinition,
+    NodeType,
+    SysMLAttribute,
 )
 from ..parser_utils import strip_inline_comment
 from .blocks import extract_requirement_blocks, iter_block_items
@@ -26,6 +28,26 @@ from .elements import (
 from .errors import unknown_statement_error
 
 
+KIND_MAP = {
+    "attributes": NodeType.Attribute,
+    "parts": NodeType.Part,
+    "ports": NodeType.Port,
+    "requirements": NodeType.Requirement,
+    "connections": NodeType.Connection,
+}
+
+
+def _map_kind(kind: str) -> NodeType:
+    try:
+        return KIND_MAP[kind]
+    except KeyError as exc:
+        raise ValueError(f"Unsupported member kind: {kind}") from exc
+
+
+def _is_reference_kind(kind: NodeType) -> bool:
+    return kind in (NodeType.Part, NodeType.Port, NodeType.Requirement)
+
+
 def parse_part_block(
     name: str,
     block: str,
@@ -34,19 +56,20 @@ def parse_part_block(
     package_name: str,
     strict: bool,
 ) -> SysMLPartDefinition:
-    items: Dict[str, Dict[str, object]] = {
-        kind: {} for kind in SysMLPartDefinition.reference_kinds
-    }
-    redefines_items: Dict[str, Dict[str, object]] = {
-        kind: {} for kind in SysMLPartDefinition.reference_kinds
-    }
-    remove_items = {kind: set() for kind in SysMLPartDefinition.reference_kinds}
+    part = SysMLPartDefinition(
+        name=name,
+        doc=None,
+        specializes=base_part_name,
+        source_file=source_path.name,
+    )
     pending_doc: Optional[str] = None
     part_doc: Optional[str] = None
 
     for kind, payload in iter_block_items(block):
         if kind == "doc":
-            has_members = any(items[k] for k in SysMLPartDefinition.reference_kinds)
+            has_members = any(part.defs(k) for k in part.DEF_KINDS) or any(
+                part.refs(k) for k in part.REF_KINDS
+            )
             if part_doc is None and not has_members:
                 part_doc = payload
             else:
@@ -59,28 +82,54 @@ def parse_part_block(
 
         if line.startswith("attribute "):
             attr = parse_attribute(line, pending_doc)
-            items["attributes"][attr.name] = attr
+            part.add_def(NodeType.Attribute, attr.name, attr)
         elif line.startswith("in port "):
             port = parse_port_endpoint("in", line, pending_doc)
-            items["ports"][port.name] = port
+            part.add_ref(NodeType.Port, port.name, port)
         elif line.startswith("out port "):
             port = parse_port_endpoint("out", line, pending_doc)
-            items["ports"][port.name] = port
+            part.add_ref(NodeType.Port, port.name, port)
         elif line.startswith("part "):
-            part = parse_part_reference(line, pending_doc)
-            items["parts"][part.name] = part
+            subpart = parse_part_reference(line, pending_doc)
+            part.add_ref(NodeType.Part, subpart.name, subpart)
         elif line.startswith("requirement "):
             requirement = parse_requirement_reference(line, pending_doc)
-            items["requirements"][requirement.name] = requirement
+            part.add_ref(NodeType.Requirement, requirement.name, requirement)
         elif line.startswith("connect "):
             connection = parse_connection(line)
-            items["connections"][connection_key(connection)] = connection
+            part.add_def(NodeType.Connection, connection_key(connection), connection)
         elif line.startswith("redefines "):
-            replacement_kind, replacement_value = parse_replacement(line, pending_doc)
-            redefines_items[replacement_kind][replacement_value.name] = replacement_value
+            replacement_kind, replacement_value = parse_replacement(
+                line, pending_doc
+            )
+            mapped_kind = _map_kind(replacement_kind)
+            if mapped_kind not in set(part.DEF_KINDS) | set(part.REF_KINDS):
+                raise unknown_statement_error(
+                    package_name=package_name,
+                    source_path=source_path,
+                    definition_kind="part def",
+                    definition_name=name,
+                    line=line,
+                )
+            if _is_reference_kind(mapped_kind):
+                part.redefine_refs(mapped_kind)[replacement_value.name] = replacement_value
+            else:
+                part.redefine_defs(mapped_kind)[replacement_value.name] = replacement_value
         elif line.startswith("remove "):
             remove_kind, remove_key = parse_removal(line)
-            remove_items[remove_kind].add(remove_key)
+            mapped_kind = _map_kind(remove_kind)
+            if mapped_kind not in set(part.DEF_KINDS) | set(part.REF_KINDS):
+                raise unknown_statement_error(
+                    package_name=package_name,
+                    source_path=source_path,
+                    definition_kind="part def",
+                    definition_name=name,
+                    line=line,
+                )
+            if _is_reference_kind(mapped_kind):
+                part.remove_refs(mapped_kind).add(remove_key)
+            else:
+                part.remove_defs(mapped_kind).add(remove_key)
         elif strict:
             raise unknown_statement_error(
                 package_name=package_name,
@@ -92,16 +141,7 @@ def parse_part_block(
 
         pending_doc = None
 
-    part = SysMLPartDefinition(
-        name=name,
-        doc=part_doc,
-        specializes=base_part_name,
-        source_file=source_path.name,
-        references=items,
-        redefines_references=redefines_items,
-        remove_references=remove_items,
-    )
-    part.declared_items = {kind: dict(values) for kind, values in items.items()}
+    part.doc = part_doc
     return part
 
 
@@ -113,19 +153,20 @@ def parse_port_block(
     package_name: str,
     strict: bool,
 ) -> SysMLPortDefinition:
-    items: Dict[str, Dict[str, object]] = {
-        kind: {} for kind in SysMLPortDefinition.reference_kinds
-    }
-    redefines_items: Dict[str, Dict[str, object]] = {
-        kind: {} for kind in SysMLPortDefinition.reference_kinds
-    }
-    remove_items = {kind: set() for kind in SysMLPortDefinition.reference_kinds}
+    port = SysMLPortDefinition(
+        name=name,
+        doc=None,
+        specializes=base_port_name,
+        source_file=source_path.name,
+    )
     port_doc: Optional[str] = None
     pending_doc: Optional[str] = None
 
     for kind, payload in iter_block_items(block):
         if kind == "doc":
-            has_members = any(items[k] for k in SysMLPortDefinition.reference_kinds)
+            has_members = any(port.defs(k) for k in port.DEF_KINDS) or any(
+                port.refs(k) for k in port.REF_KINDS
+            )
             if port_doc is None and not has_members:
                 port_doc = payload
             else:
@@ -138,13 +179,16 @@ def parse_port_block(
 
         if line.startswith("attribute "):
             attr = parse_attribute(line, pending_doc)
-            items["attributes"][attr.name] = attr
+            port.add_def(NodeType.Attribute, attr.name, attr)
         elif line.startswith("requirement "):
             requirement = parse_requirement_reference(line, pending_doc)
-            items["requirements"][requirement.name] = requirement
+            port.add_ref(NodeType.Requirement, requirement.name, requirement)
         elif line.startswith("redefines "):
-            replacement_kind, replacement_value = parse_replacement(line, pending_doc)
-            if replacement_kind not in items:
+            replacement_kind, replacement_value = parse_replacement(
+                line, pending_doc
+            )
+            mapped_kind = _map_kind(replacement_kind)
+            if mapped_kind not in set(port.DEF_KINDS) | set(port.REF_KINDS):
                 raise unknown_statement_error(
                     package_name=package_name,
                     source_path=source_path,
@@ -152,10 +196,14 @@ def parse_port_block(
                     definition_name=name,
                     line=line,
                 )
-            redefines_items[replacement_kind][replacement_value.name] = replacement_value
+            if _is_reference_kind(mapped_kind):
+                port.redefine_refs(mapped_kind)[replacement_value.name] = replacement_value
+            else:
+                port.redefine_defs(mapped_kind)[replacement_value.name] = replacement_value
         elif line.startswith("remove "):
             remove_kind, remove_key = parse_removal(line)
-            if remove_kind not in items:
+            mapped_kind = _map_kind(remove_kind)
+            if mapped_kind not in set(port.DEF_KINDS) | set(port.REF_KINDS):
                 raise unknown_statement_error(
                     package_name=package_name,
                     source_path=source_path,
@@ -163,7 +211,10 @@ def parse_port_block(
                     definition_name=name,
                     line=line,
                 )
-            remove_items[remove_kind].add(remove_key)
+            if _is_reference_kind(mapped_kind):
+                port.remove_refs(mapped_kind).add(remove_key)
+            else:
+                port.remove_defs(mapped_kind).add(remove_key)
         elif strict:
             raise unknown_statement_error(
                 package_name=package_name,
@@ -174,16 +225,7 @@ def parse_port_block(
             )
         pending_doc = None
 
-    port = SysMLPortDefinition(
-        name=name,
-        doc=port_doc,
-        specializes=base_port_name,
-        source_file=source_path.name,
-        references=items,
-        redefines_references=redefines_items,
-        remove_references=remove_items,
-    )
-    port.declared_items = {kind: dict(values) for kind, values in items.items()}
+    port.doc = port_doc
     return port
 
 
@@ -202,18 +244,17 @@ def parse_requirements(
             if kind == "doc":
                 text = payload
                 break
-        items = {kind: {} for kind in SysMLRequirementDefinition.reference_kinds}
-        if text is not None:
-            items["text"]["text"] = text
         req_def = SysMLRequirementDefinition(
             name=name,
             specializes=base_name,
             source_file=source_path.name,
-            references=items,
-            redefines_references={kind: {} for kind in SysMLRequirementDefinition.reference_kinds},
-            remove_references={kind: set() for kind in SysMLRequirementDefinition.reference_kinds},
         )
-        req_def.declared_items = {kind: dict(values) for kind, values in items.items()}
+        if text is not None:
+            req_def.add_def(
+                NodeType.Attribute,
+                "text",
+                SysMLAttribute.from_literal(name="text", value=text),
+            )
         req_defs[name] = req_def
 
     top_level_req_usage = _find_top_level_requirement_usage(body)

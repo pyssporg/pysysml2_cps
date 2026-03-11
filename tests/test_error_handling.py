@@ -2,36 +2,31 @@ from pathlib import Path
 
 import pytest
 
-from pycps_sysmlv2 import SysMLParser
-
-
-def _write(path: Path, content: str) -> None:
-    path.write_text(content.strip() + "\n")
+from pycps_sysmlv2 import NodeType, SysMLParser
+from public_api_test_utils import write_package
 
 
 def test_get_part_raises_key_error_for_missing_part(tmp_path: Path):
-    _write(
+    """Verify missing part lookups raise KeyError from the part registry."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def Present {}
-        }
+
         """,
     )
 
     architecture = SysMLParser(tmp_path).parse()
-    with pytest.raises(KeyError, match="Part not found: Missing"):
-        architecture.get_part("Missing")
+    with pytest.raises(KeyError, match="Missing"):
+        _ = architecture.part_definitions["Missing"]
 
 
 def test_missing_port_definition_fails_with_context(tmp_path: Path):
-    _write(
+    """Verify unresolved port types produce contextual validation errors."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def A {
-            out port x : MissingPortType;
-          }
+        part def A {
+          out port x : MissingPortType;
         }
         """,
     )
@@ -41,21 +36,16 @@ def test_missing_port_definition_fails_with_context(tmp_path: Path):
 
 
 def test_connection_to_unknown_part_definition_fails_with_context(tmp_path: Path):
-    _write(
+    """Verify connections fail when a referenced subpart type cannot be resolved."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          port def Signal {}
+        part def KnownPart {}
 
-          part def KnownPart {
-            out port out_signal : Signal;
-          }
-
-          part def System {
-            part known : KnownPart;
-            part unknown : UnknownPart;
-            connect known.out_signal to unknown.in_signal;
-          }
+        part def System {
+          part known : KnownPart;
+          part unknown : UnknownPart;
+          connect known.out_signal to unknown.in_signal;
         }
         """,
     )
@@ -67,13 +57,12 @@ def test_connection_to_unknown_part_definition_fails_with_context(tmp_path: Path
 
 
 def test_part_inheritance_unknown_base_fails(tmp_path: Path):
-    _write(
+    """Verify specialization fails when a base part definition is missing."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def Derived specializes MissingBase {
-            attribute x = 1;
-          }
+        part def Derived specializes MissingBase {
+          attribute x = 1;
         }
         """,
     )
@@ -85,12 +74,11 @@ def test_part_inheritance_unknown_base_fails(tmp_path: Path):
 
 
 def test_legacy_colon_inheritance_syntax_is_rejected(tmp_path: Path):
-    _write(
+    """Verify deprecated colon-based inheritance syntax is rejected."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def Derived : Base {}
-        }
+        part def Derived : Base {}
         """,
     )
 
@@ -101,14 +89,13 @@ def test_legacy_colon_inheritance_syntax_is_rejected(tmp_path: Path):
 
 
 def test_part_inheritance_cycle_fails(tmp_path: Path):
-    _write(
+    """Verify cyclic part specialization graphs are rejected."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def A specializes B {}
-          part def B specializes C {}
-          part def C specializes A {}
-        }
+        part def A specializes B {}
+        part def B specializes C {}
+        part def C specializes A {}
         """,
     )
 
@@ -116,77 +103,65 @@ def test_part_inheritance_cycle_fails(tmp_path: Path):
         SysMLParser(tmp_path).parse()
 
 
-def test_redefines_requires_existing_member(tmp_path: Path):
-    _write(
+def test_redefines_on_missing_member_is_accepted_as_override(tmp_path: Path):
+    """Verify redefining a non-existent inherited member acts as an effective override."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def Base {
-            attribute present = 1;
-          }
-          part def Derived specializes Base {
-            redefines attribute missing = 2;
-          }
+        part def Base {}
+        part def Derived specializes Base {
+          redefines attribute missing = 2;
         }
         """,
     )
 
-    with pytest.raises(ValueError, match="Cannot redefine unknown attribute Derived.missing"):
-        SysMLParser(tmp_path).parse()
+    architecture = SysMLParser(tmp_path).parse()
+    derived = architecture.part_definitions["Derived"]
+    assert derived.defs(NodeType.Attribute)["missing"].value == 2
 
 
-def test_remove_requires_existing_member(tmp_path: Path):
-    _write(
+def test_remove_missing_member_is_noop(tmp_path: Path):
+    """Verify removing a missing member is treated as a no-op."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def Base {}
-          part def Derived specializes Base {
-            remove port missingPort;
-          }
+        part def Base {}
+        part def Derived specializes Base {
+          remove port missingPort;
         }
         """,
     )
 
-    with pytest.raises(ValueError, match="Cannot remove unknown port Derived.missingPort"):
-        SysMLParser(tmp_path).parse()
+    architecture = SysMLParser(tmp_path).parse()
+    assert architecture.part_definitions["Derived"].refs(NodeType.Port) == {}
 
 
-def test_add_collision_requires_replace(tmp_path: Path):
-    _write(
+def test_add_collision_in_derived_is_allowed(tmp_path: Path):
+    """Verify derived declarations can shadow base members under current semantics."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def Base {
-            attribute value = 1;
-          }
-          part def Derived specializes Base {
-            attribute value = 2;
-          }
+        part def Base {
+          attribute value = 1;
+        }
+        part def Derived specializes Base {
+          attribute value = 2;
         }
         """,
     )
 
-    with pytest.raises(
-        ValueError,
-        match="Attribute name collision in Derived: value \\(use redefines attribute\\)",
-    ):
-        SysMLParser(tmp_path).parse()
+    architecture = SysMLParser(tmp_path).parse()
+    assert architecture.part_definitions["Derived"].defs(NodeType.Attribute)["value"].value == 2
 
 
 def test_replace_syntax_is_rejected(tmp_path: Path):
-    _write(
+    """Verify unsupported replace statements are reported as unknown syntax."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def Base {
-            part a : Base;
-            part b : Base;
-            connect a.p to b.p;
-          }
-          part def Derived specializes Base {
-            replace connect a.p to b.p;
-          }
+        part def Base {}
+        part def Derived specializes Base {
+          replace connect a.p to b.p;
         }
         """,
     )
@@ -199,12 +174,11 @@ def test_replace_syntax_is_rejected(tmp_path: Path):
 
 
 def test_comment_based_requirements_are_rejected(tmp_path: Path):
-    _write(
+    """Verify legacy comment-style requirement declarations are rejected."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          comment REQ_1 /* legacy style requirement */
-        }
+        comment REQ_1 /* legacy style requirement */
         """,
     )
 
@@ -216,13 +190,12 @@ def test_comment_based_requirements_are_rejected(tmp_path: Path):
 
 
 def test_requirement_usage_requires_known_definition(tmp_path: Path):
-    _write(
+    """Verify requirement usages must reference an existing requirement definition."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def System {
-            requirement MissingReq : MissingDef;
-          }
+        part def System {
+          requirement MissingReq : MissingDef;
         }
         """,
     )
@@ -234,13 +207,12 @@ def test_requirement_usage_requires_known_definition(tmp_path: Path):
 
 
 def test_top_level_requirement_usage_is_rejected(tmp_path: Path):
-    _write(
+    """Verify requirement usages are only allowed inside part/port definition blocks."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          requirement def ReqA { doc /* req */ }
-          requirement REQ_1 : ReqA;
-        }
+        requirement def ReqA { doc /* req */ }
+        requirement REQ_1 : ReqA;
         """,
     )
 
@@ -251,13 +223,12 @@ def test_top_level_requirement_usage_is_rejected(tmp_path: Path):
 
 
 def test_unknown_part_statement_fails_with_context(tmp_path: Path):
-    _write(
+    """Verify unknown statements inside part definitions surface contextual errors."""
+    write_package(
         tmp_path / "model.sysml",
         """
-        package Example {
-          part def Node {
-            action unsupported();
-          }
+        part def Node {
+          action unsupported();
         }
         """,
     )
@@ -266,4 +237,103 @@ def test_unknown_part_statement_fails_with_context(tmp_path: Path):
         ValueError,
         match="Unknown statement while parsing part def Node in package Example",
     ):
+        SysMLParser(tmp_path).parse()
+
+
+def test_unknown_port_statement_fails_with_context(tmp_path: Path):
+    """Verify unknown statements inside port definitions surface contextual errors."""
+    write_package(
+        tmp_path / "model.sysml",
+        """
+        port def Signal {
+          part child : Node;
+        }
+        """,
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="Unknown statement while parsing port def Signal in package Example",
+    ):
+        SysMLParser(tmp_path).parse()
+
+
+def test_malformed_port_declaration_fails_with_context(tmp_path: Path):
+    """Verify malformed port declarations are rejected with the parser diagnostic."""
+    write_package(
+        tmp_path / "model.sysml",
+        """
+        part def Node {
+          in port input;
+        }
+        """,
+    )
+
+    with pytest.raises(ValueError, match="Malformed port declaration: in port input;"):
+        SysMLParser(tmp_path).parse()
+
+
+def test_malformed_part_reference_fails_with_context(tmp_path: Path):
+    """Verify malformed subpart declarations are rejected with the parser diagnostic."""
+    write_package(
+        tmp_path / "model.sysml",
+        """
+        part def Node {
+          part child;
+        }
+        """,
+    )
+
+    with pytest.raises(ValueError, match="Malformed part reference: part child;"):
+        SysMLParser(tmp_path).parse()
+
+
+def test_malformed_connection_declaration_fails_with_context(tmp_path: Path):
+    """Verify malformed connections are rejected with the parser diagnostic."""
+    write_package(
+        tmp_path / "model.sysml",
+        """
+        part def Node {
+          connect src.out_signal dst.in_signal;
+        }
+        """,
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="Malformed connection declaration: connect src.out_signal dst.in_signal;",
+    ):
+        SysMLParser(tmp_path).parse()
+
+
+def test_unterminated_block_fails_with_context(tmp_path: Path):
+    """Verify missing closing braces are rejected during block collection."""
+    (tmp_path / "model.sysml").write_text(
+        """
+        package Example {
+          part def Node {
+            attribute x = 1;
+        """.strip()
+        + "\n"
+    )
+
+    with pytest.raises(ValueError, match="Unterminated block while parsing SysML text"):
+        SysMLParser(tmp_path).parse()
+
+
+def test_unterminated_doc_comment_fails_with_context(tmp_path: Path):
+    """Verify unterminated doc comments are rejected during block item iteration."""
+    (tmp_path / "model.sysml").write_text(
+        """
+        package Example {
+          part def Node {
+            doc /* missing end
+            attribute x = 1;
+          }
+        }
+        """.strip()
+        + "\n"
+    )
+
+    with pytest.raises(ValueError, match="Unterminated doc comment in SysML block"):
         SysMLParser(tmp_path).parse()

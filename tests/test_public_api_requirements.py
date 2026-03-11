@@ -1,8 +1,11 @@
 from pathlib import Path
 
-from pycps_sysmlv2 import NodeType, SysMLParser
+from pycps_sysmlv2 import SysMLParser
 
-from public_api_test_utils import write_package, write_reference
+from public_api_test_utils import (
+    assert_architecture_structure,
+    write_package,
+)
 
 
 def test_requirements_are_collected(tmp_path: Path):
@@ -32,19 +35,21 @@ def test_requirements_are_collected(tmp_path: Path):
 
     architecture = SysMLParser(tmp_path).parse()
 
-    assert set(architecture.requirement_definitions) == {
-        "NormalizeRequirement",
-        "ParseRequirement",
-    }
-    system_reqs = architecture.part_definitions["System"].refs(NodeType.Requirement)
-    signal_reqs = architecture.port_definitions["Signal"].refs(NodeType.Requirement)
-    assert [req.name for req in system_reqs.values()] == ["REQ_1"]
-    assert [req.name for req in signal_reqs.values()] == ["REQ_2"]
-    assert next(iter(system_reqs.values())).ref_node.text == "The system shall parse requirements."
-    assert next(iter(signal_reqs.values())).ref_node.text == (
-        "Multi-line requirement text should be normalized."
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part System
+          port in input:Signal -> Signal
+          req REQ_1:ParseRequirement -> ParseRequirement
+        port Signal
+          req REQ_2:NormalizeRequirement -> NormalizeRequirement
+        requirement NormalizeRequirement
+          attr text:String='Multi-line requirement text should be normalized.'
+        requirement ParseRequirement
+          attr text:String='The system shall parse requirements.'
+        """,
     )
-    write_reference("requirements_collected", architecture)
 
 
 def test_requirement_definition_inheritance(tmp_path: Path):
@@ -65,11 +70,14 @@ def test_requirement_definition_inheritance(tmp_path: Path):
     )
 
     architecture = SysMLParser(tmp_path).parse()
-    derived = architecture.requirement_definitions["DerivedReq"]
-    req_ref = architecture.part_definitions["System"].refs(NodeType.Requirement)["REQ_1"]
-
-    assert derived.specializes == "BaseReq"
-    assert derived.specializes_obj is not None
-    assert derived.specializes_obj.text == "Base requirement text"
-    assert req_ref.ref_node is not None
-    assert req_ref.ref_node.name == "DerivedReq"
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part System
+          req REQ_1:DerivedReq -> DerivedReq
+        requirement BaseReq
+          attr text:String='Base requirement text'
+        requirement DerivedReq specializes BaseReq
+        """,
+    )

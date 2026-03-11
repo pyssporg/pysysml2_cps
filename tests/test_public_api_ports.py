@@ -1,8 +1,11 @@
 from pathlib import Path
 
-from pycps_sysmlv2 import NodeType, SysMLParser
+from pycps_sysmlv2 import SysMLParser
 
-from public_api_test_utils import write_package, write_reference
+from public_api_test_utils import (
+    assert_architecture_structure,
+    write_package,
+)
 
 
 def test_port_reference_links_to_port_definition(tmp_path: Path):
@@ -19,13 +22,15 @@ def test_port_reference_links_to_port_definition(tmp_path: Path):
     )
 
     architecture = SysMLParser(tmp_path).parse()
-    node = architecture.part_definitions["Node"]
-    ports = node.refs(NodeType.Port)
-
-    assert ports["input"].type == "Signal"
-    assert ports["input"].ref_node is not None
-    assert ports["input"].ref_node.name == "Signal"
-    write_reference("ports_port_reference_links", architecture)
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Node
+          port in input:Signal -> Signal
+        port Signal
+        """,
+    )
 
 
 def test_port_directions_are_preserved(tmp_path: Path):
@@ -43,12 +48,16 @@ def test_port_directions_are_preserved(tmp_path: Path):
     )
 
     architecture = SysMLParser(tmp_path).parse()
-    node = architecture.part_definitions["Node"]
-    ports = node.refs(NodeType.Port)
-
-    assert ports["input"].direction == "in"
-    assert ports["output"].direction == "out"
-    write_reference("ports_port_directions_preserved", architecture)
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Node
+          port in input:Signal -> Signal
+          port out output:Signal -> Signal
+        port Signal
+        """,
+    )
 
 
 def test_connection_links_parts_and_port_definitions(tmp_path: Path):
@@ -75,25 +84,21 @@ def test_connection_links_parts_and_port_definitions(tmp_path: Path):
     )
 
     architecture = SysMLParser(tmp_path).parse()
-    connection = next(
-        iter(architecture.part_definitions["System"].defs(NodeType.Connection).values())
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Sink
+          port in in_signal:Signal -> Signal
+        part Source
+          port out out_signal:Signal -> Signal
+        part System
+          part dst:Sink -> Sink
+          part src:Source -> Source
+          connect src.out_signal -> dst.in_signal
+        port Signal
+        """,
     )
-
-    assert (connection.src_part, connection.src_port) == ("src", "out_signal")
-    assert (connection.dst_part, connection.dst_port) == ("dst", "in_signal")
-    assert connection.src_part_node is not None
-    assert connection.src_part_node.ref_node is not None
-    assert connection.src_part_node.ref_node.name == "Source"
-    assert connection.dst_part_node is not None
-    assert connection.dst_part_node.ref_node is not None
-    assert connection.dst_part_node.ref_node.name == "Sink"
-    assert connection.src_port_node is not None
-    assert connection.src_port_node.ref_node is not None
-    assert connection.src_port_node.ref_node.name == "Signal"
-    assert connection.dst_port_node is not None
-    assert connection.dst_port_node.ref_node is not None
-    assert connection.dst_port_node.ref_node.name == "Signal"
-    write_reference("ports_connection_links", architecture)
 
 
 def test_port_inheritance_adds_attributes_and_requirements(tmp_path: Path):
@@ -115,10 +120,16 @@ def test_port_inheritance_adds_attributes_and_requirements(tmp_path: Path):
     )
 
     architecture = SysMLParser(tmp_path).parse()
-    derived = architecture.port_definitions["DerivedPort"]
-    attrs = derived.defs(NodeType.Attribute)
-    reqs = derived.refs(NodeType.Requirement)
-
-    assert derived.specializes == "BasePort"
-    assert "gain" in attrs
-    assert "reqA" not in reqs
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        port BasePort
+          attr width:Integer=8
+          req reqA:ReqA -> ReqA
+        port DerivedPort specializes BasePort
+          attr gain:Real=2.0
+        requirement ReqA
+          attr text:String='Requirement A'
+        """,
+    )

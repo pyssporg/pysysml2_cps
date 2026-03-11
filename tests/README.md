@@ -8,6 +8,4 @@ Public API tests now use small, focused inline SysML models split across:
 - `tests/test_public_api_requirements.py`
 - `tests/test_public_api_inheritance.py`
 
-This folder keeps checked-in JSON architecture snapshots written by those tests:
-
-- `public_api_references/`: parser/export snapshots (`.json` and `.sysml`) for quick debugging and git diffing
+Public API behavior is primarily asserted using readable structure snapshots directly in tests.

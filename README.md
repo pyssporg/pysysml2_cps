@@ -55,3 +55,6 @@ Run tests:
 ```bash
 PYTHONPATH=src pytest -q
 ```
+
+Internal API rule:
+- Members prefixed with `_` (for example `_method`, `_variable`) are private/internal and should not be used outside their defining class.

@@ -18,6 +18,13 @@ from pycps_sysmlv2 import SysMLParser
 - `architecture.export_flattened()`
 - `architecture.export_declared()`
 
+## Public vs Internal Members
+
+- Names prefixed with `_` (for example `_method`, `_variable`) are internal implementation details.
+- Internal members must not be used outside the class that defines them.
+- External code (including tests) should use documented/public accessors and methods such as `defs(...)`, `refs(...)`, and top-level definition registries.
+- This rule helps keep tests and integrations stable when internals are refactored.
+
 ## Top-Level Model
 
 `SysMLArchitecture` contains:

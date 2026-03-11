@@ -1,8 +1,12 @@
 from pathlib import Path
 
-from pycps_sysmlv2 import NodeType, SysMLParser
+from pycps_sysmlv2 import SysMLParser
 
-from public_api_test_utils import write_model, write_package, write_reference
+from public_api_test_utils import (
+    assert_architecture_structure,
+    write_model,
+    write_package,
+)
 
 
 def test_load_architecture_from_directory(tmp_path: Path):
@@ -19,9 +23,15 @@ def test_load_architecture_from_directory(tmp_path: Path):
 
     architecture = SysMLParser(tmp_path).parse()
 
-    assert architecture.package == "Example"
-    assert set(architecture.part_definitions) == {"Child", "System"}
-    write_reference("file_loader_load_architecture_from_directory", architecture, True)
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Child
+        part System
+          part child:Child -> Child
+        """,
+    )
 
 
 def test_load_architecture_from_file_path(tmp_path: Path):
@@ -36,9 +46,13 @@ def test_load_architecture_from_file_path(tmp_path: Path):
 
     architecture = SysMLParser(model_path).parse()
 
-    assert architecture.package == "Example"
-    assert "Child" in architecture.part_definitions
-    write_reference("file_loader_load_architecture_from_file_path", architecture, True)
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Child
+        """,
+    )
 
 
 def test_directory_load_merges_multiple_sysml_files(tmp_path: Path):
@@ -78,15 +92,21 @@ def test_directory_load_merges_multiple_sysml_files(tmp_path: Path):
 
     architecture = SysMLParser(tmp_path).parse()
 
-    assert set(architecture.port_definitions) == {"Signal"}
-    assert set(architecture.part_definitions) == {"Consumer", "Producer", "System"}
-    connection = next(
-        iter(architecture.part_definitions["System"].defs(NodeType.Connection).values())
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Consumer
+          port in in_signal:Signal -> Signal
+        part Producer
+          port out out_signal:Signal -> Signal
+        part System
+          part dst:Consumer -> Consumer
+          part src:Producer -> Producer
+          connect src.out_signal -> dst.in_signal
+        port Signal
+        """,
     )
-    assert connection.src_port_node is not None
-    assert connection.src_port_node.ref_node is not None
-    assert connection.src_port_node.ref_node.name == "Signal"
-    write_reference("file_loader_directory_load_merges_multiple_sysml_files", architecture, True)
 
 
 def test_architecture_get_part_returns_requested_part_definition(tmp_path: Path):
@@ -102,13 +122,15 @@ def test_architecture_get_part_returns_requested_part_definition(tmp_path: Path)
     )
 
     architecture = SysMLParser(tmp_path).parse()
-    system = architecture.part_definitions["System"]
-
-    assert system.name == "System"
-    parts = system.refs(NodeType.Part)
-    assert "child" in parts
-    assert parts["child"].type == "Child"
-    write_reference("file_loader_get_part_returns_requested_part_definition", architecture, True)
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Child
+        part System
+          part child:Child -> Child
+        """,
+    )
 
 
 def test_load_architecture_from_file_does_not_parse_sibling_files(tmp_path: Path):
@@ -131,6 +153,10 @@ def test_load_architecture_from_file_does_not_parse_sibling_files(tmp_path: Path
 
     architecture = SysMLParser(model_path).parse()
 
-    assert architecture.package == "Example"
-    assert set(architecture.part_definitions) == {"Child"}
-    write_reference("file_loader_file_does_not_parse_siblings", architecture)
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Child
+        """,
+    )

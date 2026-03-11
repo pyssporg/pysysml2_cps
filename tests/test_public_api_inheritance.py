@@ -2,9 +2,12 @@ from pathlib import Path
 
 import pytest
 
-from pycps_sysmlv2 import NodeType, SysMLParser
+from pycps_sysmlv2 import SysMLParser
 
-from public_api_test_utils import write_package, write_reference
+from public_api_test_utils import (
+    assert_architecture_structure,
+    write_package,
+)
 
 
 def test_part_inheritance_add_replace_remove(tmp_path: Path):
@@ -61,39 +64,42 @@ def test_part_inheritance_add_replace_remove(tmp_path: Path):
     )
 
     architecture = SysMLParser(tmp_path).parse()
-    derived = architecture.part_definitions["Derived"]
 
-    assert derived.specializes == "Base"
-    assert derived.specializes_obj is not None
-    assert derived.specializes_obj.name == "Base"
-
-    attrs = derived.defs(NodeType.Attribute)
-    assert "remove_attr" not in attrs
-    assert attrs["replace_attr"].value == 99
-    assert attrs["add_attr"].value is True
-
-    ports = derived.refs(NodeType.Port)
-    assert "remove_port" not in ports
-    assert ports["replace_port"].type == "SignalB"
-    assert ports["add_port"].type == "SignalA"
-
-    parts = derived.refs(NodeType.Part)
-    assert parts["right"].type == "ChildA"
-    assert "extra" in parts
-    reqs = derived.refs(NodeType.Requirement)
-    assert "keep_req" not in reqs
-    assert reqs["replace_req"].type == "ReqB"
-    assert reqs["add_req"].type == "ReqA"
-    connections = derived.defs(NodeType.Connection)
-    assert len(connections) == 1
-    c = next(iter(connections.values()))
-    assert (c.src_part, c.src_port, c.dst_part, c.dst_port) == (
-        "right",
-        "out_a",
-        "extra",
-        "in_b",
+    assert_architecture_structure(
+        architecture,
+        """
+        package Example
+        part Base
+          attr remove_attr:Integer=1
+          attr replace_attr:Integer=2
+          part left:ChildA -> ChildA
+          part right:ChildB -> ChildB
+          port out remove_port:SignalA -> SignalA
+          port out replace_port:SignalA -> SignalA
+          req keep_req:ReqA -> ReqA
+          req replace_req:ReqA -> ReqA
+        part ChildA
+          port out out_a:SignalA -> SignalA
+        part ChildB
+          port in in_b:SignalA -> SignalA
+        part Derived specializes Base
+          attr add_attr:Boolean=True
+          attr replace_attr:Integer=99
+          part extra:ChildB -> ChildB
+          part right:ChildA -> ChildA
+          port out add_port:SignalA -> SignalA
+          port out replace_port:SignalB -> SignalB
+          req add_req:ReqA -> ReqA
+          req replace_req:ReqB -> ReqB
+          connect right.out_a -> extra.in_b
+        port SignalA
+        port SignalB
+        requirement ReqA
+          attr text:String='Base req'
+        requirement ReqB
+          attr text:String='Alt req'
+        """,
     )
-    write_reference("inheritance_part_inheritance_add_replace_remove", architecture)
 
 
 def test_part_inheritance_remove_connection_then_add_new_connection(tmp_path: Path):

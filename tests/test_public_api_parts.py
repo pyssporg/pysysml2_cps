@@ -7,6 +7,7 @@ from public_api_test_utils import write_package, write_reference
 
 
 def test_attribute_literals_are_parsed(tmp_path: Path):
+    """Verify literal-valued attributes are parsed with inferred types."""
     write_package(
         tmp_path / "model.sysml",
         """
@@ -30,6 +31,7 @@ def test_attribute_literals_are_parsed(tmp_path: Path):
 
 
 def test_typed_attributes_without_values_are_parsed(tmp_path: Path):
+    """Verify typed attributes without literals retain type and null value."""
     write_package(
         tmp_path / "model.sysml",
         """
@@ -54,6 +56,7 @@ def test_typed_attributes_without_values_are_parsed(tmp_path: Path):
 
 
 def test_subpart_reference_links_to_part_definition(tmp_path: Path):
+    """Verify subpart usages resolve to their part definition nodes."""
     write_package(
         tmp_path / "model.sysml",
         """
@@ -76,6 +79,7 @@ def test_subpart_reference_links_to_part_definition(tmp_path: Path):
 
 
 def test_doc_comments_are_attached_to_definitions(tmp_path: Path):
+    """Verify doc comments attach to the intended definitions and members."""
     write_package(
         tmp_path / "model.sysml",
         """

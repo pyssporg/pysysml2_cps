@@ -6,6 +6,7 @@ from public_api_test_utils import write_package, write_reference
 
 
 def test_port_reference_links_to_port_definition(tmp_path: Path):
+    """Verify part port usages link to their referenced port definitions."""
     write_package(
         tmp_path / "model.sysml",
         """
@@ -28,6 +29,7 @@ def test_port_reference_links_to_port_definition(tmp_path: Path):
 
 
 def test_port_directions_are_preserved(tmp_path: Path):
+    """Verify parser preserves in/out direction on port usages."""
     write_package(
         tmp_path / "model.sysml",
         """
@@ -50,6 +52,7 @@ def test_port_directions_are_preserved(tmp_path: Path):
 
 
 def test_connection_links_parts_and_port_definitions(tmp_path: Path):
+    """Verify connections resolve to both part usages and port definitions."""
     write_package(
         tmp_path / "model.sysml",
         """
@@ -94,6 +97,7 @@ def test_connection_links_parts_and_port_definitions(tmp_path: Path):
 
 
 def test_port_inheritance_adds_attributes_and_requirements(tmp_path: Path):
+    """Verify current port inheritance view exposes declared derived artifacts."""
     write_package(
         tmp_path / "model.sysml",
         """

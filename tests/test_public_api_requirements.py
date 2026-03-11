@@ -6,6 +6,7 @@ from public_api_test_utils import write_package, write_reference
 
 
 def test_requirements_are_collected(tmp_path: Path):
+    """Verify requirement definitions and usages are collected and linked."""
     write_package(
         tmp_path / "requirements.sysml",
         """
@@ -47,6 +48,7 @@ def test_requirements_are_collected(tmp_path: Path):
 
 
 def test_requirement_definition_inheritance(tmp_path: Path):
+    """Verify requirement specialization links derived requirements to base definitions."""
     write_package(
         tmp_path / "requirements.sysml",
         """

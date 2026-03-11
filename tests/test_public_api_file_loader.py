@@ -6,6 +6,7 @@ from public_api_test_utils import write_model, write_package, write_reference
 
 
 def test_load_architecture_from_directory(tmp_path: Path):
+    """Verify parsing a directory loads and merges all .sysml files in that directory."""
     write_package(
         tmp_path / "main.sysml",
         """
@@ -24,6 +25,7 @@ def test_load_architecture_from_directory(tmp_path: Path):
 
 
 def test_load_architecture_from_file_path(tmp_path: Path):
+    """Verify parsing a single file path loads only that file."""
     model_path = tmp_path / "model.sysml"
     write_package(
         model_path,
@@ -40,6 +42,7 @@ def test_load_architecture_from_file_path(tmp_path: Path):
 
 
 def test_directory_load_merges_multiple_sysml_files(tmp_path: Path):
+    """Verify multi-file models resolve cross-file references and connections."""
     write_package(
         tmp_path / "ports.sysml",
         """
@@ -87,6 +90,7 @@ def test_directory_load_merges_multiple_sysml_files(tmp_path: Path):
 
 
 def test_architecture_get_part_returns_requested_part_definition(tmp_path: Path):
+    """Verify named part definitions are retrievable from the parsed package registry."""
     write_package(
         tmp_path / "model.sysml",
         """
@@ -108,6 +112,7 @@ def test_architecture_get_part_returns_requested_part_definition(tmp_path: Path)
 
 
 def test_load_architecture_from_file_does_not_parse_sibling_files(tmp_path: Path):
+    """Verify parsing one file ignores sibling files in the same directory."""
     model_path = tmp_path / "model.sysml"
     write_package(
         model_path,

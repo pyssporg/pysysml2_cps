@@ -12,6 +12,7 @@ from pycps_sysmlv2 import (
 
 
 def test_architecture_add_remove_definitions():
+    """Verify package-level add/remove APIs mutate definition registries correctly."""
     architecture = SysMLPackage(name="Example", package="Example")
     part_def = SysMLPartDefinition(name="System")
     port_def = SysMLPortDefinition(name="Signal")
@@ -35,6 +36,7 @@ def test_architecture_add_remove_definitions():
 
 
 def test_part_definition_add_remove_references_and_connections():
+    """Verify part definitions can add/remove refs and connections via NodeType APIs."""
     system_def = SysMLPartDefinition(name="System")
     child_def = SysMLPartDefinition(name="Child")
     signal_def = SysMLPortDefinition(name="Signal")
@@ -74,6 +76,7 @@ def test_part_definition_add_remove_references_and_connections():
 
 
 def test_port_definition_add_remove_requirement_references():
+    """Verify port definitions can add/remove requirement references via NodeType APIs."""
     port_def = SysMLPortDefinition(name="Signal")
     req_def = SysMLRequirementDefinition(name="ReqA")
     req_ref = SysMLRequirementReference(name="reqA", type="ReqA", ref_node=req_def)

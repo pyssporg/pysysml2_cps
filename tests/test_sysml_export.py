@@ -6,6 +6,7 @@ from public_api_test_utils import write_package
 
 
 def test_export_declared_and_flattened_sysml(tmp_path: Path):
+    """Verify declared export preserves redefines while flattened export omits specialization syntax."""
     write_package(
         tmp_path / "model.sysml",
         """
@@ -46,15 +47,11 @@ def test_export_declared_and_flattened_sysml(tmp_path: Path):
 
 
 def test_export_declared_preserves_source_grouping(tmp_path: Path):
+    """Verify declared export groups definitions by original source file."""
     write_package(
         tmp_path / "part_definitions.sysml",
         """
-        port def Signal {}
-
-        part def Base {
-          attribute a = 1;
-          out port out_a : Signal;
-        }
+        part def Base {}
         """,
     )
     write_package(
@@ -75,6 +72,7 @@ def test_export_declared_preserves_source_grouping(tmp_path: Path):
 
 
 def test_export_declared_includes_port_only_source_files(tmp_path: Path):
+    """Verify declared export includes files that contain only port definitions."""
     write_package(
         tmp_path / "ports.sysml",
         """

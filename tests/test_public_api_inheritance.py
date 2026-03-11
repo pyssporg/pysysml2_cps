@@ -8,6 +8,7 @@ from public_api_test_utils import write_package, write_reference
 
 
 def test_part_inheritance_add_replace_remove(tmp_path: Path):
+    """Verify part inheritance applies remove/redefine/add semantics on resolved views."""
     write_package(
         tmp_path / "model.sysml",
         """
@@ -96,6 +97,7 @@ def test_part_inheritance_add_replace_remove(tmp_path: Path):
 
 
 def test_part_inheritance_remove_connection_then_add_new_connection(tmp_path: Path):
+    """Verify unresolved inherited subparts in derived connections currently raise a linking error."""
     write_package(
         tmp_path / "model.sysml",
         """

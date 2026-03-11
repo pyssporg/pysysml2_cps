@@ -1,6 +1,6 @@
 # Architecture Overview
 
-This document describes how `pycps_sysmlv2` is structured so development decisions and extension points are explicit.
+This document describes the internal parser pipeline and module responsibilities.
 
 ## Goals
 
@@ -30,7 +30,7 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
    - subpart instances -> part definitions
    - part/port requirement references -> requirement definitions
    - connections -> source/destination part and port definitions
-7. Return one `SysMLArchitecture` object.
+7. Return one `SysMLPackage` object.
 
 ## Module Responsibilities
 
@@ -67,7 +67,7 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
 
 - Core domain model and type helpers.
 - Main classes:
-  - `SysMLArchitecture`
+  - `SysMLPackage`
   - `SysMLPartDefinition`
   - `SysMLPortDefinition`
   - `SysMLRequirementDefinition`
@@ -93,7 +93,7 @@ This document describes how `pycps_sysmlv2` is structured so development decisio
 
 The parser intentionally returns a resolved object graph, not only raw syntax.
 
-- Definitions (`part def`, `port def`, `requirement def`) are keyed dictionaries on `SysMLArchitecture`.
+- Definitions (`part def`, `port def`, `requirement def`) are keyed dictionaries on `SysMLPackage`.
 - References (`part`, `in/out port`, `requirement`) carry both:
   - raw textual target names
   - resolved object links (or fail during load if missing)
@@ -116,29 +116,11 @@ The parser validates during load rather than deferring failures:
   - unresolved port/part references
   - unresolved connection endpoints
 - `KeyError`:
-  - requested `architecture.get_part(system_part)` not found
+  - requested definition/reference lookup not found via `get_def(...)` or `get_ref(...)`
 
 ## Supported Syntax (Subset)
 
-- `package Name { ... }`
-- `part def Name { ... }`
-- `part def Derived specializes Base { ... }`
-- `port def Name { ... }`
-- `port def Derived specializes BasePort { ... }`
-- `requirement def Name { ... }`
-- `requirement def Child specializes Parent { ... }`
-- `attribute name = literal;`
-- `attribute name: Type;`
-- `in port p : PortType;`
-- `out port p : PortType;`
-- `part child : PartDef;`
-- `requirement ReqId : RequirementDef;` (inside part/port blocks)
-- `connect a.port to b.port;`
-- `redefines attribute|in/out port|part|requirement ...`
-- `remove attribute|port|part|requirement|connect ...`
-- `doc /* ... */`
-
-Non-goals currently include full SysML v2 language coverage and behavioral semantics.
+See [SysML Subset Reference](syntax_reference.md) for the supported syntax surface.
 
 ## Extension Points
 
@@ -154,18 +136,3 @@ Common places to extend behavior:
   - add custom exception classes with file/line metadata.
 - Additional export targets:
   - extend `exporter.py` with additional artifact emitters while reusing declared/effective views.
-
-## Testing Strategy
-
-- Prefer small standalone tests with readable input and expected output.
-- Keep test data in the test itself or in a nearby specialized fixture when possible.
-- Avoid large shared fixtures when they force readers to scroll or inspect other files to understand one test.
-- `tests/test_public_api_*.py`: split public API behavior by concern.
-- `tests/test_type_utils.py`: typing/literal inference behavior.
-- `tests/test_error_handling.py`: failure mode and error-message regression coverage.
-
-Run tests with:
-
-```bash
-python -m pytest -q
-```

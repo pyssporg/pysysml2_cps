@@ -12,103 +12,45 @@ From the repository root:
 pip install -e .
 ```
 
-Or as a regular package install:
+## Load a Model
 
-```bash
-pip install .
-```
+Parse either a single file or a directory of `.sysml` files:
 
-Install directly from GitHub:
+See [`examples/getting_started_load_model.py`](../examples/getting_started_load_model.py).
 
-```bash
-pip install "git+https://github.com/jkCXf9X4/py_sysml_v2_cps.git"
-```
+When given a directory, the parser loads all `*.sysml` files in that directory and merges them into one package model.
 
-Pin to a branch or tag:
+## Inspect Definitions
 
-```bash
-pip install "git+https://github.com/jkCXf9X4/py_sysml_v2_cps.git@main"
-pip install "git+https://github.com/jkCXf9X4/py_sysml_v2_cps.git@v0.1.0"
-```
+Top-level definitions are exposed as dictionaries:
 
-## First Load
+See [`examples/getting_started_inspect_definitions.py`](../examples/getting_started_inspect_definitions.py).
 
-```python
-from pycps_sysmlv2 import SysMLParser
+## Inspect Members
 
-architecture = SysMLParser("tests/fixtures/fixture_a").parse()
-print(architecture.package)
-print(len(architecture.part_definitions), "part definitions")
-print(len(architecture.port_definitions), "port definitions")
-print(len(architecture.requirement_definitions), "requirement definitions")
-```
+Use `defs(...)` for declared artifacts and `refs(...)` for references:
 
-## Common Use Cases
+See [`examples/getting_started_inspect_members.py`](../examples/getting_started_inspect_members.py).
 
-### 1. Load architecture from folder or single file
+## Follow Resolved References
 
-```python
-from pycps_sysmlv2 import SysMLParser
+References include both the textual target name and the resolved definition object:
 
-# Folder input: all *.sysml files
-arch = SysMLParser("tests/fixtures/fixture_a").parse()
+See [`examples/getting_started_follow_references.py`](../examples/getting_started_follow_references.py).
 
-# File input: only that file
-arch = SysMLParser("tests/fixtures/fixture_a/composition.sysml").parse()
-```
+## Walk Connections
 
-### 2. Inspect ports and typed attributes
+See [`examples/getting_started_walk_connections.py`](../examples/getting_started_walk_connections.py).
 
-```python
-from pycps_sysmlv2 import SysMLParser
+## Export SysML
 
-arch = SysMLParser("tests/fixtures/fixture_a").parse()
-child = arch.part_definitions["ChildA"]
+See [`examples/getting_started_export_sysml.py`](../examples/getting_started_export_sysml.py).
 
-for port_name, port_ref in child.ports.items():
-    print(port_ref.direction, port_name, "->", port_ref.port_name)
-    if port_ref.port_def:
-        for attr in port_ref.port_def.attributes.values():
-            print("  -", attr.name, ":", attr.type.as_string())
-```
+- `export_declared()` preserves `specializes`, `redefines`, and `remove`
+- `export_flattened()` emits the effective merged model
 
-### 3. Trace requirement references
+## Next Reading
 
-```python
-from pycps_sysmlv2 import SysMLParser
-
-arch = SysMLParser("tests/fixtures/fixture_a").parse()
-for req_name, req_ref in arch.part_definitions["FixtureAComposition"].items["requirements"].items():
-    print(req_name, "->", req_ref.requirement_name, "->", req_ref.text)
-```
-
-### 4. Walk resolved connections
-
-```python
-from pycps_sysmlv2 import SysMLParser
-
-arch = SysMLParser("tests/fixtures/fixture_a").parse()
-top = arch.part_definitions["FixtureAComposition"]
-
-for c in top.connections:
-    print(
-        c.src_part_def.name,
-        c.src_port_def.name,
-        "->",
-        c.dst_part_def.name,
-        c.dst_port_def.name,
-    )
-```
-
-### 5. Export SysML
-
-```python
-from pycps_sysmlv2 import SysMLParser
-
-arch = SysMLParser("tests/fixtures/fixture_a").parse()
-print(arch.export_flattened())
-
-files = arch.export_declared()
-for name, text in files.items():
-    print(name, len(text))
-```
+- [SysML Subset Reference](syntax_reference.md)
+- [API and Data Model](api_and_model.md)
+- [Error Handling](error_handling.md)

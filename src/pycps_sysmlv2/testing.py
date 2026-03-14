@@ -1,4 +1,18 @@
-"""Public test helpers for readable architecture comparisons."""
+"""Traceability Preamble
+Template ID: PYCSYSML2_TRACE_PREAMBLE
+Template Version: 1.1.0
+Purpose: Testing utilities for concise architecture/model assertions.
+Design Notes:
+- Provide readable summaries so assertion failures are easy to diagnose.
+- Keep helpers lightweight and independent from pytest fixtures.
+Key Invariants:
+- Structure summaries must be deterministic for a given architecture graph.
+- Helpers should avoid mutating model instances passed by tests.
+Strongly Connected External Modules:
+- pycps_sysmlv2.definitions
+Decision Log:
+- Add dated, behavior-impacting decisions; avoid logging template-only edits.
+"""
 from __future__ import annotations
 
 from copy import deepcopy

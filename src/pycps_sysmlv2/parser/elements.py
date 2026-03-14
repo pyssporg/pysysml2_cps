@@ -1,5 +1,19 @@
-"""Parsers for statements inside SysML definition blocks."""
-
+"""Traceability Preamble
+Template ID: PYCSYSML2_TRACE_PREAMBLE
+Template Version: 1.1.0
+Purpose: Parse fine-grained SysML elements such as attributes and references.
+Design Notes:
+- Keep token-level parsing helpers composable for reuse in multiple builders.
+- Favor explicit parsing branches over ambiguous heuristics.
+Key Invariants:
+- Element parsers must reject unsupported syntax with actionable errors.
+- Returned element structures should preserve source ordering when meaningful.
+Strongly Connected External Modules:
+- re
+- pycps_sysmlv2.definitions
+Decision Log:
+- Add dated, behavior-impacting decisions; avoid logging template-only edits.
+"""
 from __future__ import annotations
 
 import re

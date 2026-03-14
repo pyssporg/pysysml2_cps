@@ -1,3 +1,19 @@
+"""Traceability Preamble
+Template ID: PYCSYSML2_TRACE_PREAMBLE
+Template Version: 1.1.0
+Purpose: SysMLPackage model and architecture-level query helpers.
+Design Notes:
+- Centralize collection/query behavior for definitions in the package graph.
+- Expose convenience accessors used by tests and exporter without duplicating indexes.
+Key Invariants:
+- defs() lookups must remain type-filtered and deterministic by key.
+- Package structure helpers should not mutate stored definitions.
+Strongly Connected External Modules:
+- pycps_sysmlv2.definitions.base
+- pycps_sysmlv2.testing
+Decision Log:
+- Add dated, behavior-impacting decisions; avoid logging template-only edits.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass

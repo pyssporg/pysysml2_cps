@@ -1,5 +1,19 @@
-"""Reference-linking passes for parsed SysML objects."""
-
+"""Traceability Preamble
+Template ID: PYCSYSML2_TRACE_PREAMBLE
+Template Version: 1.1.0
+Purpose: Link parsed definition objects into connected architecture graphs.
+Design Notes:
+- Attach references only after all definition indexes are assembled.
+- Keep linking logic isolated from text parsing to simplify troubleshooting.
+Key Invariants:
+- Linking must not create duplicate references for the same declaration.
+- Unresolved references should raise deterministic, typed parser errors.
+Strongly Connected External Modules:
+- pycps_sysmlv2.definitions
+- pycps_sysmlv2.parser.errors
+Decision Log:
+- Add dated, behavior-impacting decisions; avoid logging template-only edits.
+"""
 from __future__ import annotations
 
 from typing import Dict

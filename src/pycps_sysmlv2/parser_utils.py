@@ -1,5 +1,19 @@
-"""Utility helpers shared across SysML parser modules."""
-
+"""Traceability Preamble
+Template ID: PYCSYSML2_TRACE_PREAMBLE
+Template Version: 1.1.0
+Purpose: Shared utility helpers used by parser and model layers.
+Design Notes:
+- Keep helpers side-effect free so parsing behavior stays predictable in tests.
+- Centralize JSON rendering rules used by repr/debug surfaces.
+Key Invariants:
+- json_dumps output must be stable for equivalent objects.
+- Helpers should not import parser modules to avoid circular dependencies.
+Strongly Connected External Modules:
+- json
+- dataclasses
+Decision Log:
+- Add dated, behavior-impacting decisions; avoid logging template-only edits.
+"""
 from __future__ import annotations
 
 import json

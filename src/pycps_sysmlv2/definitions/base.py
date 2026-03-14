@@ -1,3 +1,20 @@
+"""Traceability Preamble
+Template ID: PYCSYSML2_TRACE_PREAMBLE
+Template Version: 1.1.0
+Purpose: Base model classes and shared node typing enums.
+Design Notes:
+- Provide shared repr/JSON behavior for all model entities.
+- Define NodeType enum as central discriminator for lookups and filtering.
+Key Invariants:
+- NodeType values must remain stable for parser/exporter compatibility.
+- Base fields (name/type/doc/parent/source_file) should be consistently available.
+Strongly Connected External Modules:
+- dataclasses
+- enum
+- pycps_sysmlv2.parser_utils
+Decision Log:
+- Add dated, behavior-impacting decisions; avoid logging template-only edits.
+"""
 from __future__ import annotations
 from dataclasses import dataclass, field
 

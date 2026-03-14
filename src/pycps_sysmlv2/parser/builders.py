@@ -1,5 +1,19 @@
-"""Builders for SysML definitions parsed from blocks."""
-
+"""Traceability Preamble
+Template ID: PYCSYSML2_TRACE_PREAMBLE
+Template Version: 1.1.0
+Purpose: Build model definition objects from extracted SysML block text.
+Design Notes:
+- Translate each block type with focused builder functions for readability.
+- Validate key syntax early so loader can report precise source context.
+Key Invariants:
+- Builders must preserve declared names/types exactly as parsed.
+- Builder outputs should be detached objects safe for later linking.
+Strongly Connected External Modules:
+- pycps_sysmlv2.definitions
+- pycps_sysmlv2.parser.elements
+Decision Log:
+- Add dated, behavior-impacting decisions; avoid logging template-only edits.
+"""
 from __future__ import annotations
 
 from pathlib import Path

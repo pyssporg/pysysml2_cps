@@ -1,3 +1,18 @@
+"""Traceability Preamble
+Template ID: PYCSYSML2_TRACE_PREAMBLE
+Template Version: 1.1.0
+Purpose: Connection model definitions linking parts and ports.
+Design Notes:
+- Capture connection endpoints in explicit references for traceable linking.
+- Support serialization/export of both declared and inherited connections.
+Key Invariants:
+- Connection endpoint references must remain resolvable within package context.
+- Connection naming and directionality text must remain parser/export compatible.
+Strongly Connected External Modules:
+- pycps_sysmlv2.definitions.references
+Decision Log:
+- Add dated, behavior-impacting decisions; avoid logging template-only edits.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass

@@ -1,5 +1,19 @@
-"""Inheritance resolution for SysML part definitions."""
-
+"""Traceability Preamble
+Template ID: PYCSYSML2_TRACE_PREAMBLE
+Template Version: 1.1.0
+Purpose: Resolve inheritance links between parsed SysML definitions.
+Design Notes:
+- Apply inheritance after all definitions are loaded to ensure cross-file references resolve.
+- Propagate inherited members while preserving locally declared overrides.
+Key Invariants:
+- Missing base types should raise explicit parser errors rather than silently skipping.
+- Resolution order must avoid duplicating inherited members.
+Strongly Connected External Modules:
+- pycps_sysmlv2.definitions
+- pycps_sysmlv2.parser.errors
+Decision Log:
+- Add dated, behavior-impacting decisions; avoid logging template-only edits.
+"""
 from __future__ import annotations
 
 from typing import Dict, List, Set

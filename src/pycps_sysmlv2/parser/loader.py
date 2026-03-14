@@ -1,5 +1,20 @@
-"""Top-level SysML file/folder loading orchestration."""
-
+"""Traceability Preamble
+Template ID: PYCSYSML2_TRACE_PREAMBLE
+Template Version: 1.1.0
+Purpose: Load SysML files/folders and orchestrate parsing pipeline execution.
+Design Notes:
+- Coordinate extraction, building, linking, and inheritance in explicit phases.
+- Track source_file metadata to support declared exports and diagnostics.
+Key Invariants:
+- Directory loading must produce one architecture package per package declaration.
+- Load order should not change final model semantics for same inputs.
+Strongly Connected External Modules:
+- pathlib
+- pycps_sysmlv2.parser.*
+- pycps_sysmlv2.inheritance
+Decision Log:
+- Add dated, behavior-impacting decisions; avoid logging template-only edits.
+"""
 from __future__ import annotations
 
 from pathlib import Path

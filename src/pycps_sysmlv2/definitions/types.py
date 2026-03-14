@@ -1,3 +1,18 @@
+"""Traceability Preamble
+Template ID: PYCSYSML2_TRACE_PREAMBLE
+Template Version: 1.1.0
+Purpose: SysML primitive/custom type modeling and type map constants.
+Design Notes:
+- Centralize type aliases so parser and definitions share one mapping source.
+- Keep primitive type enum/string values aligned with SysML text conventions.
+Key Invariants:
+- SYSML_TYPE_MAP keys/values must remain stable for parsed attribute typing.
+- Type helpers should avoid importing parser modules to prevent cycles.
+Strongly Connected External Modules:
+- enum
+Decision Log:
+- Add dated, behavior-impacting decisions; avoid logging template-only edits.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass

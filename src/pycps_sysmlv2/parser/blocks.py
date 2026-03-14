@@ -1,5 +1,19 @@
-"""Block extraction and lexical helpers for SysML parsing."""
-
+"""Traceability Preamble
+Template ID: PYCSYSML2_TRACE_PREAMBLE
+Template Version: 1.1.0
+Purpose: Extract SysML block sections from raw package text.
+Design Notes:
+- Use regex-based segmentation tuned for SysML block grammar in this repo.
+- Keep block extraction separate from object construction to isolate parsing stages.
+Key Invariants:
+- Block finders must return text slices preserving original declaration content.
+- Malformed blocks should surface structured parse errors upstream.
+Strongly Connected External Modules:
+- re
+- pycps_sysmlv2.parser.errors
+Decision Log:
+- Add dated, behavior-impacting decisions; avoid logging template-only edits.
+"""
 from __future__ import annotations
 
 from pathlib import Path

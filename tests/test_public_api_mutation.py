@@ -123,3 +123,75 @@ def test_add_def_and_add_ref_warn_on_overwrite():
     with pytest.warns(UserWarning, match="Overwriting existing reference: child"):
         system_def.add_ref(NodeType.Part, "child", first_ref)
         system_def.add_ref(NodeType.Part, "child", second_ref)
+
+
+def test_part_definition_export_dot_groups_connections_by_part():
+    """Verify DOT export emits one edge per directed part pair and keeps part refs as nodes."""
+    system_def = SysMLPartDefinition(name="System")
+    source_def = SysMLPartDefinition(name="Source")
+    sink_def = SysMLPartDefinition(name="Sink")
+    monitor_def = SysMLPartDefinition(name="Monitor")
+
+    system_def.add_ref(
+        NodeType.Part,
+        "src",
+        SysMLPartReference(name="src", type="Source", ref_node=source_def),
+    )
+    system_def.add_ref(
+        NodeType.Part,
+        "dst",
+        SysMLPartReference(name="dst", type="Sink", ref_node=sink_def),
+    )
+    system_def.add_ref(
+        NodeType.Part,
+        "observer",
+        SysMLPartReference(name="observer", type="Monitor", ref_node=monitor_def),
+    )
+
+    system_def.add_def(
+        NodeType.Connection,
+        "src.out_a->dst.in_a",
+        SysMLConnection(name="a", src_part="src", src_port="out_a", dst_part="dst", dst_port="in_a"),
+    )
+    system_def.add_def(
+        NodeType.Connection,
+        "src.out_b->dst.in_b",
+        SysMLConnection(name="b", src_part="src", src_port="out_b", dst_part="dst", dst_port="in_b"),
+    )
+    system_def.add_def(
+        NodeType.Connection,
+        "dst.status->src.feedback",
+        SysMLConnection(
+            name="feedback",
+            src_part="dst",
+            src_port="status",
+            dst_part="src",
+            dst_port="feedback",
+        ),
+    )
+
+    assert system_def.export_dot() == (
+        'digraph "System" {\n'
+        '  "dst";\n'
+        '  "observer";\n'
+        '  "src";\n'
+        '  "dst" -> "src";\n'
+        '  "src" -> "dst";\n'
+        '}\n'
+    )
+
+
+def test_part_definition_export_dot_allows_custom_graph_name_and_escaping():
+    """Verify DOT export quotes graph and node names safely."""
+    system_def = SysMLPartDefinition(name='System "A"')
+    system_def.add_ref(
+        NodeType.Part,
+        'part "1"',
+        SysMLPartReference(name='part "1"', type="Child"),
+    )
+
+    assert system_def.export_dot(graph_name='Graph "X"') == (
+        'digraph "Graph \\"X\\"" {\n'
+        '  "part \\"1\\"";\n'
+        '}\n'
+    )

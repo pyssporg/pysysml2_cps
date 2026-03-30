@@ -36,6 +36,7 @@ from .definitions import (
 from .parser import SysMLParser
 
 from .parser_utils import json_dumps
+from .testing import architecture_structure
 
 __all__ = [
     "PrimitiveType",
@@ -52,4 +53,5 @@ __all__ = [
     "SysMLRequirementReference",
     "SysMLPackage",
     "SysMLParser",
+    "architecture_structure",
 ]
